@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
  *
  * @author Laboratorio
  */
-public class ListaProdutoController implements Initializable {
+public class ListasController implements Initializable {
     
     @FXML
     private Label label;
