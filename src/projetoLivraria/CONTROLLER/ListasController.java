@@ -82,12 +82,14 @@ public class ListasController implements Initializable {
     private void abrirCadProd(int TipoOperacao) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/projetoLivraria/VIEW/CadProdutoView.fxml"));
+            //Cria instância do Controller
             Parent root = loader.load();
+                        
+            //Cria variável para manipular controller
+            CadProdutoController controller = loader.getController();
             
             //Define o tipo de operação do formulário
-            
-            
-            //atualiza componentes com base no tipo de operação
+            controller.configurarTela(TipoOperacao);                     
             
             // Cria um NOVO Stage (uma nova janela)
             Stage stage = new Stage();

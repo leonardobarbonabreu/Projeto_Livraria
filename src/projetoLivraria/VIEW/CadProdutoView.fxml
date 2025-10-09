@@ -321,7 +321,7 @@
                <children>
                   <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cadastro de Produto">
+                        <Text fx:id="txtTipoOperacao" strokeType="OUTSIDE" strokeWidth="0.0" text="Cadastro de Produto">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
