@@ -67,25 +67,22 @@ public class ListasController implements Initializable {
     @FXML
     private TableColumn prodDisponibilidade;    
 
-@Override
-public void initialize(URL url, ResourceBundle rb) {
-    estadoAtual = EstadoLista.NAVEGANDO;
-    atualizarEstado();
-
-    // Dados de teste
-    listaProduto.getItems().add("Produto 1");
-    listaProduto.getItems().add("Produto 2");
-    listaProduto.getItems().add("Produto 3");
-
-    listaProduto.getSelectionModel().selectedItemProperty().addListener((obs, oldItem, newItem) -> {
-        if (newItem != null) {
-            estadoAtual = EstadoLista.ITEM_SELECIONADO;
-        } else {
-            estadoAtual = EstadoLista.NAVEGANDO;
-        }
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // Inicializa a tela no estado NAVEGANDO
+        estadoAtual = EstadoLista.NAVEGANDO;
         atualizarEstado();
-    });
-}
+
+        // Listener para seleção de item na tabela
+        listaProduto.getSelectionModel().selectedItemProperty().addListener((obs, oldItem, newItem) -> {
+            if (newItem != null) {
+                estadoAtual = EstadoLista.ITEM_SELECIONADO;
+            } else {
+                estadoAtual = EstadoLista.NAVEGANDO;
+            }
+            atualizarEstado();
+        });
+    }
 
 
     private void atualizarEstado() {
