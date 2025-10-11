@@ -21,11 +21,10 @@ import javafx.stage.Stage;
  * @author Laboratorio
  */
 public class ListasController implements Initializable {
-            
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+
+    //Enum para gerenciar o estado da tela de lista
+    private enum EstadoLista { NAVEGANDO, ITEM_SELECIONADO }
+    private EstadoLista estadoAtual;
 
     //Botões do CRUD
     @FXML
@@ -36,17 +35,17 @@ public class ListasController implements Initializable {
     private Button btnEditarProd;
     @FXML
     private Button btnExcluirProd;
-    
+
     //Componentes de pesquisa
     @FXML
     private TextField edtPesquisa;
     @FXML
     private Text lblItemSelecionado;
-    
+
     //Lista de Produtos
     @FXML 
     public TableView listaProduto;
-    
+
     //Colunas da Lista de Produtos
     @FXML
     private TableColumn prodTitulo;
@@ -67,7 +66,48 @@ public class ListasController implements Initializable {
     private TableColumn prodDtLancamento;
     @FXML
     private TableColumn prodDisponibilidade;    
-    
+
+@Override
+public void initialize(URL url, ResourceBundle rb) {
+    estadoAtual = EstadoLista.NAVEGANDO;
+    atualizarEstado();
+
+    // Dados de teste
+    listaProduto.getItems().add("Produto 1");
+    listaProduto.getItems().add("Produto 2");
+    listaProduto.getItems().add("Produto 3");
+
+    listaProduto.getSelectionModel().selectedItemProperty().addListener((obs, oldItem, newItem) -> {
+        if (newItem != null) {
+            estadoAtual = EstadoLista.ITEM_SELECIONADO;
+        } else {
+            estadoAtual = EstadoLista.NAVEGANDO;
+        }
+        atualizarEstado();
+    });
+}
+
+
+    private void atualizarEstado() {
+        if (estadoAtual == EstadoLista.NAVEGANDO) {
+            btnAdicionarProd.setDisable(false);
+            btnVisualizarProd.setDisable(true);
+            btnEditarProd.setDisable(true);
+            btnExcluirProd.setDisable(true);
+
+            edtPesquisa.setDisable(false);
+            lblItemSelecionado.setDisable(true);
+        } else { // ITEM_SELECIONADO
+            btnAdicionarProd.setDisable(false);
+            btnVisualizarProd.setDisable(false);
+            btnEditarProd.setDisable(false);
+            btnExcluirProd.setDisable(false);
+
+            edtPesquisa.setDisable(false);
+            lblItemSelecionado.setDisable(false);
+        }
+    }
+
     //ABRIR FORMULÁRIO DE CADASTRO DE PRODUTO
     //Cria o formulário de cad. de produto
     //Manipula componentes com base no tipo de operacao:
@@ -124,7 +164,7 @@ public class ListasController implements Initializable {
         
         abrirCadProd(2);
     }
-    
+
     //EDITAR ITEM
     //Habilita campos do form de cad. Produto
     //Cria o formulário de cad. de Produto
@@ -134,10 +174,10 @@ public class ListasController implements Initializable {
     }
 
     //EXCLUIR ITEM
-    //Cria um pop up perguntando sobre a exclusão
+    //Mantido vazio, pois a exclusão não faz parte da tarefa
     @FXML
     private void excluirItem(ActionEvent event){
-        
+        // Apenas placeholder
     }
     
 }
