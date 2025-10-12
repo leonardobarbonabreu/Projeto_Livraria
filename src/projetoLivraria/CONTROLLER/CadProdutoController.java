@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -40,7 +41,9 @@ public class CadProdutoController implements Initializable {
     private TextField edtQtdePag;
     @FXML
     private TextField edtValor;
-
+    @FXML
+    private CheckBox chkDisponibilidade;
+    
     //botões
     @FXML
     private Button btnGravarProd;
@@ -50,6 +53,12 @@ public class CadProdutoController implements Initializable {
     //labels e textos
     @FXML
     private Text txtTipoOperacao;
+    @FXML
+    private Text txtCodProduto;    
+    @FXML
+    private Text lblMensagemValidacao;
+    @FXML
+    private Text lblCodProduto;    
     
     //Variáveis
     //TIPO DA OPERAÇÃO(1- ADIÇÃO 2-EDIÇÃO 3-CONSULTA)
@@ -90,12 +99,16 @@ public class CadProdutoController implements Initializable {
         switch (TipoOperacao) {            
         case 1://ADIÇÃO
             txtTipoOperacao.setText("Cadastro de Produto");
+            lblCodProduto.setVisible(false);
+            txtCodProduto.setVisible(false);            
+            
             break;
         case 2://2-EDIÇÃO
             txtTipoOperacao.setText("Alteração de Produto");
             break;                
         case 3://3-CONSULTA
-            txtTipoOperacao.setText("Consulta de Produto");
+            txtTipoOperacao.setText("Consulta de Produto");            
+            desabilitaCampos();            
             break;
         default:
             throw new AssertionError();
@@ -119,12 +132,38 @@ public class CadProdutoController implements Initializable {
         cmbGenero.getSelectionModel().clearSelection();
         
         edtDtLancamento.setValue(null);
-        
-        
+               
     }
+
+
+    //desabilita campos
+    private void desabilitaCampos(){
+        //desabilita campos
+        edtTitulo.setDisable(true);
+        edtAutor.setDisable(true);
+        edtDtLancamento.setDisable(true);
+        edtISBN.setDisable(true);
+        edtQtdePag.setDisable(true);
+        edtTitulo.setDisable(true);
+        edtValor.setDisable(true);
+        cmbGenero.setDisable(true);
+        cmbIdioma.setDisable(true);
+        chkDisponibilidade.setDisable(true);
+      
+        btnGravarProd.setVisible(false);              
+    }
+    
+    //Valida se conteúdo dos campos seguem a regra de negócios e regras básicas de formatação 
+    private boolean validarCampos(){
+        return true;  
+    };
     
     @FXML
     private void gravarProduto(ActionEvent event){
+        if (validarCampos() == false){
+            return;
+        }
+        
         limparCampos();
     }
     

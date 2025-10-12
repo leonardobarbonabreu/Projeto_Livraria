@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -40,8 +41,10 @@ public class ListasController implements Initializable {
     @FXML
     private TextField edtPesquisa;
     @FXML
+    private HBox itemSelecionadoArea;    
+    @FXML
     private Text lblItemSelecionado;
-
+    
     //Lista de Produtos
     @FXML 
     public TableView listaProduto;
@@ -86,6 +89,7 @@ public class ListasController implements Initializable {
 
 
     private void atualizarEstado() {
+        //Caso não tenha nenhum item selecionado, permita somenta a adição de um registro
         if (estadoAtual == EstadoLista.NAVEGANDO) {
             btnAdicionarProd.setDisable(false);
             btnVisualizarProd.setDisable(true);
@@ -95,6 +99,7 @@ public class ListasController implements Initializable {
             edtPesquisa.setDisable(false);
             lblItemSelecionado.setDisable(true);
         } else { // ITEM_SELECIONADO
+        //Caso o usuário clique em um item na lista, permita que ele visualize, edite e exclua o registro    
             btnAdicionarProd.setDisable(false);
             btnVisualizarProd.setDisable(false);
             btnEditarProd.setDisable(false);
@@ -130,7 +135,7 @@ public class ListasController implements Initializable {
             
             // Cria um NOVO Stage (uma nova janela)
             Stage stage = new Stage();
-            stage.setTitle("Cadastrar Novo Produto");
+            stage.setTitle("Formulário de Cadastro de Produto");
             stage.setScene(new Scene(root));
 
             // (Opcional) Bloqueia a interação com a janela de listas até que esta seja fechada
@@ -152,24 +157,23 @@ public class ListasController implements Initializable {
         abrirCadProd(1);
     }
 
-    //VISUALIZAR ITEM
-    //Desabilita os campos do form de cad. Produto
-    //deixa invisível o botão de gravar produto
-    //Cria o formulário de cad. de Produto    
-    @FXML
-    private void visualizarItem(ActionEvent event){
-        
-        abrirCadProd(2);
-    }
-
     //EDITAR ITEM
     //Habilita campos do form de cad. Produto
     //Cria o formulário de cad. de Produto
     @FXML
     private void editarItem(ActionEvent event){
+        abrirCadProd(2);
+    }
+        
+    //VISUALIZAR ITEM
+    //Desabilita os campos do form de cad. Produto
+    //deixa invisível o botão de gravar produto
+    //Cria o formulário de cad. de Produto    
+    @FXML
+    private void visualizarItem(ActionEvent event){        
         abrirCadProd(3);
     }
-
+    
     //EXCLUIR ITEM
     //Mantido vazio, pois a exclusão não faz parte da tarefa
     @FXML
