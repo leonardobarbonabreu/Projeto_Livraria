@@ -87,7 +87,6 @@ public class ListasController implements Initializable {
         });
     }
 
-
     private void atualizarEstado() {
         //Caso não tenha nenhum item selecionado, permita somenta a adição de um registro
         if (estadoAtual == EstadoLista.NAVEGANDO) {
@@ -152,8 +151,7 @@ public class ListasController implements Initializable {
     //Habilita campos do form de cad. Produto
     //Cria o formulário de cad. de Produto
     @FXML     
-    private void adicionarItem(ActionEvent event){
-        
+    private void adicionarProd(ActionEvent event){        
         abrirCadProd(1);
     }
 
@@ -161,7 +159,7 @@ public class ListasController implements Initializable {
     //Habilita campos do form de cad. Produto
     //Cria o formulário de cad. de Produto
     @FXML
-    private void editarItem(ActionEvent event){
+    private void editarProd(ActionEvent event){
         abrirCadProd(2);
     }
         
@@ -170,15 +168,78 @@ public class ListasController implements Initializable {
     //deixa invisível o botão de gravar produto
     //Cria o formulário de cad. de Produto    
     @FXML
-    private void visualizarItem(ActionEvent event){        
+    private void visualizarProd(ActionEvent event){        
         abrirCadProd(3);
     }
     
     //EXCLUIR ITEM
     //Mantido vazio, pois a exclusão não faz parte da tarefa
     @FXML
-    private void excluirItem(ActionEvent event){
+    private void excluirProd(ActionEvent event){
         // Apenas placeholder
     }
+
+    @FXML
+    private void abrirCadVenda(int TipoOperacao) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projetoLivraria/VIEW/CadVendaView.fxml"));
+            //Cria instância do Controller
+            Parent root = loader.load();
+                        
+            //Cria variável para manipular controller
+            CadVendaController controller = loader.getController();
+            
+            //Define o tipo de operação do formulário
+            controller.configurarTela(TipoOperacao);                     
+            
+            // Cria um NOVO Stage (uma nova janela)
+            Stage stage = new Stage();
+            stage.setTitle("Formulário de Cadastro de Venda");
+            stage.setScene(new Scene(root));
+
+            // (Opcional) Bloqueia a interação com a janela de listas até que esta seja fechada
+            // stage.initModality(Modality.APPLICATION_MODAL); 
+            //mostra o formulário
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //ADICIONAR ITEM
+    //Habilita campos do form de cad. Produto
+    //Cria o formulário de cad. de Produto
+    @FXML     
+    private void adicionarVenda(ActionEvent event){        
+        abrirCadVenda(1);
+    }
+
+    //EDITAR ITEM
+    //Habilita campos do form de cad. Produto
+    //Cria o formulário de cad. de Produto
+    @FXML
+    private void editarVenda(ActionEvent event){
+        abrirCadVenda(2);
+    }
+        
+    //VISUALIZAR ITEM
+    //Desabilita os campos do form de cad. Produto
+    //deixa invisível o botão de gravar produto
+    //Cria o formulário de cad. de Produto    
+    @FXML
+    private void visualizarVenda(ActionEvent event){        
+        abrirCadVenda(3);
+    }
+    
+    //EXCLUIR ITEM
+    //Mantido vazio, pois a exclusão não faz parte da tarefa
+    @FXML
+    private void cancelarVenda(ActionEvent event){
+        // Apenas placeholder
+    }
+    
+
+
     
 }

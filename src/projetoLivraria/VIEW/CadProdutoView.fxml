@@ -27,7 +27,7 @@
 
 <BorderPane prefHeight="720.0" prefWidth="940.0" style="-fx-background-color: rgb(255, 255, 255); -fx-background-radius: 12;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoLivraria.CONTROLLER.CadProdutoController">
    <bottom>
-      <GridPane prefHeight="54.0" prefWidth="689.0" BorderPane.alignment="CENTER">
+      <GridPane prefHeight="36.0" prefWidth="940.0" BorderPane.alignment="CENTER">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -102,19 +102,19 @@
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="447.33331298828125" minHeight="10.0" prefHeight="447.33331298828125" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="265.0" minHeight="10.0" prefHeight="99.66668701171875" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="509.0" minHeight="10.0" prefHeight="481.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="265.0" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <GridPane>
+                              <GridPane prefHeight="481.0" prefWidth="579.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="422.0" minWidth="10.0" prefWidth="258.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="224.0" minWidth="10.0" prefWidth="66.0" />
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="339.0" minWidth="10.0" prefWidth="256.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                    <RowConstraints maxHeight="218.0" minHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="447.0" minHeight="10.0" prefHeight="407.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="218.0" minHeight="0.0" prefHeight="17.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="447.0" minHeight="10.0" prefHeight="430.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
                                     <VBox prefHeight="447.0" prefWidth="282.0" GridPane.rowIndex="1">
@@ -133,7 +133,7 @@
                                                 </TextField>
                                              </children>
                                              <VBox.margin>
-                                                <Insets top="24.0" />
+                                                <Insets />
                                              </VBox.margin>
                                           </VBox>
                                           <VBox prefHeight="66.0" prefWidth="344.0">
@@ -187,11 +187,23 @@
                                                 <Insets top="24.0" />
                                              </VBox.margin>
                                           </VBox>
-                                          <CheckBox fx:id="chkDisponibilidade" mnemonicParsing="false" prefHeight="40.0" prefWidth="159.0" text="Está disponível?">
+                                          <VBox prefHeight="67.0" prefWidth="161.0">
+                                             <children>
+                                                <Label prefHeight="17.0" prefWidth="126.0" text="Qtde. de Páginas:" textFill="#4b4b4b">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="edtQtdePag" prefHeight="40.0" prefWidth="344.0" promptText="Obrigatório">
+                                                   <VBox.margin>
+                                                      <Insets top="8.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                             </children>
                                              <VBox.margin>
-                                                <Insets top="8.0" />
+                                                <Insets top="24.0" />
                                              </VBox.margin>
-                                          </CheckBox>
+                                          </VBox>
                                        </children>
                                     </VBox>
                                     <VBox GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -216,7 +228,7 @@
                                                 <Insets top="24.0" />
                                              </GridPane.margin>
                                              <VBox.margin>
-                                                <Insets top="24.0" />
+                                                <Insets />
                                              </VBox.margin>
                                           </VBox>
                                           <VBox prefHeight="66.0" prefWidth="344.0">
@@ -231,23 +243,6 @@
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
                                                 </ComboBox>
-                                             </children>
-                                             <VBox.margin>
-                                                <Insets top="24.0" />
-                                             </VBox.margin>
-                                          </VBox>
-                                          <VBox prefHeight="67.0" prefWidth="161.0">
-                                             <children>
-                                                <Label prefHeight="17.0" prefWidth="126.0" text="Qtde. de Páginas:" textFill="#4b4b4b">
-                                                   <font>
-                                                      <Font name="System Bold" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <TextField fx:id="edtQtdePag" prefHeight="40.0" prefWidth="344.0" promptText="Obrigatório">
-                                                   <VBox.margin>
-                                                      <Insets top="8.0" />
-                                                   </VBox.margin>
-                                                </TextField>
                                              </children>
                                              <VBox.margin>
                                                 <Insets top="24.0" />
@@ -270,6 +265,28 @@
                                                 <Insets top="24.0" />
                                              </VBox.margin>
                                           </VBox>
+                                          <VBox prefHeight="67.0" prefWidth="161.0">
+                                             <children>
+                                                <Label prefHeight="17.0" prefWidth="126.0" text="Qtde. em Estoque:" textFill="#4b4b4b">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="edtQtdeEstoque" prefHeight="40.0" prefWidth="344.0" promptText="Obrigatório">
+                                                   <VBox.margin>
+                                                      <Insets top="8.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="24.0" />
+                                             </VBox.margin>
+                                          </VBox>
+                                          <CheckBox fx:id="chkDisponibilidade" mnemonicParsing="false" prefHeight="40.0" prefWidth="159.0" selected="true" text="Está disponível?">
+                                             <VBox.margin>
+                                                <Insets top="42.0" />
+                                             </VBox.margin>
+                                          </CheckBox>
                                        </children>
                                     </VBox>
                                     <StackPane alignment="TOP_LEFT" prefHeight="150.0" prefWidth="200.0">
@@ -283,7 +300,7 @@
                                     </StackPane>
                                  </children>
                               </GridPane>
-                              <GridPane prefHeight="75.0" prefWidth="723.0" GridPane.rowIndex="1">
+                              <GridPane prefHeight="71.0" prefWidth="579.0" GridPane.rowIndex="1">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="346.0" minWidth="10.0" prefWidth="263.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="236.0" minWidth="10.0" prefWidth="63.0" />
@@ -293,7 +310,7 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Button fx:id="btnRetornar" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#fecharJanela" prefHeight="40.0" prefWidth="95.0" style="-fx-background-radius: 4;" text="Retornar">
+                                    <Button fx:id="btnRetornar" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#fecharJanela" prefHeight="40.0" prefWidth="98.0" style="-fx-background-radius: 4;" text="Retornar">
                                        <graphic>
                                           <ImageView fitHeight="31.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                                              <image>

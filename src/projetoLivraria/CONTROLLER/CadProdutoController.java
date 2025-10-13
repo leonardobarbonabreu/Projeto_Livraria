@@ -42,6 +42,8 @@ public class CadProdutoController implements Initializable {
     @FXML
     private TextField edtValor;
     @FXML
+    private TextField edtQtdeEstoque;
+    @FXML
     private CheckBox chkDisponibilidade;
     
     //botões
@@ -69,7 +71,7 @@ public class CadProdutoController implements Initializable {
  
     };
     
-    //popula os campos
+    //preenche os dados padrões dos campos
     private void inicializarCampos(){
         
         //popula os campos combo Genero
@@ -127,6 +129,8 @@ public class CadProdutoController implements Initializable {
         
         edtQtdePag.clear();
         
+        edtQtdeEstoque.clear();
+        
         cmbIdioma.getSelectionModel().clearSelection();
         
         cmbGenero.getSelectionModel().clearSelection();
@@ -134,7 +138,6 @@ public class CadProdutoController implements Initializable {
         edtDtLancamento.setValue(null);
                
     }
-
 
     //desabilita campos
     private void desabilitaCampos(){
@@ -146,6 +149,7 @@ public class CadProdutoController implements Initializable {
         edtQtdePag.setDisable(true);
         edtTitulo.setDisable(true);
         edtValor.setDisable(true);
+        edtQtdeEstoque.setDisable(true);
         cmbGenero.setDisable(true);
         cmbIdioma.setDisable(true);
         chkDisponibilidade.setDisable(true);
