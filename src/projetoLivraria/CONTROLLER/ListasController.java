@@ -2,6 +2,7 @@ package projetoLivraria.CONTROLLER;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +10,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -69,7 +72,17 @@ public class ListasController implements Initializable {
     private TableColumn prodDtLancamento;
     @FXML
     private TableColumn prodDisponibilidade;    
-
+    
+    //Colunas da Lista de vendas
+    @FXML
+    private TableColumn vendaCodigo;
+    @FXML
+    private TableColumn vendaTotal;
+    @FXML
+    private TableColumn vendaEmissao;
+    @FXML
+    private TableColumn vendaStatus;
+        
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Inicializa a tela no estado NAVEGANDO
@@ -153,6 +166,7 @@ public class ListasController implements Initializable {
     @FXML     
     private void adicionarProd(ActionEvent event){        
         abrirCadProd(1);
+        listaProduto.getItems().add(0, "Olá"); // Retirar essa linha depois
     }
 
     //EDITAR ITEM
@@ -176,7 +190,17 @@ public class ListasController implements Initializable {
     //Mantido vazio, pois a exclusão não faz parte da tarefa
     @FXML
     private void excluirProd(ActionEvent event){
-        // Apenas placeholder
+        Alert alertaExclusao = new Alert(Alert.AlertType.CONFIRMATION);        
+        alertaExclusao.setTitle("Confirmação de exclusão");
+        alertaExclusao.setHeaderText("Deseja realizar a exclusão do produto "+""+"?");
+        //alertaExclusao.setContentText("");
+        
+        Optional<ButtonType> botaoClicado = alertaExclusao.showAndWait();
+        if (botaoClicado.get() == ButtonType.OK) {
+                    
+        }
+        
+        return;
     }
 
     @FXML
@@ -232,11 +256,21 @@ public class ListasController implements Initializable {
         abrirCadVenda(3);
     }
     
-    //EXCLUIR ITEM
-    //Mantido vazio, pois a exclusão não faz parte da tarefa
+    //CANCELAR VENDA
+    //Cancela a venda, deixando-a com status de cancelada
     @FXML
     private void cancelarVenda(ActionEvent event){
-        // Apenas placeholder
+        Alert alertaExclusao = new Alert(Alert.AlertType.CONFIRMATION);        
+        alertaExclusao.setTitle("Confirmação de cancelamento");
+        alertaExclusao.setHeaderText("Deseja realizar o cancelamento da venda "+""+"?");
+        //alertaExclusao.setContentText("");
+        
+        Optional<ButtonType> botaoClicado = alertaExclusao.showAndWait();
+        if (botaoClicado.get() == ButtonType.OK) {
+                    
+        }
+        
+        return;
     }
     
 

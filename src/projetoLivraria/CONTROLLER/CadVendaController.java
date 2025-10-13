@@ -1,6 +1,7 @@
 package projetoLivraria.CONTROLLER;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 /**
  *
@@ -138,6 +141,16 @@ public class CadVendaController {
     
     @FXML
     private void excluirItem(ActionEvent event){
+        Alert alertaExclusao = new Alert(Alert.AlertType.CONFIRMATION);        
+        alertaExclusao.setTitle("Confirmação de exclusão");
+        alertaExclusao.setHeaderText("Deseja realizar a exclusão do item "+""+"?");
+        //alertaExclusao.setContentText("");
+        
+        Optional<ButtonType> botaoClicado = alertaExclusao.showAndWait();
+        if (botaoClicado.get() == ButtonType.OK) {
+                    
+        }
+        
         return;
     }
     

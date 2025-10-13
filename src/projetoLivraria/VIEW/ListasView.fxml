@@ -95,57 +95,64 @@
                                     <Insets left="12.0" />
                                  </HBox.margin>
                               </HBox>
-                              <Button fx:id="btnAdicionarProd" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#adicionarProd" prefHeight="40.0" prefWidth="110.0" style="-fx-background-radius: 4;" text="Adicionar">
-                                 <graphic>
-                                    <ImageView fitHeight="31.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../Imagens/Icones/add.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
+                              <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="438.0" spacing="12.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Button fx:id="btnAdicionarProd" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#adicionarProd" prefHeight="40.0" prefWidth="110.0" style="-fx-background-radius: 4;" text="Adicionar">
+                                       <graphic>
+                                          <ImageView fitHeight="31.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../Imagens/Icones/add.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="btnVisualizarProd" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="307.0" layoutY="17.0" mnemonicParsing="false" onAction="#visualizarProd" prefHeight="40.0" prefWidth="103.0" style="-fx-background-radius: 4;" text="Visualizar">
+                                       <graphic>
+                                          <ImageView fitHeight="31.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../Imagens/Icones/view.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="btnEditarProd" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="417.0" layoutY="17.0" mnemonicParsing="false" onAction="#editarProd" prefHeight="40.0" prefWidth="84.0" style="-fx-background-radius: 4;" text="Editar">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../Imagens/Icones/edit.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="btnExcluirProd" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="520.0" layoutY="17.0" mnemonicParsing="false" onAction="#excluirProd" prefHeight="40.0" prefWidth="84.0" style="-fx-background-radius: 4; -fx-background-color: red;" text="Excluir" textFill="WHITE">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../Imagens/Icones/delete_branco.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
                                  <HBox.margin>
-                                    <Insets left="12.0" />
+                                    <Insets />
                                  </HBox.margin>
-                              </Button>
-                              <Button fx:id="btnVisualizarProd" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="307.0" layoutY="17.0" mnemonicParsing="false" onAction="#visualizarProd" prefHeight="40.0" prefWidth="103.0" style="-fx-background-radius: 4;" text="Visualizar">
-                                 <graphic>
-                                    <ImageView fitHeight="31.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../Imagens/Icones/view.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <HBox.margin>
-                                    <Insets left="12.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button fx:id="btnEditarProd" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="417.0" layoutY="17.0" mnemonicParsing="false" onAction="#editarProd" prefHeight="40.0" prefWidth="84.0" style="-fx-background-radius: 4;" text="Editar">
-                                 <graphic>
-                                    <ImageView fitHeight="25.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../Imagens/Icones/edit.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <HBox.margin>
-                                    <Insets left="12.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button fx:id="btnExcluirProd" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="520.0" layoutY="17.0" mnemonicParsing="false" onAction="#excluirProd" prefHeight="40.0" prefWidth="84.0" style="-fx-background-radius: 4; -fx-background-color: red;" text="Excluir" textFill="WHITE">
-                                 <graphic>
-                                    <ImageView fitHeight="25.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../Imagens/Icones/delete_branco.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="12.0" />
-                                 </HBox.margin>
-                              </Button>
+                              </HBox>
                            </children>
                            <padding>
                               <Insets left="12.0" right="12.0" />
@@ -203,57 +210,61 @@
                                     <Insets left="12.0" />
                                  </HBox.margin>
                               </HBox>
-                              <Button fx:id="btnAdicionarVenda" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#adicionarVenda" prefHeight="40.0" prefWidth="93.0" style="-fx-background-radius: 4;" text="Vender">
-                                 <graphic>
-                                    <ImageView fitHeight="31.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../Imagens/Icones/add.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <HBox.margin>
-                                    <Insets left="12.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button fx:id="btnVisualizarVenda" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="307.0" layoutY="17.0" mnemonicParsing="false" onAction="#visualizarVenda" prefHeight="40.0" prefWidth="103.0" style="-fx-background-radius: 4;" text="Consultar">
-                                 <graphic>
-                                    <ImageView fitHeight="31.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../Imagens/Icones/view.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <HBox.margin>
-                                    <Insets left="12.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button fx:id="btnEditarVenda" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="417.0" layoutY="17.0" mnemonicParsing="false" onAction="#editarVenda" prefHeight="40.0" prefWidth="84.0" style="-fx-background-radius: 4;" text="Editar">
-                                 <graphic>
-                                    <ImageView fitHeight="25.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../Imagens/Icones/edit.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <HBox.margin>
-                                    <Insets left="12.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button fx:id="btnCancelarVenda" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="520.0" layoutY="17.0" mnemonicParsing="false" onAction="#cancelarVenda" prefHeight="40.0" prefWidth="99.0" style="-fx-background-radius: 4; -fx-background-color: red;" text="Cancelar" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                                 <graphic>
-                                    <ImageView fitHeight="25.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../Imagens/Icones/delete_branco.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <HBox.margin>
-                                    <Insets left="12.0" />
-                                 </HBox.margin>
-                              </Button>
+                              <HBox alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefWidth="0.0" spacing="12.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Button fx:id="btnAdicionarVenda" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#adicionarVenda" prefHeight="40.0" prefWidth="93.0" style="-fx-background-radius: 4;" text="Vender">
+                                       <graphic>
+                                          <ImageView fitHeight="31.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../Imagens/Icones/add.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="btnVisualizarVenda" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="307.0" layoutY="17.0" mnemonicParsing="false" onAction="#visualizarVenda" prefHeight="40.0" prefWidth="103.0" style="-fx-background-radius: 4;" text="Consultar">
+                                       <graphic>
+                                          <ImageView fitHeight="31.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../Imagens/Icones/view.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="btnEditarVenda" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="417.0" layoutY="17.0" mnemonicParsing="false" onAction="#editarVenda" prefHeight="40.0" prefWidth="84.0" style="-fx-background-radius: 4;" text="Editar">
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../Imagens/Icones/edit.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="btnCancelarVenda" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="520.0" layoutY="17.0" mnemonicParsing="false" onAction="#cancelarVenda" prefHeight="40.0" prefWidth="99.0" style="-fx-background-radius: 4; -fx-background-color: red;" text="Cancelar" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../Imagens/Icones/cancelar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
                            </children>
                            <padding>
                               <Insets left="12.0" right="12.0" />
@@ -261,9 +272,10 @@
                         </HBox>
                         <TableView fx:id="listaProduto1" prefHeight="524.0" prefWidth="1280.0" GridPane.rowIndex="1">
                            <columns>
-                              <TableColumn fx:id="prodISBN1" prefWidth="75.0" text="codVenda" />
-                              <TableColumn fx:id="prodTitulo1" prefWidth="75.0" text="Total" />
-                              <TableColumn fx:id="prodAutor1" prefWidth="75.0" text="Emissão" />
+                              <TableColumn fx:id="vendaCodigo" prefWidth="75.0" text="codVenda" />
+                              <TableColumn fx:id="vendaTotal" prefWidth="75.0" text="Total" />
+                              <TableColumn fx:id="vendaEmissao" prefWidth="75.0" text="Emissão" />
+                              <TableColumn fx:id="vendaStatus" prefWidth="75.0" text="Status" />
                            </columns>
                         </TableView>
                      </children>

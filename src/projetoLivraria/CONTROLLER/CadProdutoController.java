@@ -103,7 +103,7 @@ public class CadProdutoController implements Initializable {
             txtTipoOperacao.setText("Cadastro de Produto");
             lblCodProduto.setVisible(false);
             txtCodProduto.setVisible(false);            
-            
+                                   
             break;
         case 2://2-EDIÇÃO
             txtTipoOperacao.setText("Alteração de Produto");
