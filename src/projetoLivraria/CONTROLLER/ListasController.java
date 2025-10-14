@@ -109,7 +109,7 @@ public class ListasController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // Inicializa a tela no estado NAVEGANDO
         estadoAtual = EstadoLista.NAVEGANDO;
-        atualizarEstado();
+        atualizarEstadoAba(1);
 
         // Listener para seleção de item na tabela
         listaProduto.getSelectionModel().selectedItemProperty().addListener((obs, oldItem, newItem) -> {
@@ -118,7 +118,7 @@ public class ListasController implements Initializable {
             } else {
                 estadoAtual = EstadoLista.NAVEGANDO;
             }
-            atualizarEstado();
+            atualizarEstadoAba(1);
         });
         
         // Listener para seleção de item na tabela
@@ -128,49 +128,64 @@ public class ListasController implements Initializable {
             } else {
                 estadoAtual = EstadoLista.NAVEGANDO;
             }
-            atualizarEstado();
+            atualizarEstadoAba(2);
         });
         
     }
 
-    private void atualizarEstado() {
+    private void atualizarEstadoAba(int aba) {
         //Caso não tenha nenhum item selecionado, permita somenta a adição de um registro
-        if (estadoAtual == EstadoLista.NAVEGANDO) {
-            btnAdicionarProd.setDisable(false);
-            btnVisualizarProd.setDisable(true);
-            btnEditarProd.setDisable(true);
-            btnExcluirProd.setDisable(true);
+        switch (aba) {
+            case 1: //Aba de Produtos
+                if (estadoAtual == EstadoLista.NAVEGANDO) {
+                    //Habilita somente o botão de adicionar
+                    btnAdicionarProd.setDisable(false);
+                    btnVisualizarProd.setDisable(true);
+                    btnEditarProd.setDisable(true);
+                    btnExcluirProd.setDisable(true);
+                    
+                    //Desabilite as opções de pesquisa, somente se a lista estiver vazia
+                    if(listaProduto.getItems() == null){
+                        edtPesquisaProduto.setDisable(false);
+                        produtoSelecionadoArea.setVisible(false);
+                    }
+                } else { // ITEM_SELECIONADO;
+                    //Habilita todas as funções
+                    btnAdicionarProd.setDisable(false);
+                    btnVisualizarProd.setDisable(false);
+                    btnEditarProd.setDisable(false);
+                    btnExcluirProd.setDisable(false);
 
-            edtPesquisaProduto.setDisable(false);
-            lblProdutoSelecionado.setDisable(true);
-            
-            btnAdicionarProd.setDisable(false);
-            btnVisualizarProd.setDisable(true);
-            btnEditarProd.setDisable(true);
-            btnExcluirProd.setDisable(true);
+                    edtPesquisaProduto.setDisable(false);
+                    lblProdutoSelecionado.setDisable(false);
+                }                            
+            break;
+            case 2: //Aba de Vendas
+                //Desabilita funções, caso estiver no modo navegação ou a lista de produtos estiver vazia
+                if (estadoAtual == EstadoLista.NAVEGANDO || listaVenda.getItems() == null) {
+                    btnAdicionarVenda.setDisable(false);
+                    btnVisualizarVenda.setDisable(false);
+                    btnEditarVenda.setDisable(false);
+                    btnCancelarVenda.setDisable(false);
+        
+                    if (listaVenda.getItems() == null){
+                        edtPesquisaVenda.setDisable(false);
+                        VendaSelecionadaArea.setDisable(false);                
+                    }
 
-            edtPesquisaProduto.setDisable(false);
-            lblProdutoSelecionado.setDisable(true);
-        } else { // ITEM_SELECIONADO
-        //Caso o usuário clique em um item na lista, permita que ele visualize, edite e exclua o registro    
-            //Aba Produto
-            btnAdicionarProd.setDisable(false);
-            btnVisualizarProd.setDisable(false);
-            btnEditarProd.setDisable(false);
-            btnExcluirProd.setDisable(false);
-
-            edtPesquisaProduto.setDisable(false);
-            lblProdutoSelecionado.setDisable(false);
-            
-            //Aba Venda
-            btnAdicionarVenda.setDisable(false);
-            btnVisualizarVenda.setDisable(false);
-            btnEditarVenda.setDisable(false);
-            btnCancelarVenda.setDisable(false);
-
-            edtPesquisaVenda.setDisable(false);
-            lblVendaSelecionada.setDisable(false);
-
+                } else { // ITEM_SELECIONADO;;
+                    //Caso o usuário clique em um item na lista, permita que ele visualize, edite e exclua o registro    
+                    //Aba Venda
+                    btnAdicionarVenda.setDisable(false);
+                    btnVisualizarVenda.setDisable(false);
+                    btnEditarVenda.setDisable(false);
+                    btnCancelarVenda.setDisable(false);
+        
+                    edtPesquisaVenda.setDisable(false);
+                    lblVendaSelecionada.setDisable(false);
+                };
+                
+            break;
         }
     }
 
