@@ -30,7 +30,7 @@ public class ListasController implements Initializable {
     private enum EstadoLista { NAVEGANDO, ITEM_SELECIONADO }
     private EstadoLista estadoAtual;
 
-    //Botões do CRUD
+    //Botões do CRUD Produto
     @FXML
     private Button btnAdicionarProd;
     @FXML
@@ -42,12 +42,20 @@ public class ListasController implements Initializable {
 
     //Componentes de pesquisa
     @FXML
-    private TextField edtPesquisa;
+    private TextField edtPesquisaProduto;
     @FXML
-    private HBox itemSelecionadoArea;    
+    private TextField edtPesquisaVenda;
+        
     @FXML
-    private Text lblItemSelecionado;
+    private HBox produtoSelecionadoArea;    
+    @FXML
+    private Text lblProdutoSelecionado;
     
+    @FXML
+    private HBox VendaSelecionadaArea;    
+    @FXML
+    private Text lblVendaSelecionada;
+
     //Lista de Produtos
     @FXML 
     public TableView listaProduto;
@@ -73,6 +81,20 @@ public class ListasController implements Initializable {
     @FXML
     private TableColumn prodDisponibilidade;    
     
+    //Botões do CRUD Produto
+    @FXML
+    private Button btnAdicionarVenda;
+    @FXML
+    private Button btnVisualizarVenda;
+    @FXML
+    private Button btnEditarVenda;
+    @FXML
+    private Button btnCancelarVenda;
+
+    //Lista de Produtos
+    @FXML 
+    public TableView listaVenda;
+    
     //Colunas da Lista de vendas
     @FXML
     private TableColumn vendaCodigo;
@@ -82,7 +104,7 @@ public class ListasController implements Initializable {
     private TableColumn vendaEmissao;
     @FXML
     private TableColumn vendaStatus;
-        
+            
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Inicializa a tela no estado NAVEGANDO
@@ -98,6 +120,17 @@ public class ListasController implements Initializable {
             }
             atualizarEstado();
         });
+        
+        // Listener para seleção de item na tabela
+        listaVenda.getSelectionModel().selectedItemProperty().addListener((obs, oldItem, newItem) -> {
+            if (newItem != null) {
+                estadoAtual = EstadoLista.ITEM_SELECIONADO;
+            } else {
+                estadoAtual = EstadoLista.NAVEGANDO;
+            }
+            atualizarEstado();
+        });
+        
     }
 
     private void atualizarEstado() {
@@ -108,17 +141,36 @@ public class ListasController implements Initializable {
             btnEditarProd.setDisable(true);
             btnExcluirProd.setDisable(true);
 
-            edtPesquisa.setDisable(false);
-            lblItemSelecionado.setDisable(true);
+            edtPesquisaProduto.setDisable(false);
+            lblProdutoSelecionado.setDisable(true);
+            
+            btnAdicionarProd.setDisable(false);
+            btnVisualizarProd.setDisable(true);
+            btnEditarProd.setDisable(true);
+            btnExcluirProd.setDisable(true);
+
+            edtPesquisaProduto.setDisable(false);
+            lblProdutoSelecionado.setDisable(true);
         } else { // ITEM_SELECIONADO
         //Caso o usuário clique em um item na lista, permita que ele visualize, edite e exclua o registro    
+            //Aba Produto
             btnAdicionarProd.setDisable(false);
             btnVisualizarProd.setDisable(false);
             btnEditarProd.setDisable(false);
             btnExcluirProd.setDisable(false);
 
-            edtPesquisa.setDisable(false);
-            lblItemSelecionado.setDisable(false);
+            edtPesquisaProduto.setDisable(false);
+            lblProdutoSelecionado.setDisable(false);
+            
+            //Aba Venda
+            btnAdicionarVenda.setDisable(false);
+            btnVisualizarVenda.setDisable(false);
+            btnEditarVenda.setDisable(false);
+            btnCancelarVenda.setDisable(false);
+
+            edtPesquisaVenda.setDisable(false);
+            lblVendaSelecionada.setDisable(false);
+
         }
     }
 

@@ -112,16 +112,20 @@ public class CadVendaController {
                 
         switch (TipoOperacao) {            
         case 1://ADIÇÃO
-            txtTipoOperacao.setText("Cadastro de Produto");
+            txtTipoOperacao.setText("Cadastro de Venda");
+            //escondendo componentes
             lblCodVenda.setVisible(false);
             txtCodVenda.setVisible(false);            
             
+            lblDtEmissao.setVisible(false);
+            txtDtEmissao.setVisible(false);
+            
             break;
         case 2://2-EDIÇÃO
-            txtTipoOperacao.setText("Alteração de Produto");
+            txtTipoOperacao.setText("Alteração de Venda");
             break;                
         case 3://3-CONSULTA
-            txtTipoOperacao.setText("Consulta de Produto");            
+            txtTipoOperacao.setText("Consulta de Venda");            
             //desabilitaCampos();            
             break;
         default:

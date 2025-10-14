@@ -68,7 +68,7 @@
                            <children>
                               <StackPane prefHeight="50.0" prefWidth="228.0">
                                  <children>
-                                    <TextField fx:id="edtPesquisa" prefHeight="40.0" prefWidth="215.0" promptText="Pesquisar" />
+                                    <TextField fx:id="edtPesquisaProduto" prefHeight="40.0" prefWidth="215.0" promptText="Pesquisar" />
                                     <ImageView fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_RIGHT">
                                        <image>
                                           <Image url="@../../Imagens/Icones/search.png" />
@@ -79,10 +79,10 @@
                                     </ImageView>
                                  </children>
                               </StackPane>
-                              <HBox fx:id="itemSelecionadoArea" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="208.0" visible="false">
+                              <HBox fx:id="produtoSelecionadoArea" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="208.0" visible="false">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Selecionado:" />
-                                    <Text fx:id="lblItemSelecionado" strokeType="OUTSIDE" strokeWidth="0.0" text="CodItemSelecionado">
+                                    <Text fx:id="lblProdutoSelecionado" strokeType="OUTSIDE" strokeWidth="0.0" text="CodItemSelecionado">
                                        <HBox.margin>
                                           <Insets left="12.0" />
                                        </HBox.margin>
@@ -183,7 +183,7 @@
                            <children>
                               <StackPane prefHeight="50.0" prefWidth="228.0">
                                  <children>
-                                    <TextField fx:id="edtPesquisa1" prefHeight="40.0" prefWidth="215.0" promptText="Pesquisar" />
+                                    <TextField fx:id="edtPesquisaVenda" prefHeight="40.0" prefWidth="215.0" promptText="Pesquisar" />
                                     <ImageView fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_RIGHT">
                                        <image>
                                           <Image url="@../../Imagens/Icones/search.png" />
@@ -270,7 +270,7 @@
                               <Insets left="12.0" right="12.0" />
                            </padding>
                         </HBox>
-                        <TableView fx:id="listaProduto1" prefHeight="524.0" prefWidth="1280.0" GridPane.rowIndex="1">
+                        <TableView fx:id="listaVenda" prefHeight="524.0" prefWidth="1280.0" GridPane.rowIndex="1">
                            <columns>
                               <TableColumn fx:id="vendaCodigo" prefWidth="75.0" text="codVenda" />
                               <TableColumn fx:id="vendaTotal" prefWidth="75.0" text="Total" />
