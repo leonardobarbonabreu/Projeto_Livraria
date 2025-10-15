@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -25,6 +26,13 @@ import javafx.stage.Stage;
  * @author Laboratorio
  */
 public class ListasController implements Initializable {
+
+    @FXML
+    private Tab tabProduto;
+    @FXML
+    private Tab tabVenda;
+    @FXML
+    private HBox endaSelecionadaArea;
 
     //Enum para gerenciar o estado da tela de lista
     private enum EstadoLista { NAVEGANDO, ITEM_SELECIONADO }
@@ -51,8 +59,7 @@ public class ListasController implements Initializable {
     @FXML
     private Text lblProdutoSelecionado;
     
-    @FXML
-    private HBox VendaSelecionadaArea;    
+    private HBox vendaSelecionadaArea;    
     @FXML
     private Text lblVendaSelecionada;
 
@@ -110,7 +117,8 @@ public class ListasController implements Initializable {
         // Inicializa a tela no estado NAVEGANDO
         estadoAtual = EstadoLista.NAVEGANDO;
         atualizarEstadoAba(1);
-
+        atualizarEstadoAba(2);
+        
         // Listener para seleção de item na tabela
         listaProduto.getSelectionModel().selectedItemProperty().addListener((obs, oldItem, newItem) -> {
             if (newItem != null) {
@@ -140,17 +148,18 @@ public class ListasController implements Initializable {
                 if (estadoAtual == EstadoLista.NAVEGANDO) {
                     //Habilita somente o botão de adicionar
                     btnAdicionarProd.setDisable(false);
+                    
                     btnVisualizarProd.setDisable(true);
                     btnEditarProd.setDisable(true);
                     btnExcluirProd.setDisable(true);
                     
                     //Desabilite as opções de pesquisa, somente se a lista estiver vazia
-                    if(listaProduto.getItems() == null){
-                        edtPesquisaProduto.setDisable(false);
-                        produtoSelecionadoArea.setVisible(false);
+                    if(listaProduto.getItems().isEmpty()){
+                        edtPesquisaProduto.setDisable(true);
+                        produtoSelecionadoArea.setVisible(true);
                     }
                 } else { // ITEM_SELECIONADO;
-                    //Habilita todas as funções
+                    //Caso haja um item selecionado, habilita todas as funções
                     btnAdicionarProd.setDisable(false);
                     btnVisualizarProd.setDisable(false);
                     btnEditarProd.setDisable(false);
@@ -161,16 +170,23 @@ public class ListasController implements Initializable {
                 }                            
             break;
             case 2: //Aba de Vendas
-                //Desabilita funções, caso estiver no modo navegação ou a lista de produtos estiver vazia
-                if (estadoAtual == EstadoLista.NAVEGANDO || listaVenda.getItems() == null) {
-                    btnAdicionarVenda.setDisable(false);
-                    btnVisualizarVenda.setDisable(false);
-                    btnEditarVenda.setDisable(false);
-                    btnCancelarVenda.setDisable(false);
+                //Desabilita funções, caso estiver no modo navegação ou se a uma das duas listas estiver vazia
+                if (estadoAtual == EstadoLista.NAVEGANDO || (listaVenda.getItems().isEmpty()|| listaProduto.getItems().isEmpty())) {
+                                        
+                    //Se não existir a lista de produto, desabilitar botão de adicionar
+                    if (listaProduto.getItems().isEmpty()){
+                        btnAdicionarVenda.setDisable(true);                                
+                    } else {
+                        btnAdicionarVenda.setDisable(false);                                
+                    }
+                    
+                    btnVisualizarVenda.setDisable(true);                                                    
+                    btnEditarVenda.setDisable(true);
+                    btnCancelarVenda.setDisable(true);
         
                     if (listaVenda.getItems() == null){
-                        edtPesquisaVenda.setDisable(false);
-                        VendaSelecionadaArea.setDisable(false);                
+                        edtPesquisaVenda.setDisable(true);
+                        vendaSelecionadaArea.setDisable(true);                
                     }
 
                 } else { // ITEM_SELECIONADO;;
@@ -193,13 +209,11 @@ public class ListasController implements Initializable {
     //Cria o formulário de cad. de produto
     //Manipula componentes com base no tipo de operacao:
     // 1 - ADICAO: 
-    //      - Desabilitar botão de exclusão, pois não deve excluir um item não criado
     //      - Deixar invisível o codigo interno do Produto, pois ainda não há item;
     // 2 - EDICAO: Habilitar tudo;
-    // 3 - CONSULTAR: Desabilitar todos campos e funções de manipulação do registro;
-    
+    // 3 - CONSULTAR: Desabilitar todos campos e funções de manipulação do registro;    
     //Por fim, apresenta formulário, em uma nova aba
-    @FXML
+    
     private void abrirCadProd(int TipoOperacao) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/projetoLivraria/VIEW/CadProdutoView.fxml"));
@@ -234,6 +248,7 @@ public class ListasController implements Initializable {
     private void adicionarProd(ActionEvent event){        
         abrirCadProd(1);
         listaProduto.getItems().add(0, "Olá"); // Retirar essa linha depois
+        listaVenda.getItems().add(0, "Olá"); // Retirar essa linha depois
     }
 
     //EDITAR ITEM
@@ -269,8 +284,15 @@ public class ListasController implements Initializable {
         
         return;
     }
-
-    @FXML
+    
+    //ABRIR FORMULÁRIO DE CADASTRO DE VENDA
+    //Cria o formulário de cad. de venda
+    //Manipula componentes com base no tipo de operacao:
+    // 1 - ADICAO: 
+    //      - Deixar invisível o codigo interno do Produto, pois ainda não há item;
+    // 2 - EDICAO: Habilitar tudo;
+    // 3 - CONSULTAR: Desabilitar todos campos e funções de manipulação do registro;
+    //Por fim, apresenta formulário, em uma nova aba;
     private void abrirCadVenda(int TipoOperacao) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/projetoLivraria/VIEW/CadVendaView.fxml"));
@@ -339,8 +361,5 @@ public class ListasController implements Initializable {
         
         return;
     }
-    
-
-
-    
+        
 }
