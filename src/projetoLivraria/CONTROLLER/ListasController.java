@@ -2,6 +2,7 @@ package projetoLivraria.CONTROLLER;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -17,9 +18,11 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import projetoLivraria.MODEL.LivroModel;
 
 /**
  *
@@ -65,28 +68,27 @@ public class ListasController implements Initializable {
 
     //Lista de Produtos
     @FXML 
-    public TableView listaProduto;
+    public TableView<LivroModel> listaProduto;
 
     //Colunas da Lista de Produtos
     @FXML
-    private TableColumn prodTitulo;
+    private TableColumn<LivroModel, String> prodTitulo;    
     @FXML
-    private TableColumn prodISBN;
+    private TableColumn<LivroModel, Integer> prodISBN;
     @FXML
-    private TableColumn prodAutor;
+    private TableColumn<LivroModel, String> prodAutor;
     @FXML
-    private TableColumn prodPubAlvo;
-
+    private TableColumn<LivroModel, String> prodPubAlvo;
     @FXML
-    private TableColumn prodValor;
+    private TableColumn<LivroModel, Double> prodValor;
     @FXML
-    private TableColumn prodQtdePag;
+    private TableColumn<LivroModel, Integer> prodQtdePag;
     @FXML
-    private TableColumn prodIdioma;
+    private TableColumn<LivroModel, String> prodIdioma;
     @FXML
-    private TableColumn prodDtLancamento;
+    private TableColumn<LivroModel, Date> prodDtLancamento;
     @FXML
-    private TableColumn prodDisponibilidade;    
+    private TableColumn<LivroModel, String> prodDisponibilidade;    
     
     //Botões do CRUD Produto
     @FXML
@@ -139,6 +141,14 @@ public class ListasController implements Initializable {
             atualizarEstadoAba(2);
         });
         
+        //Inicializando campos da lista de Produtos                
+        prodTitulo.setCellValueFactory(new PropertyValueFactory<>("Titulo"));
+        prodISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));        
+        prodAutor.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        //...
+        
+        //inicializando campos da lista de Vendas
+        //...
     }
 
     private void atualizarEstadoAba(int aba) {
@@ -247,8 +257,8 @@ public class ListasController implements Initializable {
     @FXML     
     private void adicionarProd(ActionEvent event){        
         abrirCadProd(1);
-        listaProduto.getItems().add(0, "Olá"); // Retirar essa linha depois
-        listaVenda.getItems().add(0, "Olá"); // Retirar essa linha depois
+        //listaProduto.getItems().add(0, "Olá"); // Retirar essa linha depois
+        //listaVenda.getItems().add(0, "Olá"); // Retirar essa linha depois
     }
 
     //EDITAR ITEM
