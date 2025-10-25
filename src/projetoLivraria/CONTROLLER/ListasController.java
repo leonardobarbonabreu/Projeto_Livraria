@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import projetoLivraria.DAO.LivroDAO;
+import projetoLivraria.DAO.LivroInterfaceDAO;
 import projetoLivraria.MODEL.LivroModel;
 
 /**
@@ -115,7 +118,8 @@ public class ListasController implements Initializable {
     private TableColumn vendaEmissao;
     @FXML
     private TableColumn vendaStatus;
-            
+    
+    public static LivroInterfaceDAO livroDAO = new LivroDAO(); // Instância da DAO de produtos          
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Inicializa a tela no estado NAVEGANDO
@@ -142,6 +146,8 @@ public class ListasController implements Initializable {
             }
             atualizarEstadoAba(2);
         });
+        
+        listaProduto.setItems((ObservableList<LivroModel>) livroDAO.listarTodos());
         
         //Inicializando campos da lista de Produtos                
         prodTitulo.setCellValueFactory(new PropertyValueFactory<>("Titulo"));
