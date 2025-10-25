@@ -72,6 +72,8 @@ public class ListasController implements Initializable {
 
     //Colunas da Lista de Produtos
     @FXML
+    private TableColumn<LivroModel, Integer> prodCodLivro;        
+    @FXML
     private TableColumn<LivroModel, String> prodTitulo;    
     @FXML
     private TableColumn<LivroModel, Integer> prodISBN;
