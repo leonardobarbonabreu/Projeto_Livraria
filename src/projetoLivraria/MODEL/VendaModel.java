@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List; // Importa a interface List.
 
 public class VendaModel {
+    private static int ultimoCodVenda = 0;  //Variável estática para controlar o último código gerado, começa em 0
     private int codVenda;
     private String nomeComprador;
     private Date emissao;
@@ -16,11 +17,13 @@ public class VendaModel {
     private String metodoPagamento;
     
     //Construtor
-    public VendaModel(int codVenda,String nomeComprador,Date emissao,String metodoPagamento) {
-        this.codVenda = codVenda;
+    public VendaModel(String nomeComprador,Date emissao,String metodoPagamento) {
+        
+        this.codVenda = ++ultimoCodVenda;  //Incrementa o contador estático e depois atribui ao codVenda da instância
         this.nomeComprador = nomeComprador;
-        this.emissao = Date.from(Instant.MIN); 
-        this.itens = new ArrayList<>(); 
+        this.emissao = emissao;
+        this.itens = new ArrayList<>();     //Inicialização da lista de itens
+        this.valorSubtotal = 0.0;
         this.valorTotal = 0.0; 
         this.metodoPagamento = metodoPagamento;
     }
