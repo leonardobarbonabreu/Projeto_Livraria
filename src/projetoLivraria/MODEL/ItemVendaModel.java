@@ -2,16 +2,18 @@ package projetoLivraria.MODEL;
 
 public class ItemVendaModel {
     //Campos
-    private int codItemVenda;
-    private int codLivro;
+    private static int ultimoCodItemVenda = 0;  //Variável estática para controlar o último código gerado, começa em 0
+    
     private int codVenda;
+    private int codItemVenda;
+    private int codLivro;    
     private double valorVenda;       
     private double desconto;       
     private int qtde;
     
     //Construtor
-    public void ItemVendaModel(int codItemVenda, int codLivro, int codVenda, double valorVenda, double desconto, int qtde) {
-        this.codItemVenda = codItemVenda;        
+    public void ItemVendaModel(int codLivro, int codVenda, double valorVenda, double desconto, int qtde) {
+        this.codItemVenda = ++ultimoCodItemVenda;        
         this.codLivro = codLivro;        
         this.codVenda = codVenda;
         this.valorVenda = valorVenda;
@@ -23,9 +25,6 @@ public class ItemVendaModel {
         return codItemVenda;
     }
 
-    public void setCodItemVenda(int codItemVenda) {
-        this.codItemVenda = codItemVenda;
-    }
     
     //codLivro
     public int getCodLivro() {

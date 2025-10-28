@@ -1,26 +1,28 @@
 package projetoLivraria.MODEL;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class LivroModel {
+    private static int ultimoCodLivro = 1;  //Variável estática para controlar o último código gerado, começa em 1    
     //Campos
     private int codLivro;
     private String titulo;
     private int isbn;
     private String autor;
     private String genero;
-    private Date dtLancamento;    
+    private LocalDate dtLancamento;    
     private String idioma;
     private int qtdePag;   
     private double valor;   
     private int qtdeEstoque;
     private boolean disponibilidade;
-    private String pubAlvo;
+    //private String pubAlvo;
     
     //Construtor
-    public LivroModel(int codLivro, String titulo, int isbn, String autor, String genero,
-            Date dtLancamento, String idioma, int qtdePag, double valor, int qtdeEstoque, boolean disponibilidade, String pubAlvo) {
-        this.codLivro = codLivro;
+    public LivroModel(String titulo, int isbn, String autor, String genero,
+            LocalDate dtLancamento, String idioma, int qtdePag, double valor, int qtdeEstoque, boolean disponibilidade) {
+        this.codLivro = ++ultimoCodLivro;
         this.titulo = titulo;
         this.isbn = isbn;
         this.autor = autor;
@@ -31,7 +33,7 @@ public class LivroModel {
         this.valor = valor;
         this.qtdeEstoque = qtdeEstoque;
         this.disponibilidade = disponibilidade;
-        this.pubAlvo = pubAlvo;
+        //this.pubAlvo = pubAlvo;
     }
 
     //codLivro
@@ -76,11 +78,11 @@ public class LivroModel {
     }
     
     //dtlancamento
-    public Date getDtLancamento() {
+    public LocalDate getDtLancamento() {
         return dtLancamento;
     }
 
-    public void setDtLancamento(Date dtLancamento) {
+    public void setDtLancamento(LocalDate dtLancamento) {
         this.dtLancamento = dtLancamento;
     }
 
@@ -129,12 +131,12 @@ public class LivroModel {
         this.disponibilidade = disponibilidade;
     }
 
-    public String getPubAlvo() {
-        return pubAlvo;
-    }
-
-    public void setPubAlvo(String pubAlvo) {
-        this.pubAlvo = pubAlvo;
-    }
-        
+//    public String getPubAlvo() {
+//        return pubAlvo;
+//    }
+//
+//    public void setPubAlvo(String pubAlvo) {
+//        this.pubAlvo = pubAlvo;
+//    }
+//        
 }

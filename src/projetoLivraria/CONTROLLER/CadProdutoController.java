@@ -1,7 +1,9 @@
 
 package projetoLivraria.CONTROLLER;
 
+import com.sun.org.apache.xerces.internal.impl.dv.xs.DecimalDV;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,14 +16,14 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import projetoLivraria.MODEL.LivroModel;
+import projetoLivraria.CONTROLLER.ListasController;
 /**
  * FXML Controller class
  *
  * @author Leonardo José
  */
 public class CadProdutoController implements Initializable {
-
     
     //Campos do formulário
     @FXML
@@ -167,7 +169,19 @@ public class CadProdutoController implements Initializable {
         if (validarCampos() == false){
             return;
         }
+        LivroModel livro;
+        livro = new LivroModel(edtTitulo.getText(), Integer.valueOf(edtISBN.getText()), edtAutor.getText(),
+                String.valueOf(cmbGenero.getValue()), edtDtLancamento.getValue(), String.valueOf(cmbIdioma.getValue()),
+                Integer.valueOf(edtQtdePag.getText()), Double.valueOf(edtValor.getText()),
+                Integer.valueOf(edtQtdeEstoque.getText()), chkDisponibilidade.isSelected());
         
+        if(TIPO_OPERACAO == 1){
+            ListasController.livroDAO.adicionar(livro);
+        } else if (TIPO_OPERACAO == 2) {
+            ListasController.livroDAO.atualizar(livro);        
+        }
+        
+
         limparCampos();
     }
     

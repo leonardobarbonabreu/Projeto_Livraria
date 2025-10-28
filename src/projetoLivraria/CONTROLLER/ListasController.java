@@ -151,11 +151,18 @@ public class ListasController implements Initializable {
         //listaProduto.setItems((ObservableList<LivroModel>) livroDAO.listarTodos());
         //Vincula a lista do DAO com a tabela do Visual(RIMOU)      
         listaProduto.setItems(livroDAO.listarTodos());
-        //Inicializando campos da lista de Produtos                
-        prodTitulo.setCellValueFactory(new PropertyValueFactory<>("Titulo"));
-        prodISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));        
-        prodAutor.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        //...
+        
+        //Inicializando campos da lista de Produtos            
+        prodCodLivro.setCellValueFactory(new PropertyValueFactory<>("codLivro"));
+        prodTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
+        prodISBN.setCellValueFactory(new PropertyValueFactory<>("isbn"));        
+        prodAutor.setCellValueFactory(new PropertyValueFactory<>("autor"));
+        prodValor.setCellValueFactory(new PropertyValueFactory<>("valor"));               
+        prodDtLancamento.setCellValueFactory(new PropertyValueFactory<>("dtLancamento")); 
+        prodQtdePag.setCellValueFactory(new PropertyValueFactory<>("qtdePag"));   
+        prodIdioma.setCellValueFactory(new PropertyValueFactory<>("idioma"));     
+        prodDisponibilidade.setCellValueFactory(new PropertyValueFactory<>("disponibilidade")); 
+        //
         
         //inicializando campos da lista de Vendas
         //...
