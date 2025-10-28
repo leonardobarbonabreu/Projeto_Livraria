@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="720.0" prefWidth="940.0" style="-fx-background-color: rgb(255, 255, 255); -fx-background-radius: 12;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoLivraria.CONTROLLER.ListasController">
+<BorderPane prefHeight="720.0" prefWidth="940.0" style="-fx-background-color: rgb(255, 255, 255); -fx-background-radius: 12;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoLivraria.CONTROLLER.ListasController">
    <top>
       <GridPane prefHeight="51.0" prefWidth="362.0" BorderPane.alignment="CENTER">
         <columnConstraints>

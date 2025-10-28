@@ -1,12 +1,14 @@
 
 package projetoLivraria.DAO;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import projetoLivraria.MODEL.LivroModel;
 
 public class LivroDAO implements LivroInterfaceDAO {
-    private List<LivroModel> listaProduto = new ArrayList<>();
+    private ObservableList<LivroModel> listaProduto = FXCollections.observableArrayList();
     
     @Override
     public void adicionar(LivroModel livro){
@@ -51,7 +53,7 @@ public class LivroDAO implements LivroInterfaceDAO {
     };
     
     @Override
-    public List<LivroModel> listarTodos(){
+    public ObservableList<LivroModel> listarTodos(){
         return listaProduto;
     };
 }

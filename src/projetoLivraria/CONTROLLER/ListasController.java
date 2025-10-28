@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -147,8 +148,9 @@ public class ListasController implements Initializable {
             atualizarEstadoAba(2);
         });
         
-        listaProduto.setItems((ObservableList<LivroModel>) livroDAO.listarTodos());
-        
+        //listaProduto.setItems((ObservableList<LivroModel>) livroDAO.listarTodos());
+        //Vincula a lista do DAO com a tabela do Visual(RIMOU)      
+        listaProduto.setItems(livroDAO.listarTodos());
         //Inicializando campos da lista de Produtos                
         prodTitulo.setCellValueFactory(new PropertyValueFactory<>("Titulo"));
         prodISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));        

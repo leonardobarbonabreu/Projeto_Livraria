@@ -18,7 +18,7 @@ public class LivroModel {
     private String pubAlvo;
     
     //Construtor
-    public void LivroModel(int codLivro, String titulo, int isbn, String autor, String genero,
+    public LivroModel(int codLivro, String titulo, int isbn, String autor, String genero,
             Date dtLancamento, String idioma, int qtdePag, double valor, int qtdeEstoque, boolean disponibilidade, String pubAlvo) {
         this.codLivro = codLivro;
         this.titulo = titulo;
@@ -37,10 +37,6 @@ public class LivroModel {
     //codLivro
     public int getCodLivro() {
         return codLivro;
-    }
-
-    public void setCodLivro(int codLivro) {
-        this.codLivro = codLivro;
     }
       
     //titulo
