@@ -104,8 +104,7 @@ public class CadProdutoController implements Initializable {
         
         
     }
-    
-    
+        
     public void configurarTela(int TipoOperacao){
         //Grava para que possamos utilizar ela em outros trechos
         TIPO_OPERACAO = TipoOperacao;

@@ -250,7 +250,7 @@ public class ListasController implements Initializable {
             //Cria variável para manipular controller
             CadProdutoController controller = loader.getController();
             
-            if(TipoOperacao == 2) {
+            if(TipoOperacao == 2 || TipoOperacao == 3) {
                 LivroModel livro = listaProduto.getSelectionModel().getSelectedItem();
                 controller.livro = livro;
             }
