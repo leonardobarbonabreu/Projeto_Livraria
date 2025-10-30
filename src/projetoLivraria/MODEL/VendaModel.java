@@ -30,16 +30,57 @@ public class VendaModel {
     public int getCodVenda() {
         return codVenda;
     }
+        
+    public int getUltimoCodigoVenda(){
+        return ultimoCodVenda;
+    }  
     
     //DATA DE EMISSAO
     public LocalDate getEmissao() {
         return emissao;
     }
-
+          
     public void setEmissao(LocalDate emissao) {
         this.emissao = emissao;
     }
-        
+    
+    //FORMA PGTO
+    public String getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public void setMetodoPagamento(String metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
+    }
+
+    //NOME COMPRADOR
+    public String getNomeComprador() {
+        return nomeComprador;
+    }
+
+    public void setNomeComprador(String nomeComprador) {
+        this.nomeComprador = nomeComprador;
+    }
+
+    //TOTAL
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    //SUBTOTAL
+    public double getValorSubtotal() {
+        return valorSubtotal;
+    }
+    
+    public void setValorSubtotal(double valorSubtotal) {
+        this.valorSubtotal = valorSubtotal;
+    }    
+    
+    
     //ITENS
     public void setItens(ObservableList<ItemVendaModel> itens){
         this.itens = itens;

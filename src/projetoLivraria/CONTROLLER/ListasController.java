@@ -2,6 +2,7 @@ package projetoLivraria.CONTROLLER;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -29,6 +30,7 @@ import projetoLivraria.DAO.LivroInterfaceDAO;
 import projetoLivraria.DAO.VendaDAO;
 import projetoLivraria.DAO.VendaInterfaceDAO;
 import projetoLivraria.MODEL.LivroModel;
+import projetoLivraria.MODEL.VendaModel;
 
 /**
  *
@@ -94,7 +96,7 @@ public class ListasController implements Initializable {
     @FXML
     private TableColumn<LivroModel, String> prodIdioma;
     @FXML
-    private TableColumn<LivroModel, Date> prodDtLancamento;
+    private TableColumn<LivroModel, LocalDate> prodDtLancamento;
     @FXML
     private TableColumn<LivroModel, String> prodDisponibilidade;    
     
@@ -110,17 +112,17 @@ public class ListasController implements Initializable {
 
     //Lista de Produtos
     @FXML 
-    public TableView listaVenda;
+    public TableView<VendaModel> listaVenda;
     
     //Colunas da Lista de vendas
     @FXML
-    private TableColumn vendaCodigo;
+    private TableColumn<VendaModel, Integer> vendaCodigo;
     @FXML
-    private TableColumn vendaTotal;
+    private TableColumn<VendaModel, Double> vendaTotal;
     @FXML
-    private TableColumn vendaEmissao;
+    private TableColumn<VendaModel, LocalDate> vendaEmissao;
     @FXML
-    private TableColumn vendaStatus;
+    private TableColumn<VendaModel, Boolean> vendaStatus;
     
     public static LivroInterfaceDAO livroDAO = new LivroDAO(); // Instância da DAO de produtos          
     public static VendaInterfaceDAO vendaDAO = new VendaDAO(); // Instância da DAO de Venda                      
@@ -340,6 +342,11 @@ public class ListasController implements Initializable {
             //Cria variável para manipular controller
             CadVendaController controller = loader.getController();
             
+            if(TipoOperacao == 2 || TipoOperacao == 3) {
+                VendaModel venda = listaVenda.getSelectionModel().getSelectedItem();
+                controller.venda = venda;
+            }
+
             //Define o tipo de operação do formulário
             controller.configurarTela(TipoOperacao);                     
             

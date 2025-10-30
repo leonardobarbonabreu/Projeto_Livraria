@@ -12,7 +12,7 @@ public class ItemVendaModel {
     private int qtde;
     
     //Construtor
-    public void ItemVendaModel(int codLivro, int codVenda, double valorVenda, double desconto, int qtde) {
+    public ItemVendaModel(int codLivro, int codVenda, double valorVenda, double desconto, int qtde) {
         this.codItemVenda = ++ultimoCodItemVenda;        
         this.codLivro = codLivro;        
         this.codVenda = codVenda;

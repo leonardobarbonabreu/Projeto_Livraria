@@ -61,7 +61,5 @@ public class VendaDAO implements VendaInterfaceDAO{
     public ObservableList<ItemVendaModel> listarItens(VendaModel venda){
         return listaVenda.get(venda.getCodVenda()).getItens();        
     };
-    
-    public
-    
+        
 }

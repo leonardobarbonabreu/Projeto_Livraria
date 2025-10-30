@@ -39,7 +39,7 @@ public class LivroModel {
     public int getCodLivro() {
         return codLivro;
     }
-      
+
     //titulo
     public String getTitulo() {
         return titulo;
