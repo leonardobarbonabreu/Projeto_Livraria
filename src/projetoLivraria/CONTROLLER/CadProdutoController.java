@@ -68,6 +68,8 @@ public class CadProdutoController implements Initializable {
     //TIPO DA OPERAÇÃO(1- ADIÇÃO 2-EDIÇÃO 3-CONSULTA)
     public int TIPO_OPERACAO;
     
+    public LivroModel livro;    //variavel local de livro
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
  
@@ -95,6 +97,15 @@ public class CadProdutoController implements Initializable {
         cmbIdioma.getItems().add("Mandarim");
     }
     
+    //funcao para carregar os dados do livro selecionado
+    public void carregarLivro(LivroModel livro){
+        edtTitulo.setText(livro.getTitulo());
+        
+        
+        
+    }
+    
+    
     public void configurarTela(int TipoOperacao){
         //Grava para que possamos utilizar ela em outros trechos
         TIPO_OPERACAO = TipoOperacao;
@@ -109,9 +120,11 @@ public class CadProdutoController implements Initializable {
             break;
         case 2://2-EDIÇÃO
             txtTipoOperacao.setText("Alteração de Produto");
+            carregarLivro(livro);
             break;                
         case 3://3-CONSULTA
             txtTipoOperacao.setText("Consulta de Produto");            
+            carregarLivro(livro);
             desabilitaCampos();            
             break;
         default:
@@ -169,20 +182,35 @@ public class CadProdutoController implements Initializable {
         if (validarCampos() == false){
             return;
         }
-        LivroModel livro;
-        livro = new LivroModel(edtTitulo.getText(), Integer.valueOf(edtISBN.getText()), edtAutor.getText(),
-                String.valueOf(cmbGenero.getValue()), edtDtLancamento.getValue(), String.valueOf(cmbIdioma.getValue()),
-                Integer.valueOf(edtQtdePag.getText()), Double.valueOf(edtValor.getText()),
-                Integer.valueOf(edtQtdeEstoque.getText()), chkDisponibilidade.isSelected());
-        
+        LivroModel Addlivro;
+                
         if(TIPO_OPERACAO == 1){
-            ListasController.livroDAO.adicionar(livro);
+         Addlivro = new LivroModel(edtTitulo.getText(), Integer.valueOf(edtISBN.getText()), edtAutor.getText(),
+            String.valueOf(cmbGenero.getValue()), edtDtLancamento.getValue(), String.valueOf(cmbIdioma.getValue()),
+            Integer.valueOf(edtQtdePag.getText()), Double.valueOf(edtValor.getText()),
+            Integer.valueOf(edtQtdeEstoque.getText()), chkDisponibilidade.isSelected());
+        
+            
+            ListasController.livroDAO.adicionar(Addlivro);
+            
+            //comando para setar (alterar) os dados do livro ja cadastrado
         } else if (TIPO_OPERACAO == 2) {
+            livro.setAutor(edtAutor.getText());
+            livro.setDisponibilidade(chkDisponibilidade.isSelected());
+            livro.setDtLancamento(edtDtLancamento.getValue());
+            livro.setIdioma((String) cmbIdioma.getValue());
+            livro.setIsbn(Integer.valueOf(edtISBN.getText()));
+            livro.setQtdeEstoque(Integer.valueOf(edtQtdeEstoque.getText()));
+            livro.setTitulo(edtTitulo.getText());
+            livro.setQtdePag(Integer.valueOf(edtQtdePag.getText()));
+            livro.setValor(Double.valueOf(edtValor.getText()));
+            livro.setGenero(String.valueOf(cmbGenero.getValue()));
+                        
             ListasController.livroDAO.atualizar(livro);        
         }
         
-
         limparCampos();
+        fecharJanela(event);
     }
     
     @FXML

@@ -250,9 +250,14 @@ public class ListasController implements Initializable {
             //Cria variável para manipular controller
             CadProdutoController controller = loader.getController();
             
+            if(TipoOperacao == 2) {
+                LivroModel livro = listaProduto.getSelectionModel().getSelectedItem();
+                controller.livro = livro;
+            }
+            
             //Define o tipo de operação do formulário
             controller.configurarTela(TipoOperacao);                     
-            
+                      
             // Cria um NOVO Stage (uma nova janela)
             Stage stage = new Stage();
             stage.setTitle("Formulário de Cadastro de Produto");
