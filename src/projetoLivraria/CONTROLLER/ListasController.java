@@ -26,6 +26,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import projetoLivraria.DAO.LivroDAO;
 import projetoLivraria.DAO.LivroInterfaceDAO;
+import projetoLivraria.DAO.VendaDAO;
+import projetoLivraria.DAO.VendaInterfaceDAO;
 import projetoLivraria.MODEL.LivroModel;
 
 /**
@@ -121,6 +123,8 @@ public class ListasController implements Initializable {
     private TableColumn vendaStatus;
     
     public static LivroInterfaceDAO livroDAO = new LivroDAO(); // Instância da DAO de produtos          
+    public static VendaInterfaceDAO vendaDAO = new VendaDAO(); // Instância da DAO de Venda                      
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Inicializa a tela no estado NAVEGANDO
@@ -165,7 +169,9 @@ public class ListasController implements Initializable {
         //
         
         //inicializando campos da lista de Vendas
-        //...
+        listaVenda.setItems(vendaDAO.listarTodos());
+        //VINCULAR AS COLUNAS DA LISTAVENDA COM OS ATRIBUTOS DO VendaDAO
+        
     }
 
     private void atualizarEstadoAba(int aba) {

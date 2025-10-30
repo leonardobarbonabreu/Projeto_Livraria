@@ -3,6 +3,7 @@ package projetoLivraria.CONTROLLER;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,6 +20,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import projetoLivraria.DAO.LivroDAO;
+import projetoLivraria.DAO.VendaDAO;
+import projetoLivraria.MODEL.ItemVendaModel;
+import projetoLivraria.MODEL.LivroModel;
+import projetoLivraria.MODEL.VendaModel;
 
 /**
  *
@@ -62,21 +68,21 @@ public class CadVendaController {
     
     //Colunas das tabelas
     @FXML
-    private TableView<?> listaItemVenda;
+    private TableView<ItemVendaModel> listaItemVenda;
     @FXML
-    private TableColumn<?, ?> itemCodProduto;
+    private TableColumn<ItemVendaModel, Integer> itemCodProduto;
     @FXML
-    private TableColumn<?, ?> itemDesconto;
+    private TableColumn<ItemVendaModel, Double> itemDesconto;
     @FXML
-    private TableColumn<?, ?> itemISBN;
+    private TableColumn<ItemVendaModel, Integer> itemISBN;
     @FXML
-    private TableColumn<?, ?> itemQtde;
+    private TableColumn<ItemVendaModel, Integer> itemQtde;
     @FXML
-    private TableColumn<?, ?> itemSubtotal;
+    private TableColumn<ItemVendaModel, Double> itemSubtotal;
     @FXML
-    private TableColumn<?, ?> itemTitulo;
+    private TableColumn<ItemVendaModel, String> itemTitulo;
     @FXML
-    private TableColumn<?, ?> itemValorUn;
+    private TableColumn<ItemVendaModel, Double> itemValorUn;
     
     @FXML
     private HBox itemSelecionadoArea;
@@ -104,12 +110,16 @@ public class CadVendaController {
     private Text txtTipoOperacao;
 
     public int TIPO_OPERACAO;
-        
+
+    public VendaModel venda; //variavel local de venda usada para receber venda p/ alteração/consulta
+    public LivroDAO livroDao; // DAO que possui a Lista usada para popular os itens da venda. Também será usada para decrementar o estoque
+    public ObservableList<ItemVendaModel> listaItens; // Lista de itens para venda           
+    
     public void configurarTela(int TipoOperacao){
         //Grava para que possamos utilizar ela em outros trechos
         TIPO_OPERACAO = TipoOperacao;
         inicializarCampos();
-                
+        
         switch (TipoOperacao) {            
         case 1://ADIÇÃO
             txtTipoOperacao.setText("Cadastro de Venda");

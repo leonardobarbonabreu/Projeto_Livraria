@@ -1,10 +1,9 @@
 package projetoLivraria.MODEL;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class LivroModel {
-    private static int ultimoCodLivro = 1;  //Variável estática para controlar o último código gerado, começa em 1    
+    private static int ultimoCodLivro = 0;  //Variável estática para controlar o último código gerado, começa em 1    
     //Campos
     private int codLivro;
     private String titulo;

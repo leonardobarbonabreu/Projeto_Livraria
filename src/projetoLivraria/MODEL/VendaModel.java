@@ -1,67 +1,52 @@
 package projetoLivraria.MODEL;
 
-import java.time.Instant;
-import java.time.LocalDateTime; // Importa a classe para registrar a data e hora exatas da venda.
-import java.util.ArrayList; // Importa a lista dinâmica para armazenar os itens da venda.
-import java.util.Date;
-import java.util.List; // Importa a interface List.
+import java.time.LocalDate; // Importa a classe para registrar a data e hora exatas da venda.
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class VendaModel {
     private static int ultimoCodVenda = 0;  //Variável estática para controlar o último código gerado, começa em 0
     private int codVenda;
     private String nomeComprador;
-    private Date emissao;
-    private List<ItemVendaModel> itens;
+    private LocalDate emissao;
+    private ObservableList<ItemVendaModel> itens;
     private double valorSubtotal;
     private double valorTotal;       
     private String metodoPagamento;
     
     //Construtor
-    public VendaModel(String nomeComprador,Date emissao,String metodoPagamento) {
+    public VendaModel(String nomeComprador,LocalDate emissao,String metodoPagamento, ObservableList<ItemVendaModel> itens) {
         
         this.codVenda = ++ultimoCodVenda;  //Incrementa o contador estático e depois atribui ao codVenda da instância
         this.nomeComprador = nomeComprador;
         this.emissao = emissao;
-        this.itens = new ArrayList<>();     //Inicialização da lista de itens
         this.valorSubtotal = 0.0;
         this.valorTotal = 0.0; 
         this.metodoPagamento = metodoPagamento;
+        
+        this.itens = FXCollections.observableArrayList();     //Inicialização da lista de itens
     }
-
+    
     public int getCodVenda() {
         return codVenda;
     }
-
-    public void setCodVenda(int codVenda) {
-        this.codVenda = codVenda;
-    }
-
-    public Date getEmissao() {
+    
+    //DATA DE EMISSAO
+    public LocalDate getEmissao() {
         return emissao;
     }
 
-    public void setEmissao(Date emissao) {
+    public void setEmissao(LocalDate emissao) {
         this.emissao = emissao;
     }
-
-    public List<ItemVendaModel> getItens() {
+        
+    //ITENS
+    public void setItens(ObservableList<ItemVendaModel> itens){
+        this.itens = itens;
+    }
+    
+    public ObservableList<ItemVendaModel> getItens() {
         return itens;
     }
-
-    public void adicionarItem(ItemVendaModel item) throws Exception {
-    // Regra de Negócio: Verificação de Estoque
-//    if (item.getQtde() > item.getLivro().getEstoque()) {
-//        throw new Exception("Erro: Estoque insuficiente para o livro " + item.getLivro().getTitulo());
-//    }
-
-    this.itens.add(item); 
-//    this.valorTotal += item.calcularSubtotal(); 
-//
-//    // Atualiza o estoque do livro
-//    int novoEstoque = item.getLivro().getEstoque() - item.getQuantidade();
-//    item.getLivro().setEstoque(novoEstoque); 
-
-    }
-
     
 }

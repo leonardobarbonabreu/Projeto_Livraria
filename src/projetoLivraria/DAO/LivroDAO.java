@@ -56,4 +56,5 @@ public class LivroDAO implements LivroInterfaceDAO {
     public ObservableList<LivroModel> listarTodos(){
         return listaProduto;
     };
+        
 }

@@ -99,10 +99,7 @@ public class CadProdutoController implements Initializable {
     
     //funcao para carregar os dados do livro selecionado
     public void carregarLivro(LivroModel livro){
-        edtTitulo.setText(livro.getTitulo());
-        
-        
-        
+        edtTitulo.setText(livro.getTitulo());                        
     }
         
     public void configurarTela(int TipoOperacao){
