@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="720.0" prefWidth="940.0" style="-fx-background-color: rgb(255, 255, 255); -fx-background-radius: 12;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoLivraria.CONTROLLER.CadVendaController">
+<BorderPane prefHeight="720.0" prefWidth="940.0" style="-fx-background-color: rgb(255, 255, 255); -fx-background-radius: 12;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoLivraria.CONTROLLER.CadVendaController">
    <bottom>
       <GridPane prefHeight="66.0" prefWidth="940.0" BorderPane.alignment="CENTER">
          <columnConstraints>
@@ -149,12 +149,12 @@
                                        <children>
                                           <VBox alignment="BOTTOM_LEFT" prefHeight="121.0" prefWidth="137.0">
                                              <children>
-                                                <Label prefHeight="17.0" prefWidth="52.0" text="ISBN" textFill="#4b4b4b">
+                                                <Label prefHeight="17.0" prefWidth="52.0" text="Código" textFill="#4b4b4b">
                                                    <font>
                                                       <Font name="System Bold" size="12.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField fx:id="edtISBN" prefHeight="40.0" prefWidth="344.0" promptText="Obrigatório">
+                                                <TextField fx:id="edtCodigoItem" prefHeight="40.0" prefWidth="344.0" promptText="Obrigatório">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
@@ -164,14 +164,14 @@
                                                 <Insets top="12.0" />
                                              </HBox.margin>
                                           </VBox>
-                                          <VBox alignment="BOTTOM_LEFT" prefHeight="67.0" prefWidth="161.0">
+                                          <VBox alignment="BOTTOM_LEFT" prefHeight="67.0" prefWidth="86.0">
                                              <children>
                                                 <Label prefHeight="17.0" prefWidth="126.0" text="Quantidade" textFill="#4b4b4b">
                                                    <font>
                                                       <Font name="System Bold" size="12.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField fx:id="edtQtdeItem" prefHeight="40.0" prefWidth="344.0" promptText="Obrigatório">
+                                                <TextField fx:id="edtQtdeItem" prefHeight="40.0" prefWidth="104.0" promptText="Obrigatório">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
@@ -183,12 +183,12 @@
                                           </VBox>
                                           <VBox alignment="BOTTOM_LEFT" prefHeight="121.0" prefWidth="119.0">
                                              <children>
-                                                <Label prefHeight="17.0" prefWidth="126.0" text="Desconto" textFill="#4b4b4b">
+                                                <Label prefHeight="17.0" prefWidth="126.0" text="Valor unitário" textFill="#4b4b4b">
                                                    <font>
                                                       <Font name="System Bold" size="12.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField fx:id="edtDescontoItem" prefHeight="40.0" prefWidth="344.0">
+                                                <TextField fx:id="edtValorUnitario" prefHeight="40.0" prefWidth="344.0">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
@@ -197,6 +197,20 @@
                                              <HBox.margin>
                                                 <Insets top="12.0" />
                                              </HBox.margin>
+                                          </VBox>
+                                          <VBox alignment="BOTTOM_LEFT" prefHeight="121.0" prefWidth="119.0">
+                                             <children>
+                                                <Label prefHeight="17.0" prefWidth="126.0" text="Valor Total Itens" textFill="#4b4b4b">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="edtValorTotalItens" prefHeight="40.0" prefWidth="344.0">
+                                                   <VBox.margin>
+                                                      <Insets top="8.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                             </children>
                                           </VBox>
                                           <VBox alignment="BOTTOM_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="79.0" prefWidth="137.0" HBox.hgrow="ALWAYS">
                                              <children>
