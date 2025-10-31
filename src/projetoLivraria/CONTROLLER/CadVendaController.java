@@ -1,5 +1,6 @@
 package projetoLivraria.CONTROLLER;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -7,8 +8,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -55,11 +59,13 @@ public class CadVendaController implements Initializable{
 
     //Campos item
     @FXML
-    private TextField edtISBN;
+    private TextField edtCodigoItem;
     @FXML
     private TextField edtQtdeItem;    
     @FXML
-    private TextField edtDescontoItem;    
+    private TextField edtValorUnitario;    
+    @FXML
+    private TextField edtValorTotalItens;    
     @FXML
     private TextField edtPesquisaItem;            
     
@@ -120,12 +126,23 @@ public class CadVendaController implements Initializable{
             if (newItem != null) {                
                 itemSelecionado = newItem;
                 habilitarBotoesItem();
-                carregarItemVenda(itemSelecionado);
-            } else {
-                
+            }
+            else {
+                itemSelecionado = null; // Limpa a variável
+                limparCamposItem(); // (Recomendado) Limpa os campos de texto do item
             }            
+            // deve ser atualizado se o item for nulo OU não-nulo.
+            habilitarBotoesItem();
         });
-    }    
+    }  
+    
+    private void limparCamposItem() {
+        edtCodigoItem.clear(); // (Baseado no seu FXML)
+        edtQtdeItem.clear();
+        edtValorUnitario.clear(); // (Baseado no seu FXML)
+        edtValorTotalItens.clear(); // (Baseado no seu FXML)        
+    }
+    
     public void configurarTela(int TipoOperacao){
         //Grava para que possamos utilizar ela em outros trechos
         TIPO_OPERACAO = TipoOperacao;        
@@ -183,7 +200,9 @@ public class CadVendaController implements Initializable{
         return true;
     }
     
-    @FXML    
+    @FXML  
+    //RENOMEAR PARA GRAVAR ITEM
+    //FARA TANTO A ADIÇÃO, COMO ALTERAÇÃO
     private void adicionarItem(ActionEvent event){
         if (validarCamposItem() == false){
             return;
@@ -214,9 +233,8 @@ public class CadVendaController implements Initializable{
         if (botaoClicado.get() == ButtonType.OK) {
            //remove o item da lista                      
            listaItens.remove(itemSelecionado);
-           //Limpar itemSelecionado
-           //itemSelecionado = null;
-           habilitarBotoesItem();
+           
+           listaItemVenda.getSelectionModel().clearSelection();
         }
         
         return;
@@ -228,8 +246,7 @@ public class CadVendaController implements Initializable{
         if (itemSelecionado == null) {
             return;
         }
-        
-        return;
+        consultarItemProd();        
     }
     
     @FXML
@@ -272,6 +289,98 @@ public class CadVendaController implements Initializable{
 //        fecharJanela(event);
 
     }
+
+
+//GEMINI SUGERIU PARA GRAVAÇÂO    
+//    @FXML
+//    private void gravarVenda(ActionEvent event){
+//        // 1. VERIFICAR SE A LISTA DE ITENS NÃO ESTÁ VAZIA
+//        if (listaItens.isEmpty()) {
+//            lblMensagemValidacao.setText("A venda deve conter ao menos um item.");
+//            lblMensagemValidacao.setVisible(true);
+//            return;
+//        }
+//        
+//        // 2. VALIDAÇÃO DE ESTOQUE
+//        // (Você precisa importar o LivroModel e o ListasController.livroDAO)
+//        for (ItemVendaModel item : listaItens) {
+//            // Busca o livro correspondente no DAO principal
+//            LivroModel livro = ListasController.livroDAO.buscarPorCod(item.getCodLivro());
+//            
+//            if (livro == null) {
+//                lblMensagemValidacao.setText("Erro: Produto " + item.getCodLivro() + " não encontrado.");
+//                lblMensagemValidacao.setVisible(true);
+//                return;
+//            }
+//            
+//            if (livro.getQtdeEstoque() < item.getQtde()) {
+//                // (Opcional: você pode buscar o título do livro para uma msg melhor)
+//                lblMensagemValidacao.setText("Estoque insuficiente para o item " + livro.getTitulo());
+//                lblMensagemValidacao.setVisible(true);
+//                return;
+//            }
+//        }
+//        
+//        // Se chegou aqui, o estoque está OK.
+//        
+//        // 3. DAR BAIXA NO ESTOQUE (PERCORRER A LISTA DE NOVO)
+//        for (ItemVendaModel item : listaItens) {
+//            LivroModel livro = ListasController.livroDAO.buscarPorCod(item.getCodLivro());
+//            
+//            // Calcula novo estoque
+//            int novoEstoque = livro.getQtdeEstoque() - item.getQtde();
+//            livro.setQtdeEstoque(novoEstoque);
+//            
+//            // Atualiza o livro no DAO
+//            ListasController.livroDAO.atualizar(livro);
+//        }
+//        
+//        // 4. CRIAR E SALVAR A VENDA
+//        // (Estou adaptando seu código de 'gravarProduto' do CadProdutoController
+//        // e 'VendaModel')
+//        
+//        if (validarCamposItem() == false){ // Você precisa implementar essa validação
+//             lblMensagemValidacao.setText("Preencha os campos obrigatórios da venda.");
+//             lblMensagemValidacao.setVisible(true);
+//             return;
+//        }
+//        
+//        //VendaModel venda; // Você já tem a variável 'venda' na classe
+//        
+//        if (TIPO_OPERACAO == 1) { // Nova Venda
+//            // Criar a nova venda
+//            venda = new VendaModel(
+//                edtNomeComprador.getText(),
+//                java.time.LocalDate.now(), // Pega a data atual
+//                (String) cmbFormaPgto.getValue(),
+//                listaItens // Passa a lista de itens que já foi validada
+//            );
+//            
+//            // (Você precisa implementar os cálculos de subtotal e total na VendaModel
+//            // ou aqui antes de salvar)
+//            // venda.setValorTotal(Double.valueOf(edtTotal.getText()));
+//            // venda.setValorSubtotal(Double.valueOf(edtSubtotal.getText()));
+//            
+//            venda.setItens(listaItens); // Atribui a lista de itens ao modelo
+//            
+//            ListasController.vendaDAO.adicionar(venda);
+//            
+//        } else if (TIPO_OPERACAO == 2) { // Edição de Venda
+//            // (Atenção: A regra de edição de venda é complexa.
+//            // Você precisaria devolver o estoque dos itens antigos
+//            // e dar baixa dos novos. Por enquanto, vamos focar na adição)
+//            
+//            venda.setNomeComprador(edtNomeComprador.getText());
+//            venda.setMetodoPagamento((String) cmbFormaPgto.getValue());
+//            venda.setItens(listaItens);
+//            // ... (atualizar totais)
+//            
+//            ListasController.vendaDAO.atualizar(venda);
+//        }
+//
+//        // 5. FECHAR JANELA
+//        fecharJanela(event);
+//    }        
         
     @FXML
     private void fecharJanela(ActionEvent event) {
@@ -294,8 +403,10 @@ public class CadVendaController implements Initializable{
         cmbFormaPgto.setDisable(true);
         
         //DADOS ITEM    
-        edtISBN.setDisable(true);
+        edtCodigoItem.setDisable(true);
         edtQtdeItem.setDisable(true);
+        edtValorUnitario.setDisable(true);
+        edtValorTotalItens.setDisable(true);
         edtPesquisaItem.setDisable(true);
         
         //botões
@@ -314,13 +425,14 @@ public class CadVendaController implements Initializable{
         listaItens = venda.getItens();               
     }    
     
-    //Carrega os dados do item informado nos campos do item
-    public void carregarItemVenda(ItemVendaModel item){
+    //Carrega os dados nos campos do item
+    //Serve para trazer os dados quando o usuário clicar em um item da lista
+    public void carregarCampoItemVenda(ItemVendaModel item){
         edtQtdeItem.setText(String.valueOf(item.getQtde()));
         //edtISBN.setText(String.valueOf());        
         //A FAZER
     }     
-    
+      
     //Habilita e desabilita os botões, conforme haja algum item selecionado
     public void habilitarBotoesItem(){
         Boolean resultado = false;        
@@ -333,4 +445,36 @@ public class CadVendaController implements Initializable{
         btnExcluirItem.setDisable(resultado);              
         btnVisualizarItem.setDisable(resultado);                
     }
+    
+    //VINCULAR ESSA FUNÇÃO COM O BOTÃO DE CONSULTAR
+    private void consultarItemProd(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projetoLivraria/VIEW/CadProdutoView.fxml"));
+            //Cria instância do Controller
+            Parent root = loader.load();
+                        
+            //Cria variável para manipular controller
+            CadProdutoController controller = loader.getController();
+                        
+            LivroModel livro = ListasController.livroDAO.buscarPorCod(itemSelecionado.getCodLivro());
+            controller.livro = livro;
+                        
+            //Define o tipo de operação do formulário para consulta
+            controller.configurarTela(3);                     
+                      
+            // Cria um NOVO Stage (uma nova janela)
+            Stage stage = new Stage();
+            stage.setTitle("Formulário de Cadastro de Produto");
+            stage.setScene(new Scene(root));
+
+            // (Opcional) Bloqueia a interação com a janela de listas até que esta seja fechada
+            // stage.initModality(Modality.APPLICATION_MODAL); 
+            //mostra o formulário
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }        
+    
 }
