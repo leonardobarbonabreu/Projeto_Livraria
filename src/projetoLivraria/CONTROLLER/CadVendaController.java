@@ -75,7 +75,7 @@ public class CadVendaController implements Initializable{
     @FXML
     private TableColumn<ItemVendaModel, Integer> itemCodProduto;
     @FXML
-    private TableColumn<ItemVendaModel, Double> itemDesconto;
+    private TableColumn<ItemVendaModel, Double> valorUnitario;
     @FXML
     private TableColumn<ItemVendaModel, Integer> itemCodigo;
     @FXML
