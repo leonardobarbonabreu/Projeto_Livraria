@@ -65,10 +65,10 @@ public class ListasController implements Initializable {
     @FXML
     private TextField edtPesquisaVenda;
         
-    @FXML
-    private HBox produtoSelecionadoArea;    
-    @FXML
-    private Text lblProdutoSelecionado;
+//    @FXML
+//    private HBox produtoSelecionadoArea;    
+//    @FXML
+//    private Text lblProdutoSelecionado;
     
     private HBox vendaSelecionadaArea;    
     @FXML
@@ -190,9 +190,9 @@ public class ListasController implements Initializable {
                     
                     //Desabilite as opções de pesquisa, somente se a lista estiver vazia
                     if(listaProduto.getItems().isEmpty()){
-                        edtPesquisaProduto.setDisable(true);
-                        produtoSelecionadoArea.setVisible(true);
-                    }
+//                        edtPesquisaProduto.setDisable(true);
+//                        produtoSelecionadoArea.setVisible(true);
+                    };
                 } else { // ITEM_SELECIONADO;
                     //Caso haja um item selecionado, habilita todas as funções
                     btnAdicionarProd.setDisable(false);
@@ -200,8 +200,8 @@ public class ListasController implements Initializable {
                     btnEditarProd.setDisable(false);
                     btnExcluirProd.setDisable(false);
 
-                    edtPesquisaProduto.setDisable(false);
-                    lblProdutoSelecionado.setDisable(false);
+                    //edtPesquisaProduto.setDisable(false);
+                    //lblProdutoSelecionado.setDisable(false);
                 }                            
             break;
             case 2: //Aba de Vendas

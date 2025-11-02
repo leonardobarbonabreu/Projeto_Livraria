@@ -75,9 +75,9 @@ public class CadVendaController implements Initializable{
     @FXML
     private TableColumn<ItemVendaModel, Integer> itemCodProduto;
     @FXML
-    private TableColumn<ItemVendaModel, Double> itemDesconto;
+    private TableColumn<ItemVendaModel, Double> valorUnitario;
     @FXML
-    private TableColumn<ItemVendaModel, Integer> itemISBN;
+    private TableColumn<ItemVendaModel, Integer> itemCodigo;
     @FXML
     private TableColumn<ItemVendaModel, Integer> itemQtde;
     @FXML
@@ -260,7 +260,7 @@ public class CadVendaController implements Initializable{
         
         
 //        if(TIPO_OPERACAO == 1){                        
-//            venda = new VendaModel(edtTitulo.getText(), Integer.valueOf(edtISBN.getText()), edtAutor.getText(),
+//            venda = new VendaModel(edtTitulo.getText(), Integer.valueOf(edtCodigo.getText()), edtAutor.getText(),
 //                String.valueOf(cmbGenero.getValue()), edtDtLancamento.getValue(), String.valueOf(cmbIdioma.getValue()),
 //                Integer.valueOf(edtQtdePag.getText()), Double.valueOf(edtValor.getText()),
 //                Integer.valueOf(edtQtdeEstoque.getText()), chkDisponibilidade.isSelected());
@@ -275,7 +275,7 @@ public class CadVendaController implements Initializable{
 //            venda.setDisponibilidade(chkDisponibilidade.isSelected());
 //            venda.setDtLancamento(edtDtLancamento.getValue());
 //            venda.setIdioma((String) cmbIdioma.getValue());
-//            venda.setIsbn(Integer.valueOf(edtISBN.getText()));
+//            venda.setCodigo(Integer.valueOf(edtCodigo.getText()));
 //            venda.setQtdeEstoque(Integer.valueOf(edtQtdeEstoque.getText()));
 //            venda.setTitulo(edtTitulo.getText());
 //            venda.setQtdePag(Integer.valueOf(edtQtdePag.getText()));
@@ -430,7 +430,7 @@ public class CadVendaController implements Initializable{
     //Serve para trazer os dados quando o usuário clicar em um item da lista
     public void carregarCampoItemVenda(ItemVendaModel item){
         edtQtdeItem.setText(String.valueOf(item.getQtde()));
-        //edtISBN.setText(String.valueOf());        
+        //edtCodigo.setText(String.valueOf());        
         //A FAZER
     }     
       

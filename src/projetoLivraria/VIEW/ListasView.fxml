@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="720.0" prefWidth="940.0" style="-fx-background-color: rgb(255, 255, 255); -fx-background-radius: 12;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoLivraria.CONTROLLER.ListasController">
+<BorderPane prefHeight="720.0" prefWidth="940.0" style="-fx-background-color: rgb(255, 255, 255); -fx-background-radius: 12;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoLivraria.CONTROLLER.ListasController">
    <top>
       <GridPane prefHeight="51.0" prefWidth="362.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -89,22 +89,6 @@
                                     </ImageView>
                                  </children>
                               </StackPane>
-                              <HBox fx:id="produtoSelecionadoArea" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="208.0" visible="false">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Item Selecionado:" />
-                                    <Text fx:id="lblProdutoSelecionado" strokeType="OUTSIDE" strokeWidth="0.0" text="CodItemSelecionado">
-                                       <HBox.margin>
-                                          <Insets left="12.0" />
-                                       </HBox.margin>
-                                    </Text>
-                                 </children>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <HBox.margin>
-                                    <Insets left="12.0" />
-                                 </HBox.margin>
-                              </HBox>
                               <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="438.0" spacing="12.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Button fx:id="btnAdicionarProd" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#adicionarProd" prefHeight="40.0" prefWidth="110.0" style="-fx-background-radius: 4;" text="Adicionar">
