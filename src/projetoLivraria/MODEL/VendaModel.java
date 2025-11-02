@@ -12,17 +12,17 @@ public class VendaModel {
     private ObservableList<ItemVendaModel> itens;
     private double valorSubtotal;
     private double valorTotal;       
-    private String metodoPagamento;
+    //private String metodoPagamento;
     
     //Construtor
-    public VendaModel(String nomeComprador,LocalDate emissao,String metodoPagamento, ObservableList<ItemVendaModel> itens) {
-        
+    //public VendaModel(String nomeComprador,LocalDate emissao,String metodoPagamento, ObservableList<ItemVendaModel> itens) {
+    public VendaModel(String nomeComprador,LocalDate emissao,String metodoPagamento, ObservableList<ItemVendaModel> itens) {        
         this.codVenda = ++ultimoCodVenda;  //Incrementa o contador estático e depois atribui ao codVenda da instância
         this.nomeComprador = nomeComprador;
         this.emissao = emissao;
         this.valorSubtotal = 0.0;
         this.valorTotal = 0.0; 
-        this.metodoPagamento = metodoPagamento;
+        //this.metodoPagamento = metodoPagamento;
         
         this.itens = FXCollections.observableArrayList();     //Inicialização da lista de itens
     }
@@ -31,7 +31,7 @@ public class VendaModel {
         return codVenda;
     }
         
-    public int getUltimoCodigoVenda(){
+    public static int getUltimoCodigoVenda(){
         return ultimoCodVenda;
     }  
     
@@ -44,14 +44,14 @@ public class VendaModel {
         this.emissao = emissao;
     }
     
-    //FORMA PGTO
-    public String getMetodoPagamento() {
-        return metodoPagamento;
-    }
-
-    public void setMetodoPagamento(String metodoPagamento) {
-        this.metodoPagamento = metodoPagamento;
-    }
+//    //FORMA PGTO;
+//    public String getMetodoPagamento() {
+//        return metodoPagamento;
+//    }
+//
+//    public void setMetodoPagamento(String metodoPagamento) {
+//        this.metodoPagamento = metodoPagamento;
+//    }
 
     //NOME COMPRADOR
     public String getNomeComprador() {

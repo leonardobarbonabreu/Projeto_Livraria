@@ -209,12 +209,12 @@ public class ListasController implements Initializable {
                 if (estadoAtual == EstadoLista.NAVEGANDO || (listaVenda.getItems().isEmpty()|| listaProduto.getItems().isEmpty())) {
                                         
                     //Se não existir a lista de produto, desabilitar botão de adicionar
-                    if (listaProduto.getItems().isEmpty()){
-                        btnAdicionarVenda.setDisable(true);                                
-                    } else {
-                        btnAdicionarVenda.setDisable(false);                                
-                    }
-                    
+//                    if (listaProduto.getItems().isEmpty()){
+//                        btnAdicionarVenda.setDisable(true);                                
+//                    } else {
+//                        btnAdicionarVenda.setDisable(false);                                
+//                    }
+                    ;
                     btnVisualizarVenda.setDisable(true);                                                    
                     btnEditarVenda.setDisable(true);
                     btnCancelarVenda.setDisable(true);

@@ -54,8 +54,8 @@ public class CadVendaController implements Initializable{
     private TextField edtSubtotal;
     @FXML
     private TextField edtTotal;
-    @FXML
-    private ComboBox cmbFormaPgto;
+//    @FXML
+//    private ComboBox cmbFormaPgto;
 
     //Campos item
     @FXML
@@ -161,7 +161,7 @@ public class CadVendaController implements Initializable{
             txtDtEmissao.setVisible(false);
 
             //Define o código da venda a ser feita para salvar nos itens
-            codVenda = venda.getUltimoCodigoVenda()+ 1;
+            codVenda = VendaModel.getUltimoCodigoVenda()+ 1;
             break;
         case 2://2-EDIÇÃO
             txtTipoOperacao.setText("Alteração de Venda");                        
@@ -182,11 +182,11 @@ public class CadVendaController implements Initializable{
     //preenche os dados padrões dos campos
     private void inicializarCampos(){
         //popula os campos combo Forma de Pagamento
-        cmbFormaPgto.getItems().add("PIX");
-        cmbFormaPgto.getItems().add("Crédito");
-        cmbFormaPgto.getItems().add("Débito");
-        cmbFormaPgto.getItems().add("Dinheiro");
-        cmbFormaPgto.getItems().add("Boleto");
+//        cmbFormaPgto.getItems().add("PIX");;
+//        cmbFormaPgto.getItems().add("Crédito");
+//        cmbFormaPgto.getItems().add("Débito");
+//        cmbFormaPgto.getItems().add("Dinheiro");
+//        cmbFormaPgto.getItems().add("Boleto");
         
         //lista de Itens;
         listaItens = FXCollections.observableArrayList();; 
@@ -400,7 +400,8 @@ public class CadVendaController implements Initializable{
         edtNomeComprador.setDisable(true);
         edtSubtotal.setDisable(true);
         edtTotal.setDisable(true);        
-        cmbFormaPgto.setDisable(true);
+        edtDescontoVenda.setDisable(true);
+//cmbFormaPgto.setDisable(true);
         
         //DADOS ITEM    
         edtCodigoItem.setDisable(true);
