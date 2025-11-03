@@ -345,7 +345,7 @@ public class CadVendaController implements Initializable{
 //             return;
 //        }
 //        
-//        //VendaModel venda; // Você já tem a variável 'venda' na classe
+//        //VendaModel venda; // já tem a variável 'venda' na classe
 //        
 //        if (TIPO_OPERACAO == 1) { // Nova Venda
 //            // Criar a nova venda
@@ -356,7 +356,7 @@ public class CadVendaController implements Initializable{
 //                listaItens // Passa a lista de itens que já foi validada
 //            );
 //            
-//            // (Você precisa implementar os cálculos de subtotal e total na VendaModel
+//            // (precisa implementar os cálculos de subtotal e total na VendaModel
 //            // ou aqui antes de salvar)
 //            // venda.setValorTotal(Double.valueOf(edtTotal.getText()));
 //            // venda.setValorSubtotal(Double.valueOf(edtSubtotal.getText()));
@@ -366,9 +366,9 @@ public class CadVendaController implements Initializable{
 //            ListasController.vendaDAO.adicionar(venda);
 //            
 //        } else if (TIPO_OPERACAO == 2) { // Edição de Venda
-//            // (Atenção: A regra de edição de venda é complexa.
-//            // Você precisaria devolver o estoque dos itens antigos
-//            // e dar baixa dos novos. Por enquanto, vamos focar na adição)
+//            // (Atenção: A regra de edição de venda:
+//            // precisaria devolver o estoque dos itens antigos
+//            // e dar baixa dos novos)
 //            
 //            venda.setNomeComprador(edtNomeComprador.getText());
 //            venda.setMetodoPagamento((String) cmbFormaPgto.getValue());
