@@ -79,8 +79,7 @@ public class VendaModel {
     public void setValorSubtotal(double valorSubtotal) {
         this.valorSubtotal = valorSubtotal;
     }    
-    
-    
+        
     //ITENS
     public void setItens(ObservableList<ItemVendaModel> itens){
         this.itens = itens;

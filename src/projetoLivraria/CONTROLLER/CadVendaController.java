@@ -582,7 +582,6 @@ public class CadVendaController implements Initializable{
             resultado = false;    
         }
 
-        btnAdicionarProd.setDisable(resultado);              
         btnExcluirItem.setDisable(resultado);              
         btnVisualizarItem.setDisable(resultado);                
     }
