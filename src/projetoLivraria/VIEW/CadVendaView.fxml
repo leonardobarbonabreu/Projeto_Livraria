@@ -17,8 +17,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
 
-<BorderPane prefHeight="720.0" prefWidth="940.0" style="-fx-background-color: rgb(255, 255, 255); -fx-background-radius: 12;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoLivraria.CONTROLLER.CadVendaController">
+<BorderPane prefHeight="720.0" prefWidth="940.0" style="-fx-background-color: rgb(255, 255, 255); -fx-background-radius: 12;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoLivraria.CONTROLLER.CadVendaController">
    <bottom>
       <GridPane prefHeight="66.0" prefWidth="940.0" BorderPane.alignment="CENTER">
          <columnConstraints>
@@ -154,7 +155,7 @@
                                                       <Font name="System Bold" size="12.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField fx:id="edtCodigoItem" prefHeight="40.0" prefWidth="344.0" promptText="Obrigatório">
+                                                <TextField fx:id="edtCodigoItem" onAction="#carregarDadosProduto" prefHeight="40.0" prefWidth="344.0" promptText="Obrigatório">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
@@ -171,7 +172,7 @@
                                                       <Font name="System Bold" size="12.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField fx:id="edtQtdeItem" prefHeight="40.0" prefWidth="104.0" promptText="Obrigatório">
+                                                <TextField fx:id="edtQtdeItem" onAction="#calcularTotalItem" prefHeight="40.0" prefWidth="104.0" promptText="Obrigatório">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
@@ -188,7 +189,7 @@
                                                       <Font name="System Bold" size="12.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField fx:id="edtValorUnitario" prefHeight="40.0" prefWidth="344.0">
+                                                <TextField fx:id="edtValorUnitario" onAction="#calcularTotalItem" prefHeight="40.0" prefWidth="344.0">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
@@ -269,7 +270,7 @@
                                     </HBox>
                                     <HBox prefHeight="68.0" prefWidth="870.0" spacing="24.0">
                                        <children>
-                                          <VBox prefHeight="66.0" prefWidth="344.0">
+                                          <VBox prefHeight="66.0" prefWidth="280.0">
                                              <children>
                                                 <Label prefHeight="17.0" prefWidth="121.0" text="Nome Comprador:" textFill="#4b4b4b">
                                                    <font>
@@ -283,7 +284,25 @@
                                                 </TextField>
                                              </children>
                                           </VBox>
-                                          <VBox prefHeight="66.0" prefWidth="344.0">
+                                          <VBox prefHeight="66.0" prefWidth="128.0">
+                                            <children>
+                                               <Label prefHeight="17.0" prefWidth="129.0" text="Forma de Pagamento:" textFill="#4b4b4b">
+                                                  <font>
+                                                     <Font name="System Bold" size="12.0" />
+                                                  </font>
+                                               </Label>
+                                               <ComboBox fx:id="cmbFormaPgto" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="348.0" style="-fx-border-color: #aeaeae; -fx-border-radius: 4; -fx-background-color: rgb(255,255,255);">
+                                                  <VBox.margin>
+                                                     <Insets top="8.0" />
+                                                  </VBox.margin>
+                                               </ComboBox>
+                                            </children>
+                                            <VBox.margin>
+                                               <Insets top="24.0" />
+                                            </VBox.margin>
+                                          </VBox>
+
+                                          <VBox prefHeight="66.0" prefWidth="128.0">
                                              <children>
                                                 <Label prefHeight="17.0" prefWidth="115.0" text="Desconto:" textFill="#4b4b4b">
                                                    <font>

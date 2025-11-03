@@ -8,16 +8,16 @@ public class ItemVendaModel {
     private int codItemVenda;
     private int codLivro;    
     private double valorVenda;       
-    private double desconto;       
+//    private double desconto;       
     private int qtde;
     
     //Construtor
-    public ItemVendaModel(int codLivro, int codVenda, double valorVenda, double desconto, int qtde) {
+    public ItemVendaModel(int codLivro, int codVenda, double valorVenda, int qtde) {
         this.codItemVenda = ++ultimoCodItemVenda;        
         this.codLivro = codLivro;        
         this.codVenda = codVenda;
         this.valorVenda = valorVenda;
-        this.desconto = desconto;
+  //      this.desconto = desconto;
         this.qtde = qtde;
     }
 
@@ -49,14 +49,6 @@ public class ItemVendaModel {
 
     public void setValorVenda(double valorVenda) {
         this.valorVenda = valorVenda;
-    }
-
-    public double getDesconto() {
-        return desconto;
-    }
-
-    public void setDesconto(double desconto) {
-        this.desconto = desconto;
     }
 
     public int getQtde() {

@@ -99,7 +99,22 @@ public class CadProdutoController implements Initializable {
     
     //funcao para carregar os dados do livro selecionado
     public void carregarLivro(LivroModel livro){
-        edtTitulo.setText(livro.getTitulo());                        
+        // Campos de Texto (TextField)
+        edtTitulo.setText(livro.getTitulo());
+        edtISBN.setText(String.valueOf(livro.getIsbn()));
+        edtAutor.setText(livro.getAutor());
+        edtQtdePag.setText(String.valueOf(livro.getQtdePag()));
+        edtValor.setText(String.valueOf(livro.getValor()));
+        edtQtdeEstoque.setText(String.valueOf(livro.getQtdeEstoque()));
+
+        // Campos de Seleção (ComboBox, DatePicker, CheckBox)
+        cmbGenero.setValue(livro.getGenero());
+        cmbIdioma.setValue(livro.getIdioma());
+        edtDtLancamento.setValue(livro.getDtLancamento());
+        chkDisponibilidade.setSelected(livro.getDisponibilidade());
+
+        // Labels (Text) que exibem dados
+        txtCodProduto.setText(String.valueOf(livro.getCodLivro()));                       
     }
         
     public void configurarTela(int TipoOperacao){

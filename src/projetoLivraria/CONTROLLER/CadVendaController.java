@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,11 +28,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import projetoLivraria.DAO.LivroDAO;
 import projetoLivraria.DAO.VendaDAO;
 import projetoLivraria.MODEL.ItemVendaModel;
 import projetoLivraria.MODEL.LivroModel;
 import projetoLivraria.MODEL.VendaModel;
+import projetoLivraria.CONTROLLER.ListasController;
 
 public class CadVendaController implements Initializable{
     
@@ -54,8 +59,8 @@ public class CadVendaController implements Initializable{
     private TextField edtSubtotal;
     @FXML
     private TextField edtTotal;
-//    @FXML
-//    private ComboBox cmbFormaPgto;
+    @FXML
+    private ComboBox cmbFormaPgto;
 
     //Campos item
     @FXML
@@ -74,6 +79,8 @@ public class CadVendaController implements Initializable{
     private TableView<ItemVendaModel> listaItemVenda;
     @FXML
     private TableColumn<ItemVendaModel, Integer> itemCodProduto;
+    @FXML
+    private TableColumn<ItemVendaModel, Integer> itemISBN;
     @FXML
     private TableColumn<ItemVendaModel, Double> valorUnitario;
     @FXML
@@ -134,6 +141,57 @@ public class CadVendaController implements Initializable{
             // deve ser atualizado se o item for nulo OU não-nulo.
             habilitarBotoesItem();
         });
+        
+        //lista de Itens;
+        listaItens = FXCollections.observableArrayList();;         
+
+        listaItemVenda.setItems(listaItens);
+        
+        
+        itemCodProduto.setCellValueFactory(new PropertyValueFactory<>("codLivro"));
+        itemQtde.setCellValueFactory(new PropertyValueFactory<>("qtde"));
+        itemValorUn.setCellValueFactory(new PropertyValueFactory<>("valorVenda"));        
+        itemSubtotal.setCellValueFactory(new PropertyValueFactory<>("valor"));        
+        
+        itemTitulo.setCellValueFactory(cellData -> {
+            // cellData.getValue() retorna o ItemVendaModel da linha específica
+            int codLivro = cellData.getValue().getCodLivro();
+            
+            // Usamos o DAO estático do ListasController para buscar o livro
+            LivroModel livro = ListasController.livroDAO.buscarPorCod(codLivro);
+            
+            if (livro != null) {
+                // Retorna a propriedade Título do Livro encontrado
+                return new SimpleStringProperty(livro.getTitulo());
+            } else {
+                return new SimpleStringProperty("Livro não encontrado");
+            }            
+        });
+
+        itemISBN.setCellValueFactory(cellData -> {
+            // cellData.getValue() retorna o ItemVendaModel da linha específica
+            int codLivro = cellData.getValue().getCodLivro();
+            
+            // Usamos o DAO estático do ListasController para buscar o livro
+            LivroModel livro = ListasController.livroDAO.buscarPorCod(codLivro);
+            
+            if (livro != null) {
+                // Retorna a propriedade Título do Livro encontrado
+                return new SimpleIntegerProperty(livro.getIsbn()).asObject();
+            } else {
+                return new SimpleIntegerProperty(0).asObject();
+            }            
+        });
+
+        itemSubtotal.setCellValueFactory(cellData -> {
+            // cellData.getValue() retorna o ItemVendaModel da linha específica
+            int qtde = cellData.getValue().getQtde();
+            double  valor = cellData.getValue().getValorVenda();
+            double total = qtde * valor;
+            
+            return new SimpleDoubleProperty(total).asObject();
+        });
+                
     }  
     
     private void limparCamposItem() {
@@ -182,14 +240,11 @@ public class CadVendaController implements Initializable{
     //preenche os dados padrões dos campos
     private void inicializarCampos(){
         //popula os campos combo Forma de Pagamento
-//        cmbFormaPgto.getItems().add("PIX");;
-//        cmbFormaPgto.getItems().add("Crédito");
-//        cmbFormaPgto.getItems().add("Débito");
-//        cmbFormaPgto.getItems().add("Dinheiro");
-//        cmbFormaPgto.getItems().add("Boleto");
-        
-        //lista de Itens;
-        listaItens = FXCollections.observableArrayList();; 
+        cmbFormaPgto.getItems().add("PIX");;;
+        cmbFormaPgto.getItems().add("Crédito");
+        cmbFormaPgto.getItems().add("Débito");
+        cmbFormaPgto.getItems().add("Dinheiro");
+        cmbFormaPgto.getItems().add("Boleto");
         
         return;
     }
@@ -199,7 +254,7 @@ public class CadVendaController implements Initializable{
         //A FAZER
         return true;
     }
-    
+        
     @FXML  
     //RENOMEAR PARA GRAVAR ITEM
     //FARA TANTO A ADIÇÃO, COMO ALTERAÇÃO
@@ -209,12 +264,34 @@ public class CadVendaController implements Initializable{
         }
 
         ItemVendaModel item;                   
-        int codLivro;
-        //codLivro = ListasController.livroDAO.buscarPorCod(codLivro);
-        //Double valor = (edtQtdeItem.getText() * edt)
-        //item = new ItemVendaModel(codlivro, codVenda, valor, 0, Double.valueOf((edtQtdeItem.getText()));
+        int codLivro = Integer.valueOf(edtCodigoItem.getText());
+                
+        Boolean itemExiste = false;
+        for(ItemVendaModel item1 : listaItens){
+            if(item1.getCodLivro() == codLivro){
+                itemExiste = true;                
+            }
+        }
+                        
+        if ((itemSelecionado == null)&&(!itemExiste)) { // Novo item
+            // Criar novo item
+            item = new ItemVendaModel(
+                    codLivro, codVenda, Double.valueOf(edtValorUnitario.getText()),
+                    Integer.valueOf(edtQtdeItem.getText()));            
+                                    
+            listaItens.add(item);
             
-        //limparCamposItem();
+        } else { // Edição de Item
+            item = itemSelecionado;
+            item.setCodVenda(codVenda);
+            item.setCodLivro(codLivro);
+            item.setValorVenda(Double.valueOf(edtValorUnitario.getText()));
+            item.setQtde(Integer.valueOf(edtQtdeItem.getText()));
+                        
+            listaItens.set(listaItens.indexOf(item), item);
+        }
+        
+        limparCamposItem();
     }    
     
     @FXML
@@ -249,16 +326,16 @@ public class CadVendaController implements Initializable{
         consultarItemProd();        
     }
     
-    @FXML
-    private void gravarVenda(ActionEvent event){
-        if (validarCamposItem()== false){
-            return;
-        }
-        VendaModel venda;
-        
-        //MANIPULAR ESTOQUE DO LIVRO, USANDO A LISTA DE ITENS EM MEMÓRIA                    
-        
-        
+//    @FXML
+//    private void gravarVenda(ActionEvent event){
+//        if (validarCamposItem()== false){
+//            return;
+//        }
+//        VendaModel venda;
+//        
+//        //MANIPULAR ESTOQUE DO LIVRO, USANDO A LISTA DE ITENS EM MEMÓRIA                    
+//        
+//        
 //        if(TIPO_OPERACAO == 1){                        
 //            venda = new VendaModel(edtTitulo.getText(), Integer.valueOf(edtCodigo.getText()), edtAutor.getText(),
 //                String.valueOf(cmbGenero.getValue()), edtDtLancamento.getValue(), String.valueOf(cmbIdioma.getValue()),
@@ -287,100 +364,105 @@ public class CadVendaController implements Initializable{
 //        
 ////        limparCampos();
 //        fecharJanela(event);
-
-    }
+//
+//    }
 
 
 //GEMINI SUGERIU PARA GRAVAÇÂO    
-//    @FXML
-//    private void gravarVenda(ActionEvent event){
-//        // 1. VERIFICAR SE A LISTA DE ITENS NÃO ESTÁ VAZIA
-//        if (listaItens.isEmpty()) {
-//            lblMensagemValidacao.setText("A venda deve conter ao menos um item.");
-//            lblMensagemValidacao.setVisible(true);
-//            return;
-//        }
-//        
-//        // 2. VALIDAÇÃO DE ESTOQUE
-//        // (Você precisa importar o LivroModel e o ListasController.livroDAO)
-//        for (ItemVendaModel item : listaItens) {
-//            // Busca o livro correspondente no DAO principal
-//            LivroModel livro = ListasController.livroDAO.buscarPorCod(item.getCodLivro());
-//            
-//            if (livro == null) {
-//                lblMensagemValidacao.setText("Erro: Produto " + item.getCodLivro() + " não encontrado.");
-//                lblMensagemValidacao.setVisible(true);
-//                return;
-//            }
-//            
-//            if (livro.getQtdeEstoque() < item.getQtde()) {
-//                // (Opcional: você pode buscar o título do livro para uma msg melhor)
-//                lblMensagemValidacao.setText("Estoque insuficiente para o item " + livro.getTitulo());
-//                lblMensagemValidacao.setVisible(true);
-//                return;
-//            }
-//        }
-//        
-//        // Se chegou aqui, o estoque está OK.
-//        
-//        // 3. DAR BAIXA NO ESTOQUE (PERCORRER A LISTA DE NOVO)
-//        for (ItemVendaModel item : listaItens) {
-//            LivroModel livro = ListasController.livroDAO.buscarPorCod(item.getCodLivro());
-//            
-//            // Calcula novo estoque
-//            int novoEstoque = livro.getQtdeEstoque() - item.getQtde();
-//            livro.setQtdeEstoque(novoEstoque);
-//            
-//            // Atualiza o livro no DAO
-//            ListasController.livroDAO.atualizar(livro);
-//        }
-//        
-//        // 4. CRIAR E SALVAR A VENDA
-//        // (Estou adaptando seu código de 'gravarProduto' do CadProdutoController
-//        // e 'VendaModel')
-//        
-//        if (validarCamposItem() == false){ // Você precisa implementar essa validação
-//             lblMensagemValidacao.setText("Preencha os campos obrigatórios da venda.");
-//             lblMensagemValidacao.setVisible(true);
-//             return;
-//        }
-//        
-//        //VendaModel venda; // já tem a variável 'venda' na classe
-//        
-//        if (TIPO_OPERACAO == 1) { // Nova Venda
-//            // Criar a nova venda
+    @FXML
+    private void gravarVenda(ActionEvent event){
+        // 1. VERIFICAR SE A LISTA DE ITENS NÃO ESTÁ VAZIA
+        if (listaItens.isEmpty()) {
+            lblMensagemValidacao.setText("A venda deve conter ao menos um item.");
+            lblMensagemValidacao.setVisible(true);
+            return;
+        }
+        
+        // 2. VALIDAÇÃO DE ESTOQUE
+        // (Você precisa importar o LivroModel e o ListasController.livroDAO)
+        for (ItemVendaModel item : listaItens) {
+            // Busca o livro correspondente no DAO principal
+            LivroModel livro = ListasController.livroDAO.buscarPorCod(item.getCodLivro());
+            
+            if (livro == null) {
+                lblMensagemValidacao.setText("Erro: Produto " + item.getCodLivro() + " não encontrado.");
+                lblMensagemValidacao.setVisible(true);
+                return;
+            }
+            
+            if (livro.getQtdeEstoque() < item.getQtde()) {
+                // (Opcional: você pode buscar o título do livro para uma msg melhor)
+                lblMensagemValidacao.setText("Estoque insuficiente para o item " + livro.getTitulo());
+                lblMensagemValidacao.setVisible(true);
+                return;
+            }
+        }
+        
+        // Se chegou aqui, o estoque está OK.
+        
+        // 3. DAR BAIXA NO ESTOQUE (PERCORRER A LISTA DE NOVO)
+        for (ItemVendaModel item : listaItens) {
+            LivroModel livro = ListasController.livroDAO.buscarPorCod(item.getCodLivro());
+            
+            // Calcula novo estoque
+            int novoEstoque = livro.getQtdeEstoque() - item.getQtde();
+            
+            if (novoEstoque == 0) {
+                livro.setDisponibilidade(false);
+            }
+            
+            livro.setQtdeEstoque(novoEstoque);
+            
+            // Atualiza o livro no DAO
+            ListasController.livroDAO.atualizar(livro);
+        }
+        
+        // 4. CRIAR E SALVAR A VENDA
+        // (Estou adaptando seu código de 'gravarProduto' do CadProdutoController
+        // e 'VendaModel')
+        
+        if (validarCamposItem() == false){ // Você precisa implementar essa validação
+             lblMensagemValidacao.setText("Preencha os campos obrigatórios da venda.");
+             lblMensagemValidacao.setVisible(true);
+             return;
+        }
+        
+        //VendaModel venda; // já tem a variável 'venda' na classe
+        
+        if (TIPO_OPERACAO == 1) { // Nova Venda
+            // Criar a nova venda
 //            venda = new VendaModel(
 //                edtNomeComprador.getText(),
 //                java.time.LocalDate.now(), // Pega a data atual
-//                (String) cmbFormaPgto.getValue(),
+//                //(String) cmbFormaPgto.getValue(),
 //                listaItens // Passa a lista de itens que já foi validada
 //            );
-//            
-//            // (precisa implementar os cálculos de subtotal e total na VendaModel
-//            // ou aqui antes de salvar)
-//            // venda.setValorTotal(Double.valueOf(edtTotal.getText()));
-//            // venda.setValorSubtotal(Double.valueOf(edtSubtotal.getText()));
-//            
-//            venda.setItens(listaItens); // Atribui a lista de itens ao modelo
-//            
-//            ListasController.vendaDAO.adicionar(venda);
-//            
-//        } else if (TIPO_OPERACAO == 2) { // Edição de Venda
-//            // (Atenção: A regra de edição de venda:
-//            // precisaria devolver o estoque dos itens antigos
-//            // e dar baixa dos novos)
-//            
-//            venda.setNomeComprador(edtNomeComprador.getText());
-//            venda.setMetodoPagamento((String) cmbFormaPgto.getValue());
-//            venda.setItens(listaItens);
-//            // ... (atualizar totais)
-//            
-//            ListasController.vendaDAO.atualizar(venda);
-//        }
-//
-//        // 5. FECHAR JANELA
-//        fecharJanela(event);
-//    }        
+            
+            // (precisa implementar os cálculos de subtotal e total na VendaModel
+            // ou aqui antes de salvar)
+            // venda.setValorTotal(Double.valueOf(edtTotal.getText()));
+            // venda.setValorSubtotal(Double.valueOf(edtSubtotal.getText()));
+            
+            venda.setItens(listaItens); // Atribui a lista de itens ao modelo
+            
+            ListasController.vendaDAO.adicionar(venda);
+            
+        } else if (TIPO_OPERACAO == 2) { // Edição de Venda
+            // (Atenção: A regra de edição de venda:
+            // precisaria devolver o estoque dos itens antigos
+            // e dar baixa dos novos)
+            
+            venda.setNomeComprador(edtNomeComprador.getText());
+            //venda.setMetodoPagamento((String) cmbFormaPgto.getValue());
+            venda.setItens(listaItens);
+            // ... (atualizar totais)
+            
+            ListasController.vendaDAO.atualizar(venda);
+        }
+
+        // 5. FECHAR JANELA
+        fecharJanela(event);
+    }        
         
     @FXML
     private void fecharJanela(ActionEvent event) {
@@ -432,14 +514,72 @@ public class CadVendaController implements Initializable{
         edtQtdeItem.setText(String.valueOf(item.getQtde()));
         //edtCodigo.setText(String.valueOf());        
         //A FAZER
-    }     
+    }
+    
+    //Carrega os dados padrões do livro nos campos do item
+    //Carrega os dados padrões do livro nos campos do item
+    @FXML
+    private void carregarDadosProduto(ActionEvent event){
+        try {
+            // 1. Limpa mensagens de erro anteriores (se houver)
+            // lblMensagemValidacao.setVisible(false);
+
+            // 2. Pega o código do livro digitado
+            int codProduto = Integer.valueOf(edtCodigoItem.getText());
+            
+            // 3. Busca o livro no DAO
+            LivroModel livro = ListasController.livroDAO.buscarPorCod(codProduto);
+            
+            // 4. Se o livro for encontrado, preenche os campos
+            if (livro != null){
+                edtQtdeItem.setText("1");
+                edtValorUnitario.setText(String.valueOf(livro.getValor()));
+                
+                double total = 1 * Double.parseDouble(edtValorUnitario.getText());
+                
+                edtValorTotalItens.setText(String.valueOf(total));
+
+                // Opcional: Mover o foco para o campo de quantidade
+                edtQtdeItem.requestFocus();
+
+            } else {
+                // 5. Se o livro não for encontrado, limpa os campos
+                edtQtdeItem.clear();
+                edtValorUnitario.clear();
+                edtValorTotalItens.clear();
+                // Opcional: Avisar o usuário
+                 lblMensagemValidacao.setText("Produto não encontrado.");
+                 lblMensagemValidacao.setVisible(true);
+            }
+
+        } catch (NumberFormatException e) {
+            // 6. Se o usuário digitar algo que não é um número
+            edtQtdeItem.clear();
+            edtValorUnitario.clear();
+            edtValorTotalItens.clear();
+            // Opcional: Avisar o usuário
+            // lblMensagemValidacao.setText("Código do produto inválido.");
+            // lblMensagemValidacao.setVisible(true);
+        }
+    }
+    
+    //Calcula o total do item
+    @FXML
+    private void calcularTotalItem(ActionEvent event){
+        try{
+            double total = Integer.valueOf(edtQtdeItem.getText()) * Double.parseDouble(edtValorUnitario.getText());
+            edtValorTotalItens.setText(String.valueOf(total));
+        } catch (NumberFormatException e){
+            
+        }
+    }
       
     //Habilita e desabilita os botões, conforme haja algum item selecionado
     public void habilitarBotoesItem(){
-        Boolean resultado = false;        
+        Boolean resultado = true;        
 
         if (itemSelecionado != null){
-            resultado = true;    
+            resultado = false;    
         }
 
         btnAdicionarProd.setDisable(resultado);              
