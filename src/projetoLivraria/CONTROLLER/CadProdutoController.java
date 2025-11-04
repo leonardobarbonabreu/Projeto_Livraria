@@ -1,9 +1,7 @@
 
 package projetoLivraria.CONTROLLER;
 
-import com.sun.org.apache.xerces.internal.impl.dv.xs.DecimalDV;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -168,13 +166,12 @@ public class CadProdutoController implements Initializable {
     //desabilita campos
     private void desabilitaCampos(){
         //desabilita campos
-        edtTitulo.setDisable(true);
-        edtAutor.setDisable(true);
-        edtDtLancamento.setDisable(true);
-        edtISBN.setDisable(true);
-        edtQtdePag.setDisable(true);
-        edtTitulo.setDisable(true);
-        edtValor.setDisable(true);
+        edtTitulo.setEditable(false);
+        edtAutor.setEditable(false);
+        edtDtLancamento.setEditable(false);
+        edtISBN.setEditable(false);
+        edtQtdePag.setEditable(false);        
+        edtValor.setEditable(false);
         edtQtdeEstoque.setDisable(true);
         cmbGenero.setDisable(true);
         cmbIdioma.setDisable(true);

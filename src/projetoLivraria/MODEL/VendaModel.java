@@ -11,20 +11,25 @@ public class VendaModel {
     private LocalDate emissao;
     private ObservableList<ItemVendaModel> itens;
     private double valorSubtotal;
+    private double valorDesconto;
     private double valorTotal;       
     private String metodoPagamento;
+    private boolean cancelado;
+    
     
     //Construtor
-    public VendaModel(String nomeComprador,LocalDate emissao,String metodoPagamento, ObservableList<ItemVendaModel> itens) {
+    public VendaModel(String nomeComprador,LocalDate emissao,String metodoPagamento, ObservableList<ItemVendaModel> itens, double valorSubtotal, double valorTotal, double valorDesconto) {
     //public VendaModel(String nomeComprador,LocalDate emissao,String metodoPagamento, ObservableList<ItemVendaModel> itens) {        
         this.codVenda = ++ultimoCodVenda;  //Incrementa o contador estático e depois atribui ao codVenda da instância
         this.nomeComprador = nomeComprador;
         this.emissao = emissao;
-        this.valorSubtotal = 0.0;
-        this.valorTotal = 0.0; 
         this.metodoPagamento = metodoPagamento;
-        
         this.itens = FXCollections.observableArrayList();     //Inicialização da lista de itens
+                
+        this.valorDesconto = valorDesconto;
+        this.valorSubtotal = valorSubtotal;
+        this.valorTotal = valorTotal;                        
+        this.cancelado = false;
     }
     
     public int getCodVenda() {
@@ -88,5 +93,22 @@ public class VendaModel {
     public ObservableList<ItemVendaModel> getItens() {
         return itens;
     }
+
+    //DESCONTO
+    public double getValorDesconto() {
+        return valorDesconto;
+    }
+
+    public void setValorDesconto(double valorDesconto) {
+        this.valorDesconto = valorDesconto;
+    }
     
+    //CANCELADO
+    public void setCancelado(boolean cancelado) {
+        this.cancelado = cancelado;
+    }   
+    
+    public boolean getCancelado(){
+        return cancelado;
+    }
 }

@@ -29,6 +29,7 @@ import projetoLivraria.DAO.LivroDAO;
 import projetoLivraria.DAO.LivroInterfaceDAO;
 import projetoLivraria.DAO.VendaDAO;
 import projetoLivraria.DAO.VendaInterfaceDAO;
+import projetoLivraria.MODEL.ItemVendaModel;
 import projetoLivraria.MODEL.LivroModel;
 import projetoLivraria.MODEL.VendaModel;
 
@@ -92,7 +93,7 @@ public class ListasController implements Initializable {
     @FXML
     private TableColumn<LivroModel, Double> prodValor;
     @FXML
-    private TableColumn<LivroModel, Integer> prodQtdePag;
+    private TableColumn<LivroModel, Integer> prodQtdeEstoque;
     @FXML
     private TableColumn<LivroModel, String> prodIdioma;
     @FXML
@@ -117,6 +118,8 @@ public class ListasController implements Initializable {
     //Colunas da Lista de vendas
     @FXML
     private TableColumn<VendaModel, Integer> vendaCodigo;
+    @FXML
+    private TableColumn<VendaModel, String> vendaNomeComprador;
     @FXML
     private TableColumn<VendaModel, Double> vendaTotal;
     @FXML
@@ -165,7 +168,7 @@ public class ListasController implements Initializable {
         prodAutor.setCellValueFactory(new PropertyValueFactory<>("autor"));
         prodValor.setCellValueFactory(new PropertyValueFactory<>("valor"));               
         prodDtLancamento.setCellValueFactory(new PropertyValueFactory<>("dtLancamento")); 
-        prodQtdePag.setCellValueFactory(new PropertyValueFactory<>("qtdePag"));   
+        prodQtdeEstoque.setCellValueFactory(new PropertyValueFactory<>("qtdeEstoque"));   
         prodIdioma.setCellValueFactory(new PropertyValueFactory<>("idioma"));     
         prodDisponibilidade.setCellValueFactory(new PropertyValueFactory<>("disponibilidade")); 
         //
@@ -173,13 +176,18 @@ public class ListasController implements Initializable {
         //inicializando campos da lista de Vendas
         listaVenda.setItems(vendaDAO.listarTodos());
         //VINCULAR AS COLUNAS DA LISTAVENDA COM OS ATRIBUTOS DO VendaDAO
-        
+        vendaCodigo.setCellValueFactory(new PropertyValueFactory<>("codVenda"));
+        vendaNomeComprador.setCellValueFactory(new PropertyValueFactory<>("nomeComprador"));
+        vendaEmissao.setCellValueFactory(new PropertyValueFactory<>("emissao"));        
+        vendaTotal.setCellValueFactory(new PropertyValueFactory<>("valorTotal"));        
+        vendaStatus.setCellValueFactory(new PropertyValueFactory<>("cancelado"));                
     }
 
     private void atualizarEstadoAba(int aba) {
         //Caso não tenha nenhum item selecionado, permita somenta a adição de um registro
         switch (aba) {
             case 1: //Aba de Produtos
+                LivroModel livro = listaProduto.getSelectionModel().getSelectedItem();
                 if (estadoAtual == EstadoLista.NAVEGANDO) {
                     //Habilita somente o botão de adicionar
                     btnAdicionarProd.setDisable(false);
@@ -192,29 +200,26 @@ public class ListasController implements Initializable {
                     if(listaProduto.getItems().isEmpty()){
 //                        edtPesquisaProduto.setDisable(true);
 //                        produtoSelecionadoArea.setVisible(true);
-                    };
+                    }
                 } else { // ITEM_SELECIONADO;
                     //Caso haja um item selecionado, habilita todas as funções
                     btnAdicionarProd.setDisable(false);
                     btnVisualizarProd.setDisable(false);
                     btnEditarProd.setDisable(false);
                     btnExcluirProd.setDisable(false);
-
+                    
+                    if (livro.getDisponibilidade() == false){
+                        btnExcluirProd.setDisable(true);
+                    }
                     //edtPesquisaProduto.setDisable(false);
                     //lblProdutoSelecionado.setDisable(false);
                 }                            
             break;
             case 2: //Aba de Vendas
+                VendaModel venda = listaVenda.getSelectionModel().getSelectedItem();
                 //Desabilita funções, caso estiver no modo navegação ou se a uma das duas listas estiver vazia
                 if (estadoAtual == EstadoLista.NAVEGANDO || (listaVenda.getItems().isEmpty()|| listaProduto.getItems().isEmpty())) {
-                                        
-                    //Se não existir a lista de produto, desabilitar botão de adicionar
-//                    if (listaProduto.getItems().isEmpty()){
-//                        btnAdicionarVenda.setDisable(true);                                
-//                    } else {
-//                        btnAdicionarVenda.setDisable(false);                                
-//                    }
-                    ;
+                                                            
                     btnVisualizarVenda.setDisable(true);                                                    
                     btnEditarVenda.setDisable(true);
                     btnCancelarVenda.setDisable(true);
@@ -234,6 +239,11 @@ public class ListasController implements Initializable {
         
                     edtPesquisaVenda.setDisable(false);
                     lblVendaSelecionada.setDisable(false);
+                    
+                    if (venda.getCancelado() == true){
+                        btnCancelarVenda.setDisable(true);
+                    }
+                    
                 };
                 
             break;
@@ -312,14 +322,41 @@ public class ListasController implements Initializable {
     //Mantido vazio, pois a exclusão não faz parte da tarefa
     @FXML
     private void excluirProd(ActionEvent event){
+        boolean produtoItem = false;
+        LivroModel livro = listaProduto.getSelectionModel().getSelectedItem();        
+        
+        //Valida se o produto existe em alguma venda
+        //caso existir, não permitir a exclusão, mas sim a alteração do seu status de disponibilidade para false ("Indisponível")
+        for (VendaModel venda : vendaDAO.listarTodos()){
+            for(ItemVendaModel item : venda.getItens()){
+                if (livro.getCodLivro() == item.getCodLivro()){
+                    produtoItem = true;
+                    break;
+                }
+            }            
+        }                
+        
         Alert alertaExclusao = new Alert(Alert.AlertType.CONFIRMATION);        
         alertaExclusao.setTitle("Confirmação de exclusão");
-        alertaExclusao.setHeaderText("Deseja realizar a exclusão do produto "+""+"?");
-        //alertaExclusao.setContentText("");
+        
+        if (!produtoItem) {
+            alertaExclusao.setHeaderText("Deseja realizar a exclusão do produto abaixo: ?");            
+        } else {
+            alertaExclusao.setHeaderText("O produto abaixo não pode ser exclído, pois está associado a um item de uma venda. Deseja torná-lo indisponível?");            
+        }
+        
+        alertaExclusao.setContentText(livro.getTitulo());            
         
         Optional<ButtonType> botaoClicado = alertaExclusao.showAndWait();
-        if (botaoClicado.get() == ButtonType.OK) {
-                    
+        
+        //EXCLUSÃO
+        if (!produtoItem && (botaoClicado.get() == ButtonType.OK)) {
+            livroDAO.deletar(livro.getCodLivro());
+        } 
+        //ALTERAÇÃO
+        else if (produtoItem && (botaoClicado.get() == ButtonType.OK)) {
+            livro.setDisponibilidade(false);
+            livroDAO.atualizar(livro);
         }
         
         return;
@@ -394,14 +431,16 @@ public class ListasController implements Initializable {
     //Cancela a venda, deixando-a com status de cancelada
     @FXML
     private void cancelarVenda(ActionEvent event){
+        VendaModel venda = listaVenda.getSelectionModel().getSelectedItem();        
+                
         Alert alertaExclusao = new Alert(Alert.AlertType.CONFIRMATION);        
         alertaExclusao.setTitle("Confirmação de cancelamento");
-        alertaExclusao.setHeaderText("Deseja realizar o cancelamento da venda "+""+"?");
-        //alertaExclusao.setContentText("");
+        alertaExclusao.setHeaderText("Deseja realizar o cancelamento da venda do cliente abaixo?");
+        alertaExclusao.setContentText(venda.getNomeComprador());
         
         Optional<ButtonType> botaoClicado = alertaExclusao.showAndWait();
         if (botaoClicado.get() == ButtonType.OK) {
-                    
+            vendaDAO.cancelar(venda.getCodVenda());
         }
         
         return;

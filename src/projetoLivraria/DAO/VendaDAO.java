@@ -41,13 +41,13 @@ public class VendaDAO implements VendaInterfaceDAO{
     };
     
     @Override
-    public void deletar(int codVenda){
-        VendaModel vendaExcluida;
+    public void cancelar(int codVenda){
+        VendaModel vendaCancelada;
         //localze o item a ser exluido pelo codlivro
-        vendaExcluida = buscarPorCod(codVenda);
+        vendaCancelada = buscarPorCod(codVenda);
         
-        if (vendaExcluida != null){
-            listaVenda.remove(vendaExcluida);        
+        if (vendaCancelada != null){
+            vendaCancelada.setCancelado(true);
         }
     };
     
