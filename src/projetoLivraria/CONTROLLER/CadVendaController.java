@@ -74,6 +74,12 @@ public class CadVendaController implements Initializable{
     @FXML
     private TextField edtPesquisaItem;            
     
+    //Campos de visualização do item
+    @FXML
+    private TextField edtVisuISBN;
+    @FXML
+    private TextField edtVisuTitulo;
+    
     //Colunas das tabelas
     @FXML
     private TableView<ItemVendaModel> listaItemVenda;
@@ -131,8 +137,7 @@ public class CadVendaController implements Initializable{
         // Listener para seleção de item na tabela
         listaItemVenda.getSelectionModel().selectedItemProperty().addListener((obs, oldItem, newItem) -> {
             if (newItem != null) {                
-                itemSelecionado = newItem;
-                habilitarBotoesItem();
+                itemSelecionado = newItem;                
             }
             else {
                 itemSelecionado = null; // Limpa a variável
@@ -194,17 +199,21 @@ public class CadVendaController implements Initializable{
                 
     }  
     
+    //limpa os campos do item
     private void limparCamposItem() {
-        edtCodigoItem.clear(); // (Baseado no seu FXML)
+        edtCodigoItem.clear(); 
         edtQtdeItem.clear();
-        edtValorUnitario.clear(); // (Baseado no seu FXML)
-        edtValorTotalItens.clear(); // (Baseado no seu FXML)        
+        edtValorUnitario.clear(); 
+        edtValorTotalItens.clear();
+        edtVisuISBN.clear();
+        edtVisuTitulo.clear();
     }
     
+    //Configura a tela, de acordo com o tipo de operação
     public void configurarTela(int TipoOperacao){
         //Grava para que possamos utilizar ela em outros trechos
         TIPO_OPERACAO = TipoOperacao;        
-        
+        habilitarBotoesItem();
         //Define valores para os campos e inicializa a lista de itens da venda
         inicializarCampos();
         
@@ -248,7 +257,7 @@ public class CadVendaController implements Initializable{
         
         return;
     }
-    
+    //Valida os campos do item, antes de inserí-lo a lista
     private boolean validarCamposItem(){
         //Validações dos campos p/ adição do item
         //A FAZER
@@ -295,6 +304,7 @@ public class CadVendaController implements Initializable{
     }    
     
     @FXML
+    //Exclui o item da lista
     private void excluirItem(ActionEvent event){
         //Caso o item não esteja selecionado, por segurança, retornar
         if (itemSelecionado == null) {
@@ -303,7 +313,7 @@ public class CadVendaController implements Initializable{
                 
         Alert alertaExclusao = new Alert(Alert.AlertType.CONFIRMATION);        
         alertaExclusao.setTitle("Confirmação de exclusão");
-        alertaExclusao.setHeaderText("Deseja realizar a exclusão do item "+""+"?");
+        alertaExclusao.setHeaderText("Deseja realizar a exclusão do item "+itemSelecionado.getCodLivro()+"?");
         //alertaExclusao.setContentText("");
         
         Optional<ButtonType> botaoClicado = alertaExclusao.showAndWait();
@@ -507,18 +517,9 @@ public class CadVendaController implements Initializable{
         //O conteúdo instanciado da lista Itens 
         listaItens = venda.getItens();               
     }    
-    
-    //Carrega os dados nos campos do item
-    //Serve para trazer os dados quando o usuário clicar em um item da lista
-    public void carregarCampoItemVenda(ItemVendaModel item){
-        edtQtdeItem.setText(String.valueOf(item.getQtde()));
-        //edtCodigo.setText(String.valueOf());        
-        //A FAZER
-    }
-    
-    //Carrega os dados padrões do livro nos campos do item
-    //Carrega os dados padrões do livro nos campos do item
+                
     @FXML
+    //Carrega os dados padrões do livro nos campos do item
     private void carregarDadosProduto(ActionEvent event){
         try {
             // 1. Limpa mensagens de erro anteriores (se houver)
@@ -532,6 +533,8 @@ public class CadVendaController implements Initializable{
             
             // 4. Se o livro for encontrado, preenche os campos
             if (livro != null){
+                edtVisuTitulo.setText(livro.getTitulo());
+                edtVisuISBN.setText(String.valueOf(livro.getIsbn()));
                 edtQtdeItem.setText("1");
                 edtValorUnitario.setText(String.valueOf(livro.getValor()));
                 
@@ -541,7 +544,7 @@ public class CadVendaController implements Initializable{
 
                 // Opcional: Mover o foco para o campo de quantidade
                 edtQtdeItem.requestFocus();
-
+                
             } else {
                 // 5. Se o livro não for encontrado, limpa os campos
                 edtQtdeItem.clear();
@@ -553,13 +556,11 @@ public class CadVendaController implements Initializable{
             }
 
         } catch (NumberFormatException e) {
-            // 6. Se o usuário digitar algo que não é um número
-            edtQtdeItem.clear();
-            edtValorUnitario.clear();
-            edtValorTotalItens.clear();
-            // Opcional: Avisar o usuário
-            // lblMensagemValidacao.setText("Código do produto inválido.");
-            // lblMensagemValidacao.setVisible(true);
+            //Se o usuário digitar algo que não é um número
+            limparCamposItem();
+            //Avisar o usuário
+            lblMensagemValidacao.setText("Código do produto inválido.");
+            lblMensagemValidacao.setVisible(true);
         }
     }
     
