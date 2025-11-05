@@ -16,6 +16,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import projetoLivraria.MODEL.LivroModel;
 import projetoLivraria.CONTROLLER.ListasController;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
+import java.util.Optional;
+
 /**
  * FXML Controller class
  *
@@ -141,6 +146,17 @@ public class CadProdutoController implements Initializable {
         }
     }
     
+    //funcao para exibir uma mensagem de erro caso os campos nao forem preenchidos corretamente*/
+    private void exibirAlertaErro(String titulo, String cabecalho){
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Erro de validação.");
+        alert.setHeaderText(titulo);
+        alert.setContentText(cabecalho);
+        alert.showAndWait();
+    }
+    /*valida se o conteudo dos campos segue a regra de formatacao correta
+    retorna true se todos os campos forem validos e false caso nao for. */
+    
     private void limparCampos(){
         //limpa os campos da tela de cadastro
         edtTitulo.clear();
@@ -162,7 +178,7 @@ public class CadProdutoController implements Initializable {
         edtDtLancamento.setValue(null);
                
     }
-
+    
     //desabilita campos
     private void desabilitaCampos(){
         //desabilita campos
