@@ -36,7 +36,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="btnRetornar" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#fecharJanela" prefHeight="40.0" prefWidth="96.0" style="-fx-background-radius: 4;" text="Retornar">
+            <Button fx:id="btnRetornar" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#fecharJanela" prefHeight="40.0" prefWidth="98.0" style="-fx-background-radius: 4;" text="Retornar">
                <graphic>
                   <ImageView fitHeight="31.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -50,6 +50,11 @@
             </Button>
             <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="120.0" GridPane.columnIndex="1">
                <children>
+                  <Text fx:id="lblMensagemValidacao" strokeType="OUTSIDE" strokeWidth="0.0" text="Mensagem de erro" wrappingWidth="313.283203125">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Text>
                   <Button fx:id="btnGravarVenda" alignment="CENTER" contentDisplay="CENTER" maxWidth="-Infinity" mnemonicParsing="false" onAction="#gravarVenda" prefHeight="40.0" prefWidth="265.0" style="-fx-background-radius: 4; -fx-background-color: #000000;" text="Gravar Venda" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
@@ -68,7 +73,7 @@
             </HBox>
          </children>
          <BorderPane.margin>
-            <Insets left="36.0" right="36.0" />
+            <Insets left="16.0" right="16.0" />
          </BorderPane.margin>
       </GridPane>
    </bottom>
@@ -102,7 +107,7 @@
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
          </columnConstraints>
          <padding>
-            <Insets left="24.0" right="36.0" />
+            <Insets left="16.0" right="16.0" />
          </padding>
          <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -112,7 +117,7 @@
          </BorderPane.margin>
       </GridPane>
    </top>
-   <center>
+   <right>
       <GridPane BorderPane.alignment="CENTER">
          <children>
             <GridPane alignment="CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" GridPane.rowIndex="1">
@@ -144,41 +149,10 @@
                         </TableView>
                         <HBox prefHeight="165.0" prefWidth="614.0" GridPane.rowIndex="1">
                            <children>
-                              <VBox alignment="CENTER" prefWidth="870.0" spacing="12.0" HBox.hgrow="ALWAYS">
+                              <VBox alignment="CENTER" prefWidth="870.0" spacing="24.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <HBox alignment="BOTTOM_LEFT" prefHeight="17.0" prefWidth="870.0">
+                                    <HBox prefHeight="70.0" prefWidth="870.0" spacing="24.0">
                                        <children>
-                                          <Text fx:id="txtTipoOperacao1" fill="#000000c0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dados do item">
-                                             <font>
-                                                <Font name="System Bold" size="14.0" />
-                                             </font>
-                                          </Text>
-                                          <Text fx:id="lblMensagemValidacaoItem" fill="#c66161" stroke="#9a6565" strokeType="OUTSIDE" strokeWidth="0.0" text="Mensagem de erro" underline="true" wrappingWidth="581.283203125">
-                                             <HBox.margin>
-                                                <Insets left="12.0" />
-                                             </HBox.margin>
-                                          </Text>
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="66.0" prefWidth="870.0" spacing="24.0">
-                                       <children>
-                                          <VBox alignment="BOTTOM_LEFT" prefHeight="121.0" prefWidth="120.0">
-                                             <children>
-                                                <Label prefHeight="17.0" prefWidth="121.0" text="Código do Produto:" textFill="#4b4b4b">
-                                                   <font>
-                                                      <Font name="System Bold" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <TextField fx:id="edtCodigoItem" editable="false" prefHeight="40.0" prefWidth="344.0">
-                                                   <VBox.margin>
-                                                      <Insets top="8.0" />
-                                                   </VBox.margin>
-                                                </TextField>
-                                             </children>
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                          </VBox>
                                           <VBox alignment="BOTTOM_LEFT" prefHeight="70.0" prefWidth="227.0">
                                              <children>
                                                 <Label prefHeight="17.0" prefWidth="121.0" text="Titulo:" textFill="#4b4b4b">
@@ -186,7 +160,7 @@
                                                       <Font name="System Bold" size="12.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField fx:id="edtVisuTitulo" editable="false" prefHeight="40.0" prefWidth="344.0">
+                                                <TextField fx:id="edtVisuTitulo" editable="false" prefHeight="40.0" prefWidth="344.0" promptText="Para visualizar, Informe o código interno ">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
@@ -207,6 +181,27 @@
                                                 </TextField>
                                              </children>
                                           </VBox>
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="camposItemArea" prefHeight="70.0" prefWidth="614.0" spacing="24.0">
+                                       <children>
+                                          <VBox alignment="BOTTOM_LEFT" prefHeight="121.0" prefWidth="120.0">
+                                             <children>
+                                                <Label prefHeight="17.0" prefWidth="121.0" text="Código do Produto:" textFill="#4b4b4b">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="edtCodigoItem" onAction="#carregarDadosProduto" prefHeight="40.0" prefWidth="344.0" promptText="Obrigatório">
+                                                   <VBox.margin>
+                                                      <Insets top="8.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </VBox>
                                           <VBox alignment="BOTTOM_LEFT" prefHeight="67.0" prefWidth="90.0">
                                              <children>
                                                 <Label prefHeight="17.0" prefWidth="126.0" text="Quantidade:" textFill="#4b4b4b">
@@ -214,7 +209,7 @@
                                                       <Font name="System Bold" size="12.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField fx:id="edtQtdeItem" onAction="#calcularTotalItem" prefHeight="40.0" prefWidth="104.0">
+                                                <TextField fx:id="edtQtdeItem" onAction="#calcularTotalItem" prefHeight="40.0" prefWidth="104.0" promptText="Obrigatório">
                                                    <VBox.margin>
                                                       <Insets top="8.0" />
                                                    </VBox.margin>
@@ -255,45 +250,23 @@
                                                 </TextField>
                                              </children>
                                           </VBox>
-                                       </children>
-                                    </HBox>
-                                    <HBox fx:id="camposItemArea" prefHeight="40.0" prefWidth="870.0" spacing="24.0">
-                                       <children>
-                                          <VBox alignment="BOTTOM_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="51.0" prefWidth="870.0" HBox.hgrow="ALWAYS">
+                                          <VBox alignment="BOTTOM_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="79.0" prefWidth="137.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <HBox prefHeight="45.0" prefWidth="870.0" spacing="24.0">
+                                                <HBox>
                                                    <HBox.margin>
                                                       <Insets right="12.0" top="12.0" />
                                                    </HBox.margin>
                                                    <children>
-                                                      <Button fx:id="btnSelecionarProd" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#selecionarProduto" prefHeight="37.0" prefWidth="137.0" style="-fx-background-radius: 4; -fx-background-color: #000000;" text="Selecionar item" textFill="WHITE">
+                                                      <Button fx:id="btnGravarItem" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#gravarItem" prefHeight="40.0" prefWidth="140.0" style="-fx-background-radius: 4;" text="Gravar item">
                                                          <graphic>
                                                             <ImageView fitHeight="31.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
-                                                                  <Image url="@../../Imagens/Icones/add_branco.png" />
+                                                                  <Image url="@../../Imagens/Icones/add.png" />
                                                                </image>
                                                             </ImageView>
                                                          </graphic>
-                                                         <HBox.margin>
-                                                            <Insets />
-                                                         </HBox.margin>
-                                                         <font>
-                                                            <Font name="System Bold" size="12.0" />
-                                                         </font>
                                                       </Button>
-                                                      <Button fx:id="btnGravarItem" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#gravarItem" prefHeight="37.0" prefWidth="120.0" style="-fx-background-radius: 4;" text="Gravar item">
-                                                         <graphic>
-                                                            <ImageView fitHeight="31.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
-                                                               <image>
-                                                                  <Image url="@../../Imagens/Icones/check.png" />
-                                                               </image>
-                                                            </ImageView>
-                                                         </graphic>
-                                                         <HBox.margin>
-                                                            <Insets />
-                                                         </HBox.margin>
-                                                      </Button>
-                                                      <Button fx:id="btnVisualizarItem" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#visualizarItem" prefHeight="40.0" prefWidth="108.0" style="-fx-background-radius: 4;" text="Consultar">
+                                                      <Button fx:id="btnVisualizarItem" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#visualizarItem" prefHeight="40.0" prefWidth="125.0" style="-fx-background-radius: 4;" text="Consultar">
                                                          <graphic>
                                                             <ImageView fitHeight="31.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
@@ -302,10 +275,10 @@
                                                             </ImageView>
                                                          </graphic>
                                                          <HBox.margin>
-                                                            <Insets />
+                                                            <Insets left="12.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <Button fx:id="btnExcluirItem" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#excluirItem" prefHeight="37.0" prefWidth="114.0" style="-fx-background-radius: 4; -fx-background-color: red;" text="Excluir item" textFill="WHITE">
+                                                      <Button fx:id="btnExcluirItem" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#excluirItem" prefHeight="40.0" prefWidth="121.0" style="-fx-background-radius: 4; -fx-background-color: red;" text="Excluir" textFill="WHITE">
                                                          <font>
                                                             <Font name="System Bold" size="12.0" />
                                                          </font>
@@ -317,13 +290,10 @@
                                                             </ImageView>
                                                          </graphic>
                                                          <HBox.margin>
-                                                            <Insets />
+                                                            <Insets left="12.0" />
                                                          </HBox.margin>
                                                       </Button>
                                                    </children>
-                                                   <VBox.margin>
-                                                      <Insets top="12.0" />
-                                                   </VBox.margin>
                                                 </HBox>
                                              </children>
                                              <HBox.margin>
@@ -335,26 +305,9 @@
                                           </VBox>
                                        </children>
                                     </HBox>
-                                    <HBox prefHeight="17.0" prefWidth="870.0">
-                                       <children>
-                                          <Text fx:id="txtTipoOperacao11" fill="#000000c0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dados da Venda">
-                                             <font>
-                                                <Font name="System Bold" size="14.0" />
-                                             </font>
-                                          </Text>
-                                          <Text fx:id="lblMensagemValidacaoVenda" fill="#c66161" stroke="#9a6565" strokeType="OUTSIDE" strokeWidth="0.0" text="Mensagem de erro" underline="true" wrappingWidth="554.283203125">
-                                             <HBox.margin>
-                                                <Insets left="12.0" />
-                                             </HBox.margin>
-                                          </Text>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets top="12.0" />
-                                       </VBox.margin>
-                                    </HBox>
                                     <HBox prefHeight="70.0" prefWidth="870.0" spacing="24.0">
                                        <children>
-                                          <VBox prefHeight="70.0" prefWidth="276.0">
+                                          <VBox prefHeight="68.0" prefWidth="230.0">
                                              <children>
                                                 <Label prefHeight="17.0" prefWidth="121.0" text="Nome Comprador:" textFill="#4b4b4b">
                                                    <font>
@@ -467,7 +420,7 @@
                         </HBox>
                      </children>
                      <GridPane.margin>
-                        <Insets left="16.0" />
+                        <Insets left="12.0" />
                      </GridPane.margin>
                   </VBox>
                   <HBox alignment="BOTTOM_RIGHT" maxHeight="-Infinity" prefHeight="50.0" prefWidth="1280.0" GridPane.columnIndex="1">
@@ -490,6 +443,7 @@
                         </HBox>
                         <StackPane prefHeight="50.0" prefWidth="228.0">
                            <children>
+                              <TextField fx:id="edtPesquisaItem" prefHeight="40.0" prefWidth="200.0" promptText="Pesquisar produto" />
                               <ImageView fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_RIGHT">
                                  <image>
                                     <Image url="@../../Imagens/Icones/search.png" />
@@ -498,12 +452,11 @@
                                     <Insets right="8.0" />
                                  </StackPane.margin>
                               </ImageView>
-                              <TextField fx:id="edtPesquisaItem" prefHeight="40.0" prefWidth="200.0" promptText="Pesquisar produto" />
                            </children>
                         </StackPane>
                      </children>
                      <GridPane.margin>
-                        <Insets right="16.0" />
+                        <Insets right="24.0" />
                      </GridPane.margin>
                   </HBox>
                </children>
@@ -527,5 +480,5 @@
             <RowConstraints maxHeight="565.6666641235352" minHeight="10.0" prefHeight="547.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
-   </center>
+   </right>
 </BorderPane>

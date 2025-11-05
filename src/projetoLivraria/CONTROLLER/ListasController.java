@@ -101,7 +101,7 @@ public class ListasController implements Initializable {
     @FXML
     private TableColumn<LivroModel, String> prodDisponibilidade;    
     
-    //Botões do CRUD Produto
+    //Botões do CRUD Venda
     @FXML
     private Button btnAdicionarVenda;
     @FXML

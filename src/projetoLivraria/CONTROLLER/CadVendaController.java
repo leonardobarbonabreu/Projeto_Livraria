@@ -30,7 +30,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import projetoLivraria.MODEL.ItemVendaModel;
 import projetoLivraria.MODEL.LivroModel;
 import projetoLivraria.MODEL.VendaModel;
-import projetoLivraria.CONTROLLER.ListasController;
 
 public class CadVendaController implements Initializable{
     
@@ -45,6 +44,8 @@ public class CadVendaController implements Initializable{
     private Button btnRetornar;
     @FXML
     private Button btnVisualizarItem;
+    @FXML
+    private Button btnSelecionarProd;
 
     //Campos Venda
     @FXML
@@ -112,8 +113,10 @@ public class CadVendaController implements Initializable{
     private Text lblItemSelecionado;
 
     @FXML
-    private Text lblMensagemValidacao;
-
+    private Text lblMensagemValidacaoItem;
+    @FXML
+    private Text lblMensagemValidacaoVenda;
+    
     @FXML
     private Text txtCodVenda;
 
@@ -128,14 +131,18 @@ public class CadVendaController implements Initializable{
     private int codVenda;    
     public VendaModel venda; //variavel local de venda usada para receber venda p/ alteração/consulta
     public ObservableList<ItemVendaModel> listaItens; // Lista de itens para venda     
+    //Variável utilizada para manipular o item selecionado na tabela
     public ItemVendaModel itemSelecionado;
+    //Livro selecionado no formulário de seleção
+    public LivroModel produtoSelecionado;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {        
         // Listener para seleção de item na tabela
         listaItemVenda.getSelectionModel().selectedItemProperty().addListener((obs, oldItem, newItem) -> {
             if (newItem != null) {                
-                itemSelecionado = newItem;                
+                itemSelecionado = newItem; 
+                carregarDadosProduto();
             }
             else {
                 itemSelecionado = null; // Limpa a variável
@@ -143,7 +150,7 @@ public class CadVendaController implements Initializable{
             }            
             // deve ser atualizado se o item for nulo OU não-nulo.
             habilitarBotoesItem();
-        });
+        });                
         
         //lista de Itens;
         listaItens = FXCollections.observableArrayList();         
@@ -259,8 +266,8 @@ public class CadVendaController implements Initializable{
     private boolean validarCamposVenda(){
         //CASO A LISTA ESTEJA VAZIA
         if (listaItens.isEmpty()) {
-            lblMensagemValidacao.setText("A venda deve conter ao menos um item.");
-            lblMensagemValidacao.setVisible(true);
+            lblMensagemValidacaoVenda.setText("A venda deve conter ao menos um item.");
+            lblMensagemValidacaoVenda.setVisible(true);
             return false;
         }
         
@@ -270,16 +277,16 @@ public class CadVendaController implements Initializable{
             LivroModel livro = ListasController.livroDAO.buscarPorCod(item.getCodLivro());
             //CASO O ITEM NÃO EXISTA
             if (livro == null) {
-                lblMensagemValidacao.setText("Erro: Produto " + item.getCodLivro() + " não encontrado.");
-                lblMensagemValidacao.setVisible(true);
+                lblMensagemValidacaoItem.setText("Erro: Produto " + item.getCodLivro() + " não encontrado.");
+                lblMensagemValidacaoItem.setVisible(true);
                 return false;
             }
             
             //CASO A QTDE DE COMPRA FOR MENOR QUE A DE ESTOQUE
             if (livro.getQtdeEstoque() < item.getQtde()) {
                 // (Opcional: você pode buscar o título do livro para uma msg melhor)
-                lblMensagemValidacao.setText("Estoque insuficiente para o item " + livro.getTitulo());
-                lblMensagemValidacao.setVisible(true);
+                lblMensagemValidacaoItem.setText("Estoque insuficiente para o item " + livro.getTitulo());
+                lblMensagemValidacaoItem.setVisible(true);
                 return false;
             }
         }    
@@ -303,9 +310,14 @@ public class CadVendaController implements Initializable{
         if (validarCamposItem() == false){
             return;
         }
-
+        
+        if (produtoSelecionado == null){
+            lblMensagemValidacaoItem.setText("Erro: Conteúdo não encontrado. tente selecioná-lo novamente.");
+            return;
+        }
+        
         ItemVendaModel item;                   
-        int codLivro = Integer.valueOf(edtCodigoItem.getText());
+        int codLivro = Integer.parseInt(edtCodigoItem.getText());
                 
         Boolean itemExiste = false;
         for(ItemVendaModel item1 : listaItens){
@@ -317,8 +329,8 @@ public class CadVendaController implements Initializable{
         if ((itemSelecionado == null)&&(!itemExiste)) { // Novo item
             // Criar novo item
             item = new ItemVendaModel(
-                    codLivro, codVenda, Double.valueOf(edtValorUnitario.getText()),
-                    Integer.valueOf(edtQtdeItem.getText()));            
+                    codLivro, codVenda, Double.parseDouble(edtValorUnitario.getText()),
+                    Integer.parseInt(edtQtdeItem.getText()));            
                                     
             listaItens.add(item);
             
@@ -326,11 +338,14 @@ public class CadVendaController implements Initializable{
             item = itemSelecionado;
             item.setCodVenda(codVenda);
             item.setCodLivro(codLivro);
-            item.setValorVenda(Double.valueOf(edtValorUnitario.getText()));
-            item.setQtde(Integer.valueOf(edtQtdeItem.getText()));
+            item.setValorVenda(Double.parseDouble(edtValorUnitario.getText()));
+            item.setQtde(Integer.parseInt(edtQtdeItem.getText()));
                         
             listaItens.set(listaItens.indexOf(item), item);
         }
+        //Limpa o produto selecionado
+        produtoSelecionado = null;
+        
         atualizaValoresTotais();
         limparCamposItem();
     }    
@@ -415,10 +430,8 @@ public class CadVendaController implements Initializable{
             ListasController.vendaDAO.adicionar(venda);
             
         } else if (TIPO_OPERACAO == 2) { // Edição de Venda
-            //NÃO É PRECISO CRIAR VENDA, POIS FOI PASSADA COMO PARÂMETRO
-            
-            venda.setNomeComprador(edtNomeComprador.getText());
-            //venda.setMetodoPagamento((String) cmbFormaPgto.getValue());
+            //NÃO É PRECISO CRIAR VENDA, POIS FOI PASSADA COMO PARÂMETRO            
+            venda.setNomeComprador(edtNomeComprador.getText());           
             venda.setMetodoPagamento((String) cmbFormaPgto.getValue());
             venda.setItens(listaItens);
 
@@ -441,7 +454,7 @@ public class CadVendaController implements Initializable{
        double desconto;
        
        try{
-         desconto = Double.valueOf(edtDescontoVenda.getText());
+         desconto = Double.parseDouble(edtDescontoVenda.getText());
        } catch (NumberFormatException e) {
           desconto = 0; 
           edtDescontoVenda.setText(String.valueOf(desconto));  
@@ -452,7 +465,8 @@ public class CadVendaController implements Initializable{
        } 
        
        if (desconto > subtotal) {
-           lblMensagemValidacao.setText("Valor de desconto superior ao valor de venda.");
+           lblMensagemValidacaoVenda.setText("Valor de desconto superior ao valor de venda.");
+           lblMensagemValidacaoVenda.setVisible(true);
            return;
        }
        
@@ -521,50 +535,44 @@ public class CadVendaController implements Initializable{
         listaItens = venda.getItens();
         listaItemVenda.setItems(listaItens);
     }    
-                
-    @FXML
+                    
     //Carrega os dados padrões do livro nos campos do item
-    private void carregarDadosProduto(ActionEvent event){
-        try {
-            // 1. Limpa mensagens de erro anteriores (se houver)
-            // lblMensagemValidacao.setVisible(false);
+    private void carregarDadosProduto(){
+        LivroModel livro = produtoSelecionado;
+        // 4. Se o livro for encontrado, preenche os campos
+        if (livro != null){
 
-            // 2. Pega o código do livro digitado
-            int codProduto = Integer.valueOf(edtCodigoItem.getText());
+            edtCodigoItem.setText(String.valueOf(livro.getCodLivro()));
+            edtVisuTitulo.setText(livro.getTitulo());
+            edtVisuISBN.setText(String.valueOf(livro.getIsbn()));
             
-            // 3. Busca o livro no DAO
-            LivroModel livro = ListasController.livroDAO.buscarPorCod(codProduto);
-            
-            // 4. Se o livro for encontrado, preenche os campos
-            if (livro != null){
-                edtVisuTitulo.setText(livro.getTitulo());
-                edtVisuISBN.setText(String.valueOf(livro.getIsbn()));
-                edtQtdeItem.setText("1");
-                edtValorUnitario.setText(String.valueOf(livro.getValor()));
-                
-                double total = 1 * Double.parseDouble(edtValorUnitario.getText());
-                
-                edtValorTotalItem.setText(String.valueOf(total));
+            //Como a qtde faz parte do item, e nem todo caso será o dado do item a ser carregado, faça
+            edtQtdeItem.setText("1");
 
-                // Opcional: Mover o foco para o campo de quantidade
-                edtQtdeItem.requestFocus();
-                
-            } else {
-                // 5. Se o livro não for encontrado, limpa os campos
-                edtQtdeItem.clear();
-                edtValorUnitario.clear();
-                edtValorTotalItem.clear();
-                // Opcional: Avisar o usuário
-                 lblMensagemValidacao.setText("Produto não encontrado.");
-                 lblMensagemValidacao.setVisible(true);
+            for(ItemVendaModel item : listaItens){
+                if (item.getCodLivro() == livro.getCodLivro()){
+                    edtQtdeItem.setText(String.valueOf(item.getQtde()));
+                    break;
+                }                
             }
+                                                
+            edtValorUnitario.setText(String.valueOf(livro.getValor()));
+                        
+            double total = 1 * Double.parseDouble(edtValorUnitario.getText());
 
-        } catch (NumberFormatException e) {
-            //Se o usuário digitar algo que não é um número
-            limparCamposItem();
-            //Avisar o usuário
-            lblMensagemValidacao.setText("Código do produto inválido.");
-            lblMensagemValidacao.setVisible(true);
+            edtValorTotalItem.setText(String.valueOf(total));
+
+            // Opcional: Mover o foco para o campo de quantidade
+            edtQtdeItem.requestFocus();
+
+        } else {
+            // 5. Se o livro não for encontrado, limpa os campos
+            edtQtdeItem.clear();
+            edtValorUnitario.clear();
+            edtValorTotalItem.clear();
+            // Opcional: Avisar o usuário
+             lblMensagemValidacaoItem.setText("Produto não encontrado.");
+             lblMensagemValidacaoItem.setVisible(true);
         }
     }
     
@@ -572,7 +580,7 @@ public class CadVendaController implements Initializable{
     @FXML
     private void calcularTotalItem(ActionEvent event){
         try{
-            double total = Integer.valueOf(edtQtdeItem.getText()) * Double.parseDouble(edtValorUnitario.getText());
+            double total = Integer.valueOf(edtQtdeItem.getText()) * Double.valueOf(edtValorUnitario.getText());
             edtValorTotalItem.setText(String.valueOf(total));
         } catch (NumberFormatException e){
             
@@ -588,7 +596,7 @@ public class CadVendaController implements Initializable{
         }
 
         btnExcluirItem.setDisable(resultado);              
-        btnVisualizarItem.setDisable(resultado);                
+        btnVisualizarItem.setDisable(resultado);         
     }
     
     //VINCULAR ESSA FUNÇÃO COM O BOTÃO DE CONSULTAR
@@ -621,5 +629,28 @@ public class CadVendaController implements Initializable{
             e.printStackTrace();
         }
     }        
-    
+    @FXML
+    private void selecionarProduto(ActionEvent event){
+       try { 
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projetoLivraria/VIEW/SelecionarItemView.fxml"));    
+            //Cria instância do Controller
+            Parent root = loader.load();
+
+            //Cria variável para manipular controller
+            SelecionarItemController controller = loader.getController();
+
+            Stage stage = new Stage();
+            stage.setTitle("Seleção de Produto para Venda");
+            stage.setScene(new Scene(root));
+
+            stage.showAndWait();
+
+            //Quando ele sair da seleção
+            produtoSelecionado = controller.getProdutoSelecionado();
+
+            carregarDadosProduto();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }        
+    }
 }
