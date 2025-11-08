@@ -129,7 +129,7 @@ public class CadVendaController implements Initializable{
     public int TIPO_OPERACAO;
 
     private int codVenda;    
-    public VendaModel venda; //variavel local de venda usada para receber venda p/ alteração/consulta
+    public VendaModel venda; //Variável local de venda usada para receber venda p/ alteração/consulta
     public ObservableList<ItemVendaModel> listaItens; // Lista de itens para venda     
     //Variável utilizada para manipular o item selecionado na tabela
     public ItemVendaModel itemSelecionado;
@@ -254,7 +254,7 @@ public class CadVendaController implements Initializable{
     
     //preenche os dados padrões dos campos
     private void inicializarCampos(){
-        //popula os campos combo Forma de Pagamento
+        //popula os campos como Forma de Pagamento
         cmbFormaPgto.getItems().add("PIX");
         cmbFormaPgto.getItems().add("Crédito");
         cmbFormaPgto.getItems().add("Débito");
@@ -387,7 +387,7 @@ public class CadVendaController implements Initializable{
     //REALIZA A GRAVAÇÃO DA VENDA
     private void gravarVenda(ActionEvent event){
         
-        //VALICAÇÕES
+        //VALIDAÇÕES
         if (validarCamposVenda() == false){
             return;
         }
@@ -442,7 +442,7 @@ public class CadVendaController implements Initializable{
             ListasController.vendaDAO.atualizar(venda);
         }
 
-        // 5. FECHAR JANELA
+        // FECHAR JANELA
         fecharJanela(event);
     }        
     
@@ -539,7 +539,7 @@ public class CadVendaController implements Initializable{
     //Carrega os dados padrões do livro nos campos do item
     private void carregarDadosProduto(){
         LivroModel livro = produtoSelecionado;
-        // 4. Se o livro for encontrado, preenche os campos
+        // Se o livro for encontrado, preenche os campos
         if (livro != null){
 
             edtCodigoItem.setText(String.valueOf(livro.getCodLivro()));
