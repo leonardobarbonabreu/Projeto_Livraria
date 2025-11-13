@@ -141,8 +141,9 @@ public class CadVendaController implements Initializable{
         // Listener para seleção de item na tabela
         listaItemVenda.getSelectionModel().selectedItemProperty().addListener((obs, oldItem, newItem) -> {
             if (newItem != null) {                
-                itemSelecionado = newItem; 
-                carregarDadosProduto();
+                itemSelecionado = newItem;
+                produtoSelecionado = ListasController.livroDAO.buscarPorCod(itemSelecionado.getCodLivro());
+                carregarDadosProduto(produtoSelecionado);
             }
             else {
                 itemSelecionado = null; // Limpa a variável
@@ -219,6 +220,8 @@ public class CadVendaController implements Initializable{
         TIPO_OPERACAO = TipoOperacao;        
         
         habilitarBotoesItem();
+        lblMensagemValidacaoItem.setVisible(false);
+        lblMensagemValidacaoVenda.setVisible(false);        
         
         //Define valores para os campos
         inicializarCampos();
@@ -311,11 +314,6 @@ public class CadVendaController implements Initializable{
             return;
         }
         
-        if (produtoSelecionado == null){
-            lblMensagemValidacaoItem.setText("Erro: Conteúdo não encontrado. tente selecioná-lo novamente.");
-            return;
-        }
-        
         ItemVendaModel item;                   
         int codLivro = Integer.parseInt(edtCodigoItem.getText());
                 
@@ -343,8 +341,10 @@ public class CadVendaController implements Initializable{
                         
             listaItens.set(listaItens.indexOf(item), item);
         }
-        //Limpa o produto selecionado
+        
+        //Limpa o produto selecionado e o item, respectivamente
         produtoSelecionado = null;
+        itemSelecionado = null;
         
         atualizaValoresTotais();
         limparCamposItem();
@@ -360,7 +360,8 @@ public class CadVendaController implements Initializable{
                 
         Alert alertaExclusao = new Alert(Alert.AlertType.CONFIRMATION);        
         alertaExclusao.setTitle("Confirmação de exclusão");
-        alertaExclusao.setHeaderText("Deseja realizar a exclusão do item "+itemSelecionado.getCodLivro()+"?");
+        String nome = ListasController.livroDAO.buscarPorCod(itemSelecionado.getCodLivro()).getTitulo();
+        alertaExclusao.setHeaderText("Deseja realizar a exclusão do item "+nome+"?");
         //alertaExclusao.setContentText("");
         
         Optional<ButtonType> botaoClicado = alertaExclusao.showAndWait();
@@ -369,6 +370,12 @@ public class CadVendaController implements Initializable{
            listaItens.remove(itemSelecionado);
            
            listaItemVenda.getSelectionModel().clearSelection();
+           
+           itemSelecionado = null;
+           produtoSelecionado = null;
+           
+           atualizaValoresTotais();
+           limparCamposItem();
         }
         
         return;
@@ -380,6 +387,7 @@ public class CadVendaController implements Initializable{
         if (itemSelecionado == null) {
             return;
         }
+        
         consultarItemProd();        
     }
     
@@ -489,33 +497,15 @@ public class CadVendaController implements Initializable{
     //Desabilita campos para a consulta
     private void desabilitaCampos(){                
         //DADOS VENDA
-//        edtNomeComprador.setDisable(true);
-//        edtSubtotal.setDisable(true);
-//        edtTotal.setDisable(true);        
-//        edtDescontoVenda.setDisable(true);
-//        cmbFormaPgto.setDisable(true);
-
         edtNomeComprador.setEditable(false);
         edtSubtotal.setEditable(false);
         edtTotal.setEditable(false);
         edtDescontoVenda.setEditable(false);
         cmbFormaPgto.setDisable(true);
         
-        //DADOS ITEM                   
-//        edtCodigoItem.setDisable(true);
-//        edtQtdeItem.setDisable(true);
-//        edtValorUnitario.setDisable(true);
-//        edtValorTotalItem.setDisable(true);
-        
+        //DADOS ITEM                           
         camposItemArea.setVisible(false);
 
-//        edtCodigoItem.setVisible(false);
-//        edtQtdeItem.setVisible(false);
-//        edtValorUnitario.setVisible(false);
-//        edtValorTotalItem.setVisible(false);
-        
-        //edtPesquisaItem.setDisable(true);
-        
         //botões
         btnGravarItem.setVisible(false);              
         btnExcluirItem.setVisible(false);              
@@ -536,37 +526,40 @@ public class CadVendaController implements Initializable{
         listaItemVenda.setItems(listaItens);
     }    
                     
-    //Carrega os dados padrões do livro nos campos do item
-    private void carregarDadosProduto(){
-        LivroModel livro = produtoSelecionado;
-        // Se o livro for encontrado, preenche os campos
+    //Carrega os dados padrões do livro selecionado nos campos do item    
+    private void carregarDadosProduto(LivroModel livro){                
+
         if (livro != null){
-
+            //CODLIVRO  
             edtCodigoItem.setText(String.valueOf(livro.getCodLivro()));
+            //TITULO
             edtVisuTitulo.setText(livro.getTitulo());
+            //ISBN
             edtVisuISBN.setText(String.valueOf(livro.getIsbn()));
+            //VL UN
+            edtValorUnitario.setText(String.valueOf(livro.getValor()));
             
-            //Como a qtde faz parte do item, e nem todo caso será o dado do item a ser carregado, faça
-            edtQtdeItem.setText("1");
-
+            //POR PADRÃO, RECEBE 1
+            int qtde = 1;                       
+            
+            //PROCURA PELA QUANTIDADE DO ITEM JÁ EXISTENTE
             for(ItemVendaModel item : listaItens){
                 if (item.getCodLivro() == livro.getCodLivro()){
-                    edtQtdeItem.setText(String.valueOf(item.getQtde()));
+                    qtde = item.getQtde();                    
                     break;
                 }                
-            }
-                                                
-            edtValorUnitario.setText(String.valueOf(livro.getValor()));
-                        
-            double total = 1 * Double.parseDouble(edtValorUnitario.getText());
-
+            }                           
+            
+            //QTDE
+            edtQtdeItem.setText(String.valueOf(qtde));            
+            
+            //TOTAL
+            double total = qtde * Double.parseDouble(edtValorUnitario.getText());                                                                                          
             edtValorTotalItem.setText(String.valueOf(total));
-
-            // Opcional: Mover o foco para o campo de quantidade
+            
             edtQtdeItem.requestFocus();
 
-        } else {
-            // 5. Se o livro não for encontrado, limpa os campos
+        } else {            
             edtQtdeItem.clear();
             edtValorUnitario.clear();
             edtValorTotalItem.clear();
@@ -617,7 +610,7 @@ public class CadVendaController implements Initializable{
                       
             // Cria um NOVO Stage (uma nova janela)
             Stage stage = new Stage();
-            stage.setTitle("Formulário de Cadastro de Produto");
+            stage.setTitle("Formulário de Visualização de Produto");
             stage.setScene(new Scene(root));
 
             // (Opcional) Bloqueia a interação com a janela de listas até que esta seja fechada
@@ -631,6 +624,7 @@ public class CadVendaController implements Initializable{
     }        
     @FXML
     private void selecionarProduto(ActionEvent event){
+       itemSelecionado = null;
        try { 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/projetoLivraria/VIEW/SelecionarItemView.fxml"));    
             //Cria instância do Controller
@@ -648,7 +642,7 @@ public class CadVendaController implements Initializable{
             //Quando ele sair da seleção
             produtoSelecionado = controller.getProdutoSelecionado();
 
-            carregarDadosProduto();
+            carregarDadosProduto(produtoSelecionado);
         } catch (IOException e) {
             e.printStackTrace();
         }        
