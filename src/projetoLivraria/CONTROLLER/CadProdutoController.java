@@ -15,17 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import projetoLivraria.MODEL.LivroModel;
-import projetoLivraria.CONTROLLER.ListasController;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
-import java.util.Optional;
 
-/**
- * FXML Controller class
- *
- * @author Leonardo José
- */
 public class CadProdutoController implements Initializable {
     
     //Campos do formulário
@@ -154,6 +146,7 @@ public class CadProdutoController implements Initializable {
         alert.setContentText(cabecalho);
         alert.showAndWait();
     }
+    
     /*valida se o conteudo dos campos segue a regra de formatacao correta
     retorna true se todos os campos forem validos e false caso nao for. */
     
@@ -198,6 +191,111 @@ public class CadProdutoController implements Initializable {
     
     //Valida se conteúdo dos campos seguem a regra de negócios e regras básicas de formatação 
     private boolean validarCampos(){
+        lblMensagemValidacao.setVisible(false);
+        String msg;
+
+        if (edtTitulo.getText().isEmpty()) {
+            msg = "Título não pode estar vazio.";
+            exibirAlertaErro("Campo obrigatório: Título", msg);
+            lblMensagemValidacao.setText(msg);
+            lblMensagemValidacao.setVisible(true);
+            return false;
+        }
+
+        try {
+            Integer.valueOf(edtISBN.getText());
+        } catch (NumberFormatException e) {
+            msg = "O campo ISBN deve conter apenas números.";
+            exibirAlertaErro("Erro de Formato: ISBN", msg);
+            lblMensagemValidacao.setText(msg);
+            lblMensagemValidacao.setVisible(true);            
+            return false;
+        }
+        
+        if (edtAutor.getText().isEmpty()) {
+            msg = "Autor não pode estar vazio.";
+            exibirAlertaErro("Campo obrigatório: Autor", msg);
+            lblMensagemValidacao.setText(msg);
+            lblMensagemValidacao.setVisible(true);
+            return false;       
+        }
+
+        if (cmbGenero.getValue() == null) {
+            msg = "Gênero devem se selecionado.";
+            exibirAlertaErro("Campo obrigatório: Gênero", msg);
+            lblMensagemValidacao.setText(msg);
+            lblMensagemValidacao.setVisible(true);                        
+            return false;
+        }
+               
+        try {
+            int qtde = Integer.valueOf(edtQtdePag.getText());
+            if(qtde <= 0){
+                msg = "O campo Quantidade de Páginas deve conter apenas números positivos";
+                exibirAlertaErro("Erro de Formato: Quantidade de Páginas", msg);
+                lblMensagemValidacao.setText(msg);
+                lblMensagemValidacao.setVisible(true);
+                return false;
+            }            
+        } catch (NumberFormatException e) {
+            msg = "O campo Quantidade de Páginas deve conter apenas números inteiros.";
+            exibirAlertaErro("Erro de Formato: Quantidade de Páginas", msg);
+            lblMensagemValidacao.setText(msg);
+            lblMensagemValidacao.setVisible(true);            
+            return false;
+        }
+
+        if (edtDtLancamento.getValue() == null) {
+            msg = "A Data de Lançamento deve ser preenchida.";
+            exibirAlertaErro("Campos obrigatórios", msg);
+            lblMensagemValidacao.setText(msg);
+            lblMensagemValidacao.setVisible(true);            
+            return false;
+        }
+
+        if (cmbIdioma.getValue() == null) {
+            msg = "O Idioma deve ser selecionado.";
+            exibirAlertaErro("Campo obrigatório: Idioma", msg);
+            lblMensagemValidacao.setText(msg);
+            lblMensagemValidacao.setVisible(true);                        
+            return false;
+        }        
+
+        try {
+            Double valor = Double.valueOf(edtValor.getText());
+            if(valor <= 0){
+                msg = "O campo Valor deve ser um número positivo.";
+                exibirAlertaErro("Erro de Formato: Valor", msg);                        
+                lblMensagemValidacao.setText(msg);
+                lblMensagemValidacao.setVisible(true);  
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            msg = "O campo Valor deve ser um número (ex: 10.50).";
+            exibirAlertaErro("Erro de Formato: Valor", msg);                        
+            lblMensagemValidacao.setText(msg);
+            lblMensagemValidacao.setVisible(true);            
+            return false;
+        }
+        
+        try {
+            int qtde = Integer.valueOf(edtQtdeEstoque.getText());
+            if(qtde <= 0){
+                msg = "O campo Quantidade de Estoque deve conter apenas números positivos";
+                exibirAlertaErro("Erro de Formato: Quantidade de Estoque", msg);
+                lblMensagemValidacao.setText(msg);
+                lblMensagemValidacao.setVisible(true);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            msg = "O campo Quantidade de Estoque deve conter apenas números inteiros.";
+            exibirAlertaErro("Erro de Formato: Quantidade de Estoque", msg);
+            lblMensagemValidacao.setText(msg);
+            lblMensagemValidacao.setVisible(true);            
+            return false;
+        }
+
+
         return true;  
     };
     
@@ -209,12 +307,18 @@ public class CadProdutoController implements Initializable {
         LivroModel Addlivro;
                 
         if(TIPO_OPERACAO == 1){
-         Addlivro = new LivroModel(edtTitulo.getText(), Integer.valueOf(edtISBN.getText()), edtAutor.getText(),
-            String.valueOf(cmbGenero.getValue()), edtDtLancamento.getValue(), String.valueOf(cmbIdioma.getValue()),
-            Integer.valueOf(edtQtdePag.getText()), Double.valueOf(edtValor.getText()),
-            Integer.valueOf(edtQtdeEstoque.getText()), chkDisponibilidade.isSelected());
-        
-            
+         Addlivro = new LivroModel(
+            edtTitulo.getText(),
+            Integer.valueOf(edtISBN.getText()),
+            edtAutor.getText(),
+            String.valueOf(cmbGenero.getValue()),
+            edtDtLancamento.getValue(),
+            String.valueOf(cmbIdioma.getValue()),
+            Integer.valueOf(edtQtdePag.getText()),
+            Double.valueOf(edtValor.getText()),
+            Integer.valueOf(edtQtdeEstoque.getText()),
+            chkDisponibilidade.isSelected());
+                   
             ListasController.livroDAO.adicionar(Addlivro);
             
             //comando para setar (alterar) os dados do livro ja cadastrado

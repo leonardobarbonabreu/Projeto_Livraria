@@ -43,7 +43,7 @@ public class VendaDAO implements VendaInterfaceDAO{
     @Override
     public void cancelar(int codVenda){
         VendaModel vendaCancelada;
-        //localze o item a ser exluido pelo codlivro
+        //localize o item a ser excluido pelo codlivro
         vendaCancelada = buscarPorCod(codVenda);
         
         if (vendaCancelada != null){

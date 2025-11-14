@@ -1,6 +1,7 @@
 package projetoLivraria.MODEL;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class LivroModel {
     private static int ultimoCodLivro = 0;  //Variável estática para controlar o último código gerado, começa em 1    
@@ -80,7 +81,13 @@ public class LivroModel {
     public LocalDate getDtLancamento() {
         return dtLancamento;
     }
-
+    
+    public String getDtLancamentoFormat() {
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");        
+        return dtLancamento.format(formatador);
+    }
+    
+    
     public void setDtLancamento(LocalDate dtLancamento) {
         this.dtLancamento = dtLancamento;
     }

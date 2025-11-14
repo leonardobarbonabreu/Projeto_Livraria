@@ -266,10 +266,25 @@ public class CadVendaController implements Initializable{
                 
     }
     
+    //EXIBE POP UP DE ERRO
+    private void exibirAlertaErro(String titulo, String cabecalho){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro de validação.");
+        alert.setHeaderText(titulo);
+        alert.setContentText(cabecalho);
+        alert.showAndWait();
+    }
+
     private boolean validarCamposVenda(){
+        lblMensagemValidacaoVenda.setVisible(false);
+        lblMensagemValidacaoItem.setVisible(false);        
+        String msg;
+        
         //CASO A LISTA ESTEJA VAZIA
         if (listaItens.isEmpty()) {
-            lblMensagemValidacaoVenda.setText("A venda deve conter ao menos um item.");
+            msg = "A venda deve conter ao menos um item.";
+            exibirAlertaErro("Lista Vazia", msg);
+            lblMensagemValidacaoVenda.setText(msg);
             lblMensagemValidacaoVenda.setVisible(true);
             return false;
         }
@@ -280,29 +295,87 @@ public class CadVendaController implements Initializable{
             LivroModel livro = ListasController.livroDAO.buscarPorCod(item.getCodLivro());
             //CASO O ITEM NÃO EXISTA
             if (livro == null) {
-                lblMensagemValidacaoItem.setText("Erro: Produto " + item.getCodLivro() + " não encontrado.");
+                msg = "Erro: Produto " + livro.getTitulo() + " não encontrado.";
+                exibirAlertaErro("Livro não associado corretamente", msg);
+                lblMensagemValidacaoItem.setText(msg);
                 lblMensagemValidacaoItem.setVisible(true);
                 return false;
             }
             
             //CASO A QTDE DE COMPRA FOR MENOR QUE A DE ESTOQUE
             if (livro.getQtdeEstoque() < item.getQtde()) {
-                // (Opcional: você pode buscar o título do livro para uma msg melhor)
-                lblMensagemValidacaoItem.setText("Estoque insuficiente para o item " + livro.getTitulo());
+                msg = "Estoque insuficiente para o item"+ item.getCodItemVenda() + ":" + livro.getTitulo();
+                exibirAlertaErro("Sem estoque", msg);
+                lblMensagemValidacaoItem.setText(msg);
                 lblMensagemValidacaoItem.setVisible(true);
                 return false;
             }
         }    
         
-        //DEMAIS CAMPOS
-        //A FAZER
+        //DESCONTO
+        try {
+            Double valor = Double.valueOf(edtDescontoVenda.getText());
+            if(valor < 0){
+                msg = "O campo Desconto deve ser zero ou um número positivo .";
+                exibirAlertaErro("Erro de Formato: Desconto", msg);                        
+                lblMensagemValidacaoVenda.setText(msg);
+                lblMensagemValidacaoVenda.setVisible(true);  
+                return false;
+            }            
+        } catch (NumberFormatException e) {
+            msg = "O campo Desconto deve conter apenas números.";
+            exibirAlertaErro("Erro de Formato: Desconto", msg);
+            lblMensagemValidacaoVenda.setText(msg);
+            lblMensagemValidacaoVenda.setVisible(true);            
+            return false;
+        }
+
+        //FORMA DE PGTO
+        if (cmbFormaPgto.getValue() == null) {
+            msg = "Forma de Pagamento deve ser selecionada.";
+            exibirAlertaErro("Campo obrigatório: Forma de Pagamento", msg);
+            lblMensagemValidacaoVenda.setText(msg);
+            lblMensagemValidacaoVenda.setVisible(true);            
+            return false;
+        }
+        
         return true;
     }
         
     //Valida os campos do item, antes de inserí-lo a lista
     private boolean validarCamposItem(){
-        //Validações dos campos p/ adição do item
-        //A FAZER
+        lblMensagemValidacaoItem.setVisible(false);                    
+        String msg;
+        //Validações dos campos p/ adição/alteração do item
+        //COD PROD
+        try {
+            Integer.valueOf(edtCodigoItem.getText());
+        } catch (NumberFormatException e) {
+            msg = "O campo Código deve apresentar um valor válido. Selecione-o novamente.";
+            exibirAlertaErro("Erro de Formato: Código do item", msg);
+            lblMensagemValidacaoVenda.setText(msg);
+            lblMensagemValidacaoVenda.setVisible(true);            
+            return false;
+        }        
+        
+        // QTDE        
+        try {
+            int qtde = Integer.valueOf(edtQtdeItem.getText());
+            if(qtde <= 0){
+                msg = "O campo Quantidade deve conter apenas números positivos";
+                exibirAlertaErro("Erro de Formato: Quantidade", msg);
+                lblMensagemValidacaoItem.setText(msg);
+                lblMensagemValidacaoItem.setVisible(true);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            msg = "O campo Quantidade deve conter apenas números inteiros.";
+            exibirAlertaErro("Erro de Formato: Quantidade", msg);
+            lblMensagemValidacaoItem.setText(msg);
+            lblMensagemValidacaoItem.setVisible(true);            
+            return false;
+        }
+        
         return true;
     }
         
@@ -415,6 +488,11 @@ public class CadVendaController implements Initializable{
             
             // Atualiza o livro no DAO
             ListasController.livroDAO.atualizar(livro);
+        }
+        
+        //CAMPOS
+        if("".equals(edtNomeComprador.getText())){
+            edtNomeComprador.setText("Consumidor não Identificado");
         }
         
         //ATUALIZA OS VALORES
@@ -564,8 +642,8 @@ public class CadVendaController implements Initializable{
             edtValorUnitario.clear();
             edtValorTotalItem.clear();
             // Opcional: Avisar o usuário
-             lblMensagemValidacaoItem.setText("Produto não encontrado.");
-             lblMensagemValidacaoItem.setVisible(true);
+            lblMensagemValidacaoItem.setText("Produto não encontrado.");
+            lblMensagemValidacaoItem.setVisible(true);
         }
     }
     
