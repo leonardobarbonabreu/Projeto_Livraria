@@ -15,8 +15,8 @@ public class VendaDAO implements VendaInterfaceDAO{
     };
     
     @Override
-    //Percorre todos os livros na lista de produto, procurando pelo codigo
-    //caso encontrado, ela retorna o livro
+    //Percorre todos as vendas na lista de venda, procurando pelo codigo
+    //caso encontrado, ela retorna a venda
     //caso contrário, ela retorna null
     public VendaModel buscarPorCod(int codVenda){
         for(VendaModel venda : listaVenda){

@@ -3,11 +3,8 @@ package projetoLivraria.CONTROLLER;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -297,8 +294,6 @@ public class ListasController implements Initializable {
     @FXML     
     private void adicionarProd(ActionEvent event){        
         abrirCadProd(1);
-        //listaProduto.getItems().add(0, "Olá"); // Retirar essa linha depois
-        //listaVenda.getItems().add(0, "Olá"); // Retirar essa linha depois
     }
 
     //EDITAR ITEM
@@ -435,11 +430,19 @@ public class ListasController implements Initializable {
                 
         Alert alertaExclusao = new Alert(Alert.AlertType.CONFIRMATION);        
         alertaExclusao.setTitle("Confirmação de cancelamento");
-        alertaExclusao.setHeaderText("Deseja realizar o cancelamento da venda do cliente abaixo?");
+        alertaExclusao.setHeaderText("Deseja realizar o cancelamento da venda do cliente abaixo? Vendas canceladas tem os itens estornados ao estoque e não podem ser válidas novamente.");
         alertaExclusao.setContentText(venda.getNomeComprador());
         
         Optional<ButtonType> botaoClicado = alertaExclusao.showAndWait();
         if (botaoClicado.get() == ButtonType.OK) {
+            
+            //devolvendo o estoque
+            for(ItemVendaModel item : venda.getItens()){
+                LivroModel livro = livroDAO.buscarPorCod(item.getCodLivro());
+                int estoque = livro.getQtdeEstoque() + item.getQtde();
+                livro.setQtdeEstoque(estoque);
+            }
+            
             vendaDAO.cancelar(venda.getCodVenda());
         }
         

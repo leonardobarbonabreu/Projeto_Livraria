@@ -93,7 +93,16 @@ public class VendaModel {
     public ObservableList<ItemVendaModel> getItens() {
         return itens;
     }
-
+    
+    public ItemVendaModel getItem(int codItemVenda) {
+        for(ItemVendaModel item : getItens()){
+            if(item.getCodItemVenda() == codItemVenda){
+                return item;
+            }
+        }
+        return null;
+    }
+    
     //DESCONTO
     public double getValorDesconto() {
         return valorDesconto;
@@ -108,7 +117,7 @@ public class VendaModel {
         this.cancelado = cancelado;
     }   
     
-    public boolean getCancelado(){
+    public boolean getCancelado(){                
         return cancelado;
     }
 }

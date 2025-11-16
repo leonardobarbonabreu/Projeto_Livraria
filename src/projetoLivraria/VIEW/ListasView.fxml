@@ -166,7 +166,6 @@
                               <TableColumn fx:id="prodAutor" prefWidth="75.0" text="Autor" />
                               <TableColumn fx:id="prodValor" prefWidth="69.0" text="Valor" />
                               <TableColumn fx:id="prodQtdeEstoque" prefWidth="126.0" text="Qtde. Estoque" />
-                              <TableColumn fx:id="prodPubAlvo" prefWidth="84.0" text="Público alvo" />
                               <TableColumn fx:id="prodDtLancamento" prefWidth="123.0" text="Data Lançamento" />
                               <TableColumn fx:id="prodIdioma" prefWidth="69.0" text="Idioma" />
                               <TableColumn fx:id="prodDisponibilidade" prefWidth="75.0" text="Disponível" />

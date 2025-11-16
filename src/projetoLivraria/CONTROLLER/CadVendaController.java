@@ -389,15 +389,15 @@ public class CadVendaController implements Initializable{
         
         ItemVendaModel item;                   
         int codLivro = Integer.parseInt(edtCodigoItem.getText());
-                
-        Boolean itemExiste = false;
+                        
+        //PROCURA ITEM NA LISTA DE ITENS, SE ENCONTRAR SELECIONA ELE PARA ALTERACAO
         for(ItemVendaModel item1 : listaItens){
-            if(item1.getCodLivro() == codLivro){
-                itemExiste = true;                
+            if(item1.getCodLivro() == codLivro){        
+                itemSelecionado = item1;
             }
         }
                         
-        if ((itemSelecionado == null)&&(!itemExiste)) { // Novo item
+        if (itemSelecionado == null) { // Novo item
             // Criar novo item
             item = new ItemVendaModel(
                     codLivro, codVenda, Double.parseDouble(edtValorUnitario.getText()),
@@ -477,11 +477,24 @@ public class CadVendaController implements Initializable{
         for (ItemVendaModel item : listaItens) {
             LivroModel livro = ListasController.livroDAO.buscarPorCod(item.getCodLivro());
             
-            // Calcula novo estoque
+            // Calcula novo estoque            
             int novoEstoque = livro.getQtdeEstoque() - item.getQtde();
+            int qtdeDevolver;            
+            if (TIPO_OPERACAO == 2){
+                //Caso seja alteração, e a quantidade atual seja inferior a anterior                                
+                //devolver para o estoque                            
+                ItemVendaModel itemAux = venda.getItem(item.getCodItemVenda());
+                //Valor de diferença entre a qtde antiga e nova
+                qtdeDevolver = itemAux.getQtde() - item.getQtde();    
+                if(qtdeDevolver > 0){
+                    novoEstoque += qtdeDevolver;                
+                }            
+            }             
             
             if (novoEstoque == 0) {
                 livro.setDisponibilidade(false);
+            } else if (novoEstoque > 0) {
+                livro.setDisponibilidade(true);
             }
             
             livro.setQtdeEstoque(novoEstoque);
