@@ -2,6 +2,7 @@ package projetoLivraria.CONTROLLER;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -131,6 +132,7 @@ public class CadVendaController implements Initializable{
     private int codVenda;    
     public VendaModel venda; //Variável local de venda usada para receber venda p/ alteração/consulta
     public ObservableList<ItemVendaModel> listaItens; // Lista de itens para venda     
+    public ArrayList<ItemVendaModel> listaItensGravado;
     //Variável utilizada para manipular o item selecionado na tabela
     public ItemVendaModel itemSelecionado;
     //Livro selecionado no formulário de seleção
@@ -428,6 +430,8 @@ public class CadVendaController implements Initializable{
     private void excluirItem(ActionEvent event){
         //Caso o item não esteja selecionado, por segurança, retornar
         if (itemSelecionado == null) {
+            lblMensagemValidacaoItem.setVisible(true);
+            lblMensagemValidacaoItem.setText("Selecione um item na lista.");
             return;
         }
                 
@@ -439,6 +443,9 @@ public class CadVendaController implements Initializable{
         
         Optional<ButtonType> botaoClicado = alertaExclusao.showAndWait();
         if (botaoClicado.get() == ButtonType.OK) {
+           
+           //CASO SEJA ALTERAÇÃO, VOLTE O ESTOQUE          
+           
            //remove o item da lista                      
            listaItens.remove(itemSelecionado);
            
@@ -473,36 +480,38 @@ public class CadVendaController implements Initializable{
             return;
         }
 
-        //DAR BAIXA NO ESTOQUE (PERCORRER A LISTA DE NOVO)
-        for (ItemVendaModel item : listaItens) {
-            LivroModel livro = ListasController.livroDAO.buscarPorCod(item.getCodLivro());
-            
-            // Calcula novo estoque            
-            int novoEstoque = livro.getQtdeEstoque() - item.getQtde();
-            int qtdeDevolver;            
-            if (TIPO_OPERACAO == 2){
-                //Caso seja alteração, e a quantidade atual seja inferior a anterior                                
-                //devolver para o estoque                            
-                ItemVendaModel itemAux = venda.getItem(item.getCodItemVenda());
-                //Valor de diferença entre a qtde antiga e nova
-                qtdeDevolver = itemAux.getQtde() - item.getQtde();    
-                if(qtdeDevolver > 0){
-                    novoEstoque += qtdeDevolver;                
-                }            
-            }             
-            
+        //CASO SEJA ALTERAÇÃO, RETORNA OS ITENS AO ESTOQUE PARA QUE SEJAM CONTABILIZADOS NOVAMENTE        
+        if (TIPO_OPERACAO == 2){
+            int antigoEstoque;
+            for (ItemVendaModel itemAntigo : listaItensGravado) {
+                int qtde = itemAntigo.getQtde();
+                LivroModel livro = ListasController.livroDAO.buscarPorCod(itemAntigo.getCodLivro());                
+                if (livro != null){
+                    antigoEstoque = livro.getQtdeEstoque() + itemAntigo.getQtde();
+                    livro.setQtdeEstoque(antigoEstoque);  
+                    ListasController.livroDAO.atualizar(livro);                                            
+                }                               
+            }            
+        }    
+        
+        //FAZ A BAIXA DO ESTOQUE
+        int novoEstoque;
+        for (ItemVendaModel itemNovo : listaItens) {
+            LivroModel livro = ListasController.livroDAO.buscarPorCod(itemNovo.getCodLivro());
+            novoEstoque = livro.getQtdeEstoque() - itemNovo.getQtde();
+
             if (novoEstoque == 0) {
                 livro.setDisponibilidade(false);
             } else if (novoEstoque > 0) {
                 livro.setDisponibilidade(true);
             }
-            
+
             livro.setQtdeEstoque(novoEstoque);
-            
+
             // Atualiza o livro no DAO
-            ListasController.livroDAO.atualizar(livro);
+            ListasController.livroDAO.atualizar(livro);                        
         }
-        
+
         //CAMPOS
         if("".equals(edtNomeComprador.getText())){
             edtNomeComprador.setText("Consumidor não Identificado");
@@ -611,8 +620,18 @@ public class CadVendaController implements Initializable{
         edtSubtotal.setText(String.valueOf(venda.getValorSubtotal()));        
         edtDescontoVenda.setText(String.valueOf(venda.getValorDesconto()));  
         cmbFormaPgto.getSelectionModel().select(venda.getMetodoPagamento());
+        txtCodVenda.setText(String.valueOf(venda.getCodVenda()));
+        txtDtEmissao.setText(String.valueOf(venda.getEmissao()));
         
         //O conteúdo instanciado da lista Itens 
+        // for na lista de itens gravados na venda.
+        // para cada um, incluir em listaItemGravado
+        listaItensGravado = new ArrayList();
+        for (ItemVendaModel itemGravado : venda.getItens()){
+            ItemVendaModel item = new ItemVendaModel(itemGravado.getCodLivro(), itemGravado.getCodVenda(), itemGravado.getValorVenda(), itemGravado.getQtde());
+            listaItensGravado.add(item);
+        }
+        
         listaItens = venda.getItens();
         listaItemVenda.setItems(listaItens);
     }    

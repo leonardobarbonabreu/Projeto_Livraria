@@ -170,6 +170,8 @@ public class ListasController implements Initializable {
         prodDisponibilidade.setCellValueFactory(new PropertyValueFactory<>("disponibilidade")); 
         //
         
+        carregarLivros();
+        
         //inicializando campos da lista de Vendas
         listaVenda.setItems(vendaDAO.listarTodos());
         //VINCULAR AS COLUNAS DA LISTAVENDA COM OS ATRIBUTOS DO VendaDAO
@@ -247,6 +249,182 @@ public class ListasController implements Initializable {
         }
     }
 
+    /**
+     * Carrega dados de exemplo no DAO.
+     */
+    private void carregarLivros(){
+        // Registros originais
+        LivroModel novoLivro = new LivroModel(
+            "A Arte da Guerra",             // String titulo
+            978857684,                      // int isbn
+            "Sun Tzu",                      // String autor
+            "Acadêmico",                    // String genero
+            LocalDate.of(2007, 5, 15),      // LocalDate dtLancamento
+            "Português",                    // String idioma
+            160,                            // int qtdePag
+            29.90,                          // double valor
+            100,                            // int qtdeEstoque
+            true                            // boolean disponibilidade
+        );
+        
+        LivroModel novoLivro2 = new LivroModel(
+            "VOEI",                         // String titulo
+            123,                            // int isbn
+            "Sun Tzu",                      // String autor
+            "Acadêmico",                    // String genero
+            LocalDate.of(2007, 5, 15),      // LocalDate dtLancamento
+            "Português",                    // String idioma
+            160,                            // int qtdePag
+            29.90,                          // double valor
+            80,                             // int qtdeEstoque
+            true                            // boolean disponibilidade
+        );
+        
+        LivroModel novoLivro3 = new LivroModel(
+            "Duna",                         // String titulo
+            1001,                           // int isbn
+            "Frank Herbert",                // String autor
+            "Ficção Científica",            // String genero
+            LocalDate.of(1965, 8, 1),       // LocalDate dtLancamento
+            "Português",                    // String idioma
+            688,                            // int qtdePag
+            89.90,                          // double valor
+            50,                             // int qtdeEstoque
+            true                            // boolean disponibilidade
+        );
+
+        LivroModel novoLivro4 = new LivroModel(
+            "O Senhor dos Anéis: A Sociedade do Anel", // String titulo
+            1002,                           // int isbn
+            "J.R.R. Tolkien",               // String autor
+            "Fantasia",                     // String genero
+            LocalDate.of(1954, 7, 29),      // LocalDate dtLancamento
+            "Português",                    // String idioma
+            576,                            // int qtdePag
+            79.90,                          // double valor
+            75,                             // int qtdeEstoque
+            true                            // boolean disponibilidade
+        );
+
+        LivroModel novoLivro5 = new LivroModel(
+            "1984",                         // String titulo
+            1003,                           // int isbn
+            "George Orwell",                // String autor
+            "Distopia",                     // String genero
+            LocalDate.of(1949, 6, 8),       // LocalDate dtLancamento
+            "Português",                    // String idioma
+            416,                            // int qtdePag
+            49.90,                          // double valor
+            120,                            // int qtdeEstoque
+            true                            // boolean disponibilidade
+        );
+
+        LivroModel novoLivro6 = new LivroModel(
+            "Código Limpo",                 // String titulo
+            1004,                           // int isbn
+            "Robert C. Martin",             // String autor
+            "Tecnologia",                   // String genero
+            LocalDate.of(2008, 8, 1),       // LocalDate dtLancamento
+            "Português",                    // String idioma
+            464,                            // int qtdePag
+            115.50,                         // double valor
+            30,                             // int qtdeEstoque
+            true                            // boolean disponibilidade
+        );
+
+        LivroModel novoLivro7 = new LivroModel(
+            "Dom Casmurro",                 // String titulo
+            1005,                           // int isbn
+            "Machado de Assis",             // String autor
+            "Clássico",                     // String genero
+            LocalDate.of(1899, 3, 15),      // LocalDate dtLancamento
+            "Português",                    // String idioma
+            256,                            // int qtdePag
+            25.00,                          // double valor
+            200,                            // int qtdeEstoque
+            true                            // boolean disponibilidade
+        );
+
+        LivroModel novoLivro8 = new LivroModel(
+            "Sapiens: Uma Breve História da Humanidade", // String titulo
+            1006,                           // int isbn
+            "Yuval Noah Harari",            // String autor
+            "Não-Ficção",                   // String genero
+            LocalDate.of(2011, 7, 10),      // LocalDate dtLancamento
+            "Português",                    // String idioma
+            472,                            // int qtdePag
+            69.90,                          // double valor
+            85,                             // int qtdeEstoque
+            true                            // boolean disponibilidade
+        );
+
+        LivroModel novoLivro9 = new LivroModel(
+            "Harry Potter e a Pedra Filosofal", // String titulo
+            1007,                           // int isbn
+            "J.K. Rowling",                 // String autor
+            "Fantasia",                     // String genero
+            LocalDate.of(1997, 6, 26),      // LocalDate dtLancamento
+            "Português",                    // String idioma
+            264,                            // int qtdePag
+            54.90,                          // double valor
+            150,                            // int qtdeEstoque
+            true                            // boolean disponibilidade
+        );
+
+        LivroModel novoLivro10 = new LivroModel(
+            "O Poder do Hábito",            // String titulo
+            1008,                           // int isbn
+            "Charles Duhigg",               // String autor
+            "Autoajuda",                    // String genero
+            LocalDate.of(2012, 2, 28),      // LocalDate dtLancamento
+            "Português",                    // String idioma
+            400,                            // int qtdePag
+            47.90,                          // double valor
+            90,                             // int qtdeEstoque
+            true                            // boolean disponibilidade
+        );
+
+        LivroModel novoLivro11 = new LivroModel(
+            "A Garota no Trem",             // String titulo
+            1009,                           // int isbn
+            "Paula Hawkins",                // String autor
+            "Suspense",                     // String genero
+            LocalDate.of(2015, 1, 13),      // LocalDate dtLancamento
+            "Português",                    // String idioma
+            378,                            // int qtdePag
+            42.00,                          // double valor
+            45,                             // int qtdeEstoque
+            true                            // boolean disponibilidade
+        );
+
+        LivroModel novoLivro12 = new LivroModel(
+            "O Alquimista",                 // String titulo
+            1010,                           // int isbn
+            "Paulo Coelho",                 // String autor
+            "Ficção",                       // String genero
+            LocalDate.of(1988, 4, 20),      // LocalDate dtLancamento
+            "Português",                    // String idioma
+            208,                            // int qtdePag
+            34.90,                          // double valor
+            110,                            // int qtdeEstoque
+            true                            // boolean disponibilidade
+        );
+
+        // Adicionando todos os livros ao DAO
+        livroDAO.adicionar(novoLivro);
+        livroDAO.adicionar(novoLivro2);
+        livroDAO.adicionar(novoLivro3);
+        livroDAO.adicionar(novoLivro4);
+        livroDAO.adicionar(novoLivro5);
+        livroDAO.adicionar(novoLivro6);
+        livroDAO.adicionar(novoLivro7);
+        livroDAO.adicionar(novoLivro8);
+        livroDAO.adicionar(novoLivro9);
+        livroDAO.adicionar(novoLivro10);
+        livroDAO.adicionar(novoLivro11);
+        livroDAO.adicionar(novoLivro12);
+        
+    } 
     //ABRIR FORMULÁRIO DE CADASTRO DE PRODUTO
     //Cria o formulário de cad. de produto
     //Manipula componentes com base no tipo de operacao:
